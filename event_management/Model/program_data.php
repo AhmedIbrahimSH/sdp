@@ -2,7 +2,7 @@
 
 namespace Model;
 
-class fundraiser_event
+class program_data
 {
 
 }

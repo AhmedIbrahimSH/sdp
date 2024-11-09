@@ -2,7 +2,7 @@
 
 namespace Model;
 
-class program_event
+class workshop_data
 {
 
 }

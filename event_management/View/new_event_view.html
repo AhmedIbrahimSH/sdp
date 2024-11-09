@@ -13,34 +13,10 @@
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
 
-    <link rel="stylesheet" href="styles.css"> <!-- External CSS File -->
+    <link rel="stylesheet" href="new_event.css"> <!-- External CSS File -->
+    <script src="event.js"></script>
 
-    <script>
 
-
-        function save_event(event){
-            console.log("ok new event now added")
-        }
-
-        // Initialize the calendar
-        document.addEventListener('DOMContentLoaded', function() {
-            const calendarEl = document.getElementById('calendar');
-            const calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth'
-                },
-                events: [
-                    { title: 'Fundraiser', start: '2024-11-10', color: 'blue' },
-                    { title: 'Workshop', start: '2024-11-15', color: 'red' },
-                    { title: 'Program', start: '2024-11-20', color: 'green' }
-                ]
-            });
-            calendar.render();
-        });
-    </script>
 </head>
 <body>
 
@@ -86,10 +62,9 @@
         <option value="program">Program</option>
     </select><br><br>
 
-    <button type="submit" onclick="save_event(event)">Add Event</button>
+    <button type="submit" onclick="addEventFunction(this)">Add Event</button>
 </form>
 
-<!-- Calendar container -->
 <div id="calendar"></div>
 
 </body>

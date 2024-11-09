@@ -2,7 +2,7 @@
 
 namespace Model;
 
-class workshop_event
+class fundraiser
 {
 
 }
