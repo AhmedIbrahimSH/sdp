@@ -7,16 +7,15 @@ body {
     font-family: Arial, sans-serif;
 }
 
-form {
-    flex: 1;
-    margin-right: 20px;
-    max-width: 400px;
-}
+    form {
+        flex: 0 0 300px; /* Restrict form width and prevent it from stretching */
+        margin-right: 60px; /* Add space between form and calendar */
+    }
 
 #calendar {
     flex: 1;
-    min-width: 600px;
-    min-height: 500px;
+    min-width: 300px;
+    min-height: 300px;
     border: 1px solid #ccc;
     padding: 10px;
 }

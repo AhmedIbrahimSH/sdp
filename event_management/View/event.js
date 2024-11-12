@@ -1,3 +1,4 @@
+
     let calendar;
 
     // Initialize the calendar
@@ -10,19 +11,23 @@
     center: 'title',
     right: 'dayGridMonth'
 },
-    events: [
-{ title: 'Fundraiser', start: '2024-11-10', color: 'blue' },
-{ title: 'Workshop', start: '2024-11-15', color: 'red' },
-{ title: 'Program', start: '2024-11-20', color: 'green' }
-    ]
+    events: function(fetchInfo, successCallback, failureCallback) {
+        // AJAX call to get events from PHP
+        fetch('../Model/load_events.php')
+            .then(response => response.json())
+            .then(data => successCallback(data))
+            .catch(error => failureCallback(error));
+    }
 });
     calendar.render();
 });
 
     // JavaScript function to handle the button click and add event to calendar
     function addEventFunction(event) {
+
+
     // Prevent the default form submission
-    event.preventDefault();
+    // event.preventDefault();
 
     // Get form values
     const eventName = document.getElementById('event_name').value;
@@ -30,10 +35,10 @@
     const eventDate = document.getElementById('event_date').value;
     const eventTime = document.getElementById('event_time').value;
     const price = document.getElementById('price').value;
-    const eventType = document.getElementById('event_type').value;
-
+    // const eventType = document.getElementById('event_type').value;
+    console.log(eventDate)
     // Validate input
-    if (!eventName || !location || !eventDate || !eventTime || !price || !eventType) {
+    if (!eventName || !location || !eventDate || !eventTime || !price ) {
     alert('Please fill in all fields');
     return;
 }
@@ -43,7 +48,7 @@
 
     // Add event to FullCalendar
     calendar.addEvent({
-    title: `${eventName} - ${eventType}`,
+    title: `${eventName} - `,
     start: eventStart,
     description: `Location: ${location}\nPrice: $${price}`,
     color: 'blue'
