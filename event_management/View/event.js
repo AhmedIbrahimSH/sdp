@@ -22,14 +22,9 @@
     calendar.render();
 });
 
-    // JavaScript function to handle the button click and add event to calendar
     function addEventFunction(event) {
 
 
-    // Prevent the default form submission
-    // event.preventDefault();
-
-    // Get form values
     const eventName = document.getElementById('event_name').value;
     const location = document.getElementById('location').value;
     const eventDate = document.getElementById('event_date').value;
@@ -43,9 +38,15 @@
     return;
 }
 
-    // Combine date and time for event start
     const eventStart = new Date(`${eventDate}T${eventTime}`);
-
+    eventData = {
+        title: eventName,
+        location : location,
+        date: eventDate,
+        eventTime: eventTime,
+        price: price
+    };
+        console.log(eventData)
     // Add event to FullCalendar
     calendar.addEvent({
     title: `${eventName} - `,
@@ -54,9 +55,25 @@
     color: 'blue'
 });
 
-    // Display confirmation message
     alert('Event added to the calendar!');
+    fetch('../Controller/add_event.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData)
+    })
+        .then(response => response.text())  // Use text() to inspect raw response first
+        .then(data => {
+            console.log("Raw data:", data);  // Log the raw response to check for issues
+            const jsonData = JSON.parse(data);  // Parse JSON manually
+            if (jsonData.success) {
+                alert("Event added successfully!");
+            } else {
+                alert("Failed to add event: " + jsonData.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
 
-    // Optionally, reset the form
-    document.getElementById('eventForm').reset();
+        document.getElementById('eventForm').reset();
 }
