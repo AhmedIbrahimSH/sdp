@@ -1,5 +1,4 @@
 
-    /* Style for the form and calendar */
 body {
     display: flex;
     justify-content: space-between;
@@ -8,9 +7,30 @@ body {
 }
 
     form {
-        flex: 0 0 300px; /* Restrict form width and prevent it from stretching */
-        margin-right: 60px; /* Add space between form and calendar */
+        flex: 0 0 300px;
+        margin-right: 60px;
+        border: 1px solid #ccc; /* Light border */
+        border-radius: 8px; /* Rounded corners for a modern look */
+        /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); !* Soft shadow *!*/
     }
+
+.checkbox-container {
+    display: flex;
+    align-items: center; /* Vertically aligns checkbox and label */
+    font-family: Arial, sans-serif;
+}
+
+.checkbox-container input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px; /* Space between checkbox and label */
+}
+
+.checkbox-container label {
+    font-weight: bold;
+    font-size: 16px;
+}
+
 
 #calendar {
     flex: 1;

@@ -34,11 +34,15 @@
 
 <!--<h2>Add New Event</h2>-->
 <br>
+
+<!--<button class="add-event-button">Show events history</button>-->
 <!-- Form to add an event -->
-<form action="#" method="post" id="eventForm">
+<form action="../Controller/add_event.php" method="post" id="eventForm">
     <br>
-    <label for="event_name">Event Name:</label>
-    <input type="text" id="event_name" name="event_name" required><br><br>
+    <label style="text-align: center">Create new event</label>
+    <br>
+    <label for="title">Event Name:</label>
+    <input type="text" id="title" name="title" required><br><br>
 
     <!-- Location Dropdown with popular places in Cairo, Egypt -->
     <label for="location">Location:</label>
@@ -57,11 +61,11 @@
         <option value="Maadi District">Maadi District</option>
     </select><br><br>
 
-    <label for="event_date">Date:</label>
-    <input type="date" id="event_date" name="event_date" required><br><br>
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" required><br><br>
 
-    <label for="event_time">Time:</label>
-    <input type="time" id="event_time" name="event_time" required><br><br>
+    <label for="time">Time:</label>
+    <input type="time" id="time" name="time" required><br><br>
 
     <label for="price">Price ($):</label>
     <input type="number" id="price" name="price" step="0.01" required><br><br>
@@ -74,9 +78,19 @@
 <!--        <option value="program">Program</option>-->
 <!--    </select><br><br>-->
 
-    <script src="event.js"></script>
+    <script src="../Controller/event.js"></script>
+    <div class="checkbox-container">
+        <input type="checkbox" name="subscribe" value="yes" id="notify">
+        <label for="notify">Notify attendees</label>
+    </div>
     <button type="submit" onclick="addEventFunction(this)">Add Event</button>
+
+
 </form>
+
+<a href="../Controller/event_history.php" style="text-decoration: none;">
+    <button type="button">Show Event History</button>
+</a>
 
 <div id="calendar"></div>
 

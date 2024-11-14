@@ -25,38 +25,40 @@
     function addEventFunction(event) {
 
 
-    const eventName = document.getElementById('event_name').value;
+    const title = document.getElementById('title').value;
     const location = document.getElementById('location').value;
-    const eventDate = document.getElementById('event_date').value;
-    const eventTime = document.getElementById('event_time').value;
+    const date = document.getElementById('date').value;
+    const time = document.getElementById('time').value;
     const price = document.getElementById('price').value;
     // const eventType = document.getElementById('event_type').value;
-    console.log(eventDate)
+    // console.log(eventDate)
     // Validate input
-    if (!eventName || !location || !eventDate || !eventTime || !price ) {
+    if (!title || !location || !date || !time || !price ) {
     alert('Please fill in all fields');
     return;
 }
 
-    const eventStart = new Date(`${eventDate}T${eventTime}`);
+    const eventStart = new Date(`${date}T${time}`);
     eventData = {
-        title: eventName,
+        title: title,
         location : location,
-        date: eventDate,
-        eventTime: eventTime,
-        price: price
+        date: date,
+        time: time,
+        price: price,
     };
         console.log(eventData)
     // Add event to FullCalendar
     calendar.addEvent({
-    title: `${eventName} - `,
+    title: `${title} - `,
     start: eventStart,
     description: `Location: ${location}\nPrice: $${price}`,
     color: 'blue'
 });
 
     alert('Event added to the calendar!');
-    fetch('../Controller/add_event.php', {
+
+        // console.log(eventData);
+        fetch('../Controller/add_event.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

@@ -1,6 +1,6 @@
 
 <?php
-require 'database_connection.php';
+require_once 'database_connection.php';
 
 // Create a Database object and establish a connection
 $db_connector = new Database();
@@ -13,7 +13,20 @@ if (!$conn) {
 $query = "SELECT id, title , location, date, price FROM events";
 $stmt = $conn->prepare($query);
 $stmt->execute();
-
 $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 echo json_encode($events);
+
+class Events {
+    public $events_list;
+    private $index = 0;
+    public function getEvents() {
+        global $events;
+        foreach ($events as $row) {
+            $this->events_list[$this->index] = $row;
+            $this->index++;
+        }
+        return $this->events_list;
+    }
+}
+
 ?>

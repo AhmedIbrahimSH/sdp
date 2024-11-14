@@ -1,8 +1,5 @@
 <?php
 
-
-
-
 class Database {
     private $host = 'localhost';
     private $db_name = 'event_management';
@@ -25,4 +22,3 @@ class Database {
 }
 
 //$db_connector = new Database();
-
