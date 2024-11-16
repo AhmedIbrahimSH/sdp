@@ -23,6 +23,7 @@ class EventHistoryView{
         <th style='border: 1px solid #ddd; padding: 8px;'>Location</th>
         <th style='border: 1px solid #ddd; padding: 8px;'>Date</th>
         <th style='border: 1px solid #ddd; padding: 8px;'>Price</th>
+        <th style='border: 1px solid #ddd; padding: 8px;'>Delete event</th>
       </tr>";
 
 // Table rows with data
@@ -31,7 +32,8 @@ class EventHistoryView{
             <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['title']) . "</td>
             <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['location']) . "</td>
             <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['date']) . "</td>
-            <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['price']) . "</td>
+            <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['price']) . "</td> 
+            <td style='border: 1px solid #ddd; padding: 8px;'> <button onclick=''>Delete</button>  </td>
           </tr>";
         }
 

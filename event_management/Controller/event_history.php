@@ -12,6 +12,14 @@ class EventHistoryController
         $this->event_history_view = new EventHistoryView();
         $this->event_history_view->show_table_history();
     }
+
+    public function delete_event($event_title){
+
+    }
+
+
+
+
 }
 
 // Check if "Show Event History" button was clicked

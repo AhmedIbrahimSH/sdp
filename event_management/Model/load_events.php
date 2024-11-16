@@ -3,8 +3,7 @@
 require_once 'database_connection.php';
 
 // Create a Database object and establish a connection
-$db_connector = new Database();
-$conn = $db_connector->connect();
+$conn = Database::get_instance();
 
 if (!$conn) {
     die("Connection failed");

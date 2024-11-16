@@ -26,9 +26,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 //        exit;
 //    }
 
-    // Database connection and insertion
-    $db_connector = new Database();
-    $conn = $db_connector->connect();
+
+
+
+
+    $conn = Database::get_instance();
 
     $query = "INSERT INTO events (title, location, date, price) VALUES (:title, :location, :date, :price)";
     $stmt = $conn->prepare($query);
@@ -44,10 +46,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $publisher = new publisher($_POST);
-    $subscriber = new subscriber();
-    $secsub = new subscriber();
+    $subscriber = new subscriber("ahmed");
+    $secsub = new subscriber("omar");
 
-    $publisher->notify();
+    $publisher->notify($title);
 
 
 

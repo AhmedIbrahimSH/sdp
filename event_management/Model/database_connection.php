@@ -5,20 +5,25 @@ class Database {
     private $db_name = 'event_management';
     private $username = 'root';
     private $password = '';
-    private $conn;
+    private static $conn = null;
 
 
-    public function connect() {
-        $this->conn = null;
+
+    public static function get_instance() {
+
         try {
-            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name,
-                $this->username, $this->password);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(PDOException $e) {
+            if(!isset(self::$conn)) {
+                self::$conn = new PDO("mysql:host=" . (new self)->host . ";dbname=" . (new self)->db_name,
+                    (new self)->username, (new self)->password);
+                self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            }
+
+            return self::$conn;
+
+            } catch(PDOException $e) {
             echo 'Connection Error: ' . $e->getMessage();
         }
-        return $this->conn;
+
     }
 }
 
-//$db_connector = new Database();

@@ -30,10 +30,10 @@ class publisher implements  sub
         }
     }
 
-    public function notify()
+    public function notify($event_name)
     {
         foreach (self::$subscribers as $subscriber) {
-            $subscriber->sendEmail();
+            $subscriber->sendEmail($event_name);
         }
     }
 
