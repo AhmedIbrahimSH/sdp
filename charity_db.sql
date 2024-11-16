@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS Volunteer (
 CREATE TABLE IF NOT EXISTS Beneficiary (
                              PersonID INT PRIMARY KEY,
                              IsBeneficiaryDeleted TINYINT(1) DEFAULT 0,
-                             FOREIGN KEY (PersonID) REFERENCES Account(PersonID) ON DELETE CASCADE
+                             FOREIGN KEY (PersonID) REFERENCES Person(PersonID) ON DELETE CASCADE
 );
 -- Create Appointments table
 CREATE TABLE IF NOT EXISTS  Appointments (
