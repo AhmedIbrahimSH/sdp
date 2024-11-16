@@ -30,7 +30,7 @@
     const date = document.getElementById('date').value;
     const time = document.getElementById('time').value;
     const price = document.getElementById('price').value;
-    // const eventType = document.getElementById('event_type').value;
+    const type = document.getElementById('type').value;
     // console.log(eventDate)
     // Validate input
     if (!title || !location || !date || !time || !price ) {
@@ -45,6 +45,7 @@
         date: date,
         time: time,
         price: price,
+        type: type
     };
         console.log(eventData)
     // Add event to FullCalendar

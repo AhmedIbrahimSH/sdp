@@ -13,17 +13,19 @@ class EventHistoryController
         $this->event_history_view->show_table_history();
     }
 
-    public function delete_event($event_title){
-
+    public static function delete_event($event_title){
+        $conn = Database::get_instance();
+        $query = "DELETE FROM events WHERE title = :title";
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':title', $event_title);
+        $stmt->execute();
     }
-
-
-
 
 }
 
-// Check if "Show Event History" button was clicked
-$dp = new EventHistoryController();
+
+
+$event_history_controller = new EventHistoryController();
 
 
 

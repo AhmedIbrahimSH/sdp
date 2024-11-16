@@ -30,21 +30,19 @@ class publisher implements  sub
         }
     }
 
-    public function notify($event_name)
+    public function notify($event_name, $type)
     {
         foreach (self::$subscribers as $subscriber) {
-            $subscriber->sendEmail($event_name);
+            if($type == $subscriber->getEventType()) {
+                $subscriber->sendEmail($event_name);
+            }
         }
     }
 
     public function processForm() {
-        // Check if "subscribe" checkbox was checked
         if ($this->subscribe) {
-            // If checkbox is checked, send an email with form data
             $this->notify();
-//            echo "Form processed and email sent!";
         } else {
-//            echo "Form processed, but no email was sent (subscription not checked).";
         }
     }
 

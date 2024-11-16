@@ -1,7 +1,7 @@
 <?php
 
 require_once '../Model/load_events.php';
-
+require_once '../Controller/event_history.php';
 
 class EventHistoryView{
     public $event_object;
@@ -32,12 +32,29 @@ class EventHistoryView{
             <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['title']) . "</td>
             <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['location']) . "</td>
             <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['date']) . "</td>
-            <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['price']) . "</td> 
-            <td style='border: 1px solid #ddd; padding: 8px;'> <button onclick=''>Delete</button>  </td>
+            <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['price']) . "</td>
+           <td style='border: 1px solid #ddd; padding: 8px;'>
+            <form method='POST'>
+                <input type='hidden' name='title' value='" . htmlspecialchars($event['title']) . "'>
+                <button type='submit' name='delete_event'>Delete</button>
+            </form>
+        </td>
           </tr>";
         }
 
         echo "</table>";
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_event'])) {
+            if (isset($_POST['title']) && !empty($_POST['title'])) {
+                // Call the delete function from your controller
+                EventHistoryController::delete_event($_POST['title']);
+
+                header('Location: ' . $_SERVER['PHP_SELF']);
+                exit;
+            } else {
+                echo "Error: Title not set.";
+            }
+        }
 
 
     }

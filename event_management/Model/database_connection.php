@@ -7,8 +7,6 @@ class Database {
     private $password = '';
     private static $conn = null;
 
-
-
     public static function get_instance() {
 
         try {

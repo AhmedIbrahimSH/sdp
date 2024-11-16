@@ -2,14 +2,13 @@
 <?php
 require_once 'database_connection.php';
 
-// Create a Database object and establish a connection
 $conn = Database::get_instance();
 
 if (!$conn) {
     die("Connection failed");
 }
 
-$query = "SELECT id, title , location, date, price FROM events";
+$query = "SELECT id, title , location, date, price , type FROM events";
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $events = $stmt->fetchAll(PDO::FETCH_ASSOC);

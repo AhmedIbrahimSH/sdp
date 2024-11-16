@@ -19,25 +19,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $location = isset($input['location']) ? $input['location'] : null;
     $date = isset($input['date']) ? $input['date'] : null;
     $price = isset($input['price']) ? $input['price'] : null;
-
-    // Validate required fields
-//    if (!$title || !$location || !$date || !$price) {
-//        echo json_encode(['success' => false, 'message' => 'Missing required fields.']);
-//        exit;
-//    }
-
-
-
+    $type = isset($input['type']) ? $input['type'] : null;
 
 
     $conn = Database::get_instance();
 
-    $query = "INSERT INTO events (title, location, date, price) VALUES (:title, :location, :date, :price)";
+    $query = "INSERT INTO events (title, location, date, price, type) VALUES (:title, :location, :date, :price, :type)";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':title', $title);
     $stmt->bindParam(':location', $location);
     $stmt->bindParam(':date', $date);
     $stmt->bindParam(':price', $price);
+    $stmt->bindParam(':type', $type);
 
     if ($stmt->execute()) {
 //        echo json_encode(['success' => true]);
@@ -46,10 +39,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $publisher = new publisher($_POST);
-    $subscriber = new subscriber("ahmed");
-    $secsub = new subscriber("omar");
+    $subscriber = new subscriber("ahmed", "fundraiser");
+    $secsub = new subscriber("omar", "workshop");
 
-    $publisher->notify($title);
+    $publisher->notify($title, $type);
 
 
 
