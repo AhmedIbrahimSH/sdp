@@ -6,6 +6,7 @@ require_once 'Models/Donor.php';
 require_once 'Controllers/DonorController.php';
 require_once 'Views/donorView.php';
 require_once 'Views/DonorsListView.php';
+require_once 'Views/UpdateDonorView.php';
 
 // Initialize database connection
 $pdo = Database::getInstance();
@@ -44,15 +45,33 @@ if (isset($_GET['action'])) {
             $controller->saveDonor($_POST);
             break;
 
-        case 'updateDonor':
-            // Update an existing donor (assuming data is sent via POST)
-            if (isset($_GET['id']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-                $donorController->update($_GET['id'], $_POST);
+        case 'editDonor':
+            // Load donor edit form
+            if (isset($_GET['id'])) {
+                try {
+                    $donorController->edit($_GET['id']);
+
+                } catch (Exception $e) {
+
+                }
             } else {
-                echo "Donor ID not provided or invalid request method for updating a donor.";
+                echo "Donor ID not provided.";
             }
             break;
 
+        case 'updateDonor':
+
+            // Update donor details
+            if (isset($_GET['id']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+                try {
+                    $donorController->update($_GET['id'], $_POST);
+                } catch (Exception $e) {
+
+                }
+            } else {
+                echo "Invalid request.";
+            }
+            break;
         case 'deleteDonor':
             // Delete a donor
             if (isset($_GET['id'])) {

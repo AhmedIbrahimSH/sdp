@@ -2,6 +2,7 @@
 require_once 'Models/Donor.php';
 require_once 'Views/DonorsListView.php';
 require_once 'Views/donorView.php';
+require  'Views/UpdateDonorView.php';
 class DonorController
 {
     private $model;
@@ -32,12 +33,32 @@ class DonorController
         header("Location: index.php?action=showAllDonors");
     }
 
-    // Update an existing donor
+    public function edit($id)
+    {
+        $donor = $this->model->getDonor($id);
+
+        if (!$donor) {
+            throw new Exception("Donor with ID $id not found.");
+        }
+
+        // Pass the donor to the update view
+        $view = new DonorViewUpdate();
+        $view->renderUpdateForm($donor);
+    }
+
+    // Update donor details
     public function update($id, $data)
     {
-        $this->model->updateDonor($id, $data);
-        header("Location: index.php?action=showDonor&id=" . $id);
+        echo "AFTERRRRRRRRRRRRRRRR ";
+        try {
+            $this->model->updateDonor($id, $data);
+            echo "REDIRECT";
+            header("Location: index.php?action=showAllDonors"); // Redirect to donor list
+        } catch (Exception $e) {
+            throw new Exception("Failed to update donor: " . $e->getMessage());
+        }
     }
+
 
     public function saveDonor($data) {
         $db = Database::getInstance();
