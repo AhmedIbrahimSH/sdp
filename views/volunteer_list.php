@@ -4,25 +4,18 @@
     <title>Volunteer List</title>
 </head>
 <body>
-<h1>Volunteers</h1>
+<h1>Volunteer List</h1>
 
-<a href="index.php?action=create">Add Volunteer</a>
+<a href="index.php?action=create_volunteer">Add New Volunteer</a>
 <ul>
-    <?php if (!empty($volunteers)): ?>
-        <?php foreach ($volunteers as $volunteer): ?>
-            <li>
-                <?= htmlspecialchars($volunteer['name']) ?>
-                <a href="index.php?action=show&id=<?= urlencode($volunteer['id']) ?>">View</a>
-                <a href="index.php?action=update&id=<?= urlencode($volunteer['id']) ?>">Edit</a>
-                <a href="index.php?action=delete&id=<?= urlencode($volunteer['id']) ?>">Delete</a>
-                <a href="index.php?action=addSkill&id=<?= urlencode($volunteer['id']) ?>">Add Skill</a>
-                <a href="index.php?action=addSchedule&id=<?= urlencode($volunteer['id']) ?>">Add Schedule</a>
-                <a href="index.php?action=addTask&id=<?= urlencode($volunteer['id']) ?>">Add Task</a>
-            </li>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <p>No volunteers found.</p>
-    <?php endif; ?>
+    <?php foreach ($volunteers as $volunteer): ?>
+        <li>
+            <?= htmlspecialchars($volunteer['first_name'] . ' ' . $volunteer['last_name']); ?>
+            <a href="index.php?action=show_volunteer&person_id=<?= htmlspecialchars($volunteer['person_id']); ?>">View</a>
+            <a href="index.php?action=edit_volunteer&person_id=<?= htmlspecialchars($volunteer['person_id']); ?>">Edit</a>
+            <a href="index.php?action=delete_volunteer&person_id=<?= htmlspecialchars($volunteer['person_id']); ?>">Delete</a>
+        </li>
+    <?php endforeach; ?>
 </ul>
 </body>
 </html>

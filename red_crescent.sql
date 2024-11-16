@@ -14,10 +14,9 @@ CREATE TABLE persons (
                          email VARCHAR(255) UNIQUE NOT NULL
 );
 
--- Create the volunteers table with a foreign key referencing persons
+-- Create the volunteers table using person_id as the primary key
 CREATE TABLE volunteers (
-                            id INT AUTO_INCREMENT PRIMARY KEY,
-                            person_id INT,                      -- Foreign key to persons table
+                            person_id INT PRIMARY KEY,                -- Primary key and foreign key to persons
                             phone VARCHAR(20),
                             address TEXT,
                             joined_date DATE,
@@ -29,34 +28,34 @@ CREATE TABLE volunteers (
 -- Create the volunteer_skills table to store skills associated with each volunteer
 CREATE TABLE volunteer_skills (
                                   id INT AUTO_INCREMENT PRIMARY KEY,
-                                  volunteer_id INT,                   -- Foreign key to volunteers table
+                                  person_id INT,                            -- Foreign key to volunteers table
                                   skill VARCHAR(255) NOT NULL,
-                                  FOREIGN KEY (volunteer_id) REFERENCES volunteers(id) ON DELETE CASCADE
+                                  FOREIGN KEY (person_id) REFERENCES volunteers(person_id) ON DELETE CASCADE
 );
 
 -- Create the volunteer_schedule table to store schedule information for each volunteer
 CREATE TABLE volunteer_schedule (
                                     id INT AUTO_INCREMENT PRIMARY KEY,
-                                    volunteer_id INT,                   -- Foreign key to volunteers table
+                                    person_id INT,                            -- Foreign key to volunteers table
                                     schedule_date DATE NOT NULL,
                                     hours INT NOT NULL,
-                                    FOREIGN KEY (volunteer_id) REFERENCES volunteers(id) ON DELETE CASCADE
+                                    FOREIGN KEY (person_id) REFERENCES volunteers(person_id) ON DELETE CASCADE
 );
 
 -- Create the volunteer_tasks table to store tasks associated with each volunteer
 CREATE TABLE volunteer_tasks (
                                  id INT AUTO_INCREMENT PRIMARY KEY,
-                                 volunteer_id INT,                   -- Foreign key to volunteers table
+                                 person_id INT,                            -- Foreign key to volunteers table
                                  task_name VARCHAR(255) NOT NULL,
                                  description TEXT,
                                  due_date DATE,
-                                 FOREIGN KEY (volunteer_id) REFERENCES volunteers(id) ON DELETE CASCADE
+                                 FOREIGN KEY (person_id) REFERENCES volunteers(person_id) ON DELETE CASCADE
 );
 
 -- Create the volunteer_certificates table to store certificates associated with tasks
 CREATE TABLE volunteer_certificates (
                                         id INT AUTO_INCREMENT PRIMARY KEY,
-                                        task_id INT,                        -- Foreign key to volunteer_tasks table
+                                        task_id INT,                              -- Foreign key to volunteer_tasks table
                                         certificate_name VARCHAR(255) NOT NULL,
                                         date_awarded DATE,
                                         FOREIGN KEY (task_id) REFERENCES volunteer_tasks(id) ON DELETE CASCADE
@@ -81,7 +80,7 @@ VALUES
     (5, '567-890-1234', '202 Cedar St, Springfield', '2023-07-25', 'Administrative Volunteer', 'inactive');
 
 -- Insert initial data into volunteer_skills table
-INSERT INTO volunteer_skills (volunteer_id, skill)
+INSERT INTO volunteer_skills (person_id, skill)
 VALUES
     (1, 'First Aid'),
     (1, 'Emergency Response'),
@@ -90,7 +89,7 @@ VALUES
     (4, 'Logistics Management');
 
 -- Insert initial data into volunteer_schedule table
-INSERT INTO volunteer_schedule (volunteer_id, schedule_date, hours)
+INSERT INTO volunteer_schedule (person_id, schedule_date, hours)
 VALUES
     (1, '2023-01-15', 8),
     (1, '2023-01-16', 4),
@@ -98,7 +97,7 @@ VALUES
     (3, '2023-02-01', 8);
 
 -- Insert initial data into volunteer_tasks table
-INSERT INTO volunteer_tasks (volunteer_id, task_name, description, due_date)
+INSERT INTO volunteer_tasks (person_id, task_name, description, due_date)
 VALUES
     (1, 'Rescue Operation', 'Participated in a major rescue operation', '2023-01-20'),
     (2, 'Coordination Meeting', 'Attended coordination meeting for upcoming projects', '2023-01-25'),

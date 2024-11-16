@@ -1,95 +1,89 @@
 <?php
 require_once 'Volunteer.php';
-require_once 'VolunteerSkillsController.php';
-require_once 'VolunteerScheduleController.php';
-require_once 'VolunteerTasksController.php';
+require_once 'VolunteerSkills.php';
+require_once 'VolunteerTasks.php';
+require_once 'VolunteerSchedule.php';
 
 class VolunteerController {
     private $volunteerModel;
-    private $skillsController;
-    private $scheduleController;
-    private $tasksController;
+    private $volunteerSkillsModel;
+    private $volunteerTasksModel;
+    private $volunteerScheduleModel;
 
     public function __construct() {
         $this->volunteerModel = new Volunteer();
-        $this->skillsController = new VolunteerSkillsController();
-        $this->scheduleController = new VolunteerScheduleController();
-        $this->tasksController = new VolunteerTasksController();
+        $this->volunteerSkillsModel = new VolunteerSkills();
+        $this->volunteerTasksModel = new VolunteerTasks();
+        $this->volunteerScheduleModel = new VolunteerSchedule();
     }
 
+    // Display all volunteers
     public function index() {
         $volunteers = $this->volunteerModel->getAllVolunteers();
         include 'views/volunteer_list.php';
     }
 
-    public function show($id) {
-        $volunteer = $this->volunteerModel->getVolunteerById($id);
-
-        // Retrieve related data
-        $skills = $this->skillsController->getSkills($id);
-        $schedule = $this->scheduleController->getSchedule($id);
-        $tasks = $this->tasksController->getTasks($id);
-
-        // Pass all data to the view
+    // Show details for a specific volunteer
+    public function show($personId) {
+        $volunteer = $this->volunteerModel->getVolunteerById($personId);
+        $skills = $this->volunteerSkillsModel->getSkillsByVolunteer($personId);
+        $tasks = $this->volunteerTasksModel->getTasksByVolunteer($personId);
+        $schedule = $this->volunteerScheduleModel->getScheduleByVolunteer($personId);
         include 'views/volunteer_detail.php';
     }
 
+    // Add a new volunteer
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Create a Person record
-            $personData = [
-                'name' => $_POST['name'],
-                'email' => $_POST['email']
-            ];
-            $person_id = $this->volunteerModel->createPerson($personData);
-
-            // Create a Volunteer record linked to the person_id
-            $volunteerData = [
-                'person_id' => $person_id,
+            $data = [
+                'firstName' => $_POST['first_name'],
+                'lastName' => $_POST['last_name'],
+                'middleName' => $_POST['middle_name'] ?? null,
+                'nationality' => $_POST['nationality'],
+                'gender' => $_POST['gender'],
                 'phone' => $_POST['phone'],
-                'address' => $_POST['address'],
-                'joined_date' => $_POST['joined_date'],
-                'role' => $_POST['role'],
+                'email' => $_POST['email'],
+                'addressId' => $_POST['address_id'],
                 'status' => $_POST['status']
             ];
-            $this->volunteerModel->createVolunteer($volunteerData);
 
-            header("Location: index.php?action=index");
+            $personId = $this->volunteerModel->createVolunteer($data);
+
+            header("Location: index.php?action=show_volunteer&id=$personId");
             exit;
         } else {
             include 'views/volunteer_create.php';
         }
     }
 
-    public function update($id) {
+    // Edit an existing volunteer
+    public function edit($personId) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Update Person data
-            $personData = [
-                'name' => $_POST['name'],
-                'email' => $_POST['email']
-            ];
-            $this->volunteerModel->updatePerson($id, $personData);
-
-            // Update Volunteer data
-            $volunteerData = [
+            $data = [
+                'firstName' => $_POST['first_name'],
+                'lastName' => $_POST['last_name'],
+                'middleName' => $_POST['middle_name'] ?? null,
+                'nationality' => $_POST['nationality'],
+                'gender' => $_POST['gender'],
                 'phone' => $_POST['phone'],
-                'address' => $_POST['address'],
-                'joined_date' => $_POST['joined_date'],
-                'role' => $_POST['role'],
+                'email' => $_POST['email'],
+                'addressId' => $_POST['address_id'],
                 'status' => $_POST['status']
             ];
-            $this->volunteerModel->updateVolunteer($id, $volunteerData);
 
-            header("Location: index.php?action=index");
+            $this->volunteerModel->updateVolunteer($personId, $data);
+
+            header("Location: index.php?action=show_volunteer&id=$personId");
             exit;
         } else {
-            $volunteer = $this->volunteerModel->getVolunteerById($id);
+            $volunteer = $this->volunteerModel->getVolunteerById($personId);
             include 'views/volunteer_edit.php';
         }
     }
 
-    public function delete($id) {
-        $this->volunteerModel->deleteVolunteer($id);
+    // Delete a volunteer
+    public function delete($personId) {
+        $this->volunteerModel->deleteVolunteer($personId);
         header("Location: index.php?action=index");
         exit;
     }

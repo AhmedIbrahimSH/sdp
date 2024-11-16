@@ -1,7 +1,7 @@
 <?php
 class Database {
     private $host = 'localhost';
-    private $db_name = 'red_crescent';
+    private $db_name = 'charity_db';
     private $username = 'root';
     private $password = 'admin';
     private $conn;

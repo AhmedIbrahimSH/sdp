@@ -8,47 +8,51 @@ class VolunteerTasksController {
         $this->volunteerTasksModel = new VolunteerTasks();
     }
 
-    public function addTask($volunteerId) {
+    // Display all tasks for a specific volunteer
+    public function index($personId) {
+        $tasks = $this->volunteerTasksModel->getTasksByVolunteer($personId);
+        include 'views/volunteer_tasks_list.php'; // Pass data to the view
+    }
+
+    // Add a new task for a volunteer
+    public function addTask($personId) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $taskName = $_POST['task_name'];
             $description = $_POST['description'];
             $dueDate = $_POST['due_date'];
 
-            // Optional certificate data
-            $certificate = null;
-            if (!empty($_POST['certificate_name']) && !empty($_POST['date_awarded'])) {
-                $certificate = [
-                    'certificate_name' => $_POST['certificate_name'],
-                    'date_awarded' => $_POST['date_awarded']
-                ];
-            }
+            $this->volunteerTasksModel->addTask($personId, $taskName, $description, $dueDate);
 
-            // Add the task and optional certificate
-            $this->volunteerTasksModel->addTask($volunteerId, $taskName, $description, $dueDate, $certificate);
-
-            // Redirect back to the volunteer's details page
-            header("Location: index.php?action=show&id=$volunteerId");
+            header("Location: index.php?action=volunteer_tasks&person_id=$personId");
             exit;
         } else {
-            include 'views/volunteer_add_task.php';
+            include 'views/volunteer_add_task.php'; // Show the task creation form
         }
     }
 
-
-    public function getTasks($volunteerId) {
-        return $this->volunteerTasksModel->getTasks($volunteerId);
-    }
-
-    public function addCertificate($taskId) {
+    // Edit an existing task for a volunteer
+    public function editTask($taskId) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $certificateName = $_POST['certificate_name'];
-            $dateAwarded = $_POST['date_awarded'];
-            $this->volunteerTasksModel->addCertificate($taskId, $certificateName, $dateAwarded);
-            header("Location: index.php?action=showTask&id=$taskId");
+            $taskName = $_POST['task_name'];
+            $description = $_POST['description'];
+            $dueDate = $_POST['due_date'];
+
+            $this->volunteerTasksModel->updateTask($taskId, $taskName, $description, $dueDate);
+
+            header("Location: index.php?action=volunteer_tasks&person_id=" . $_POST['person_id']);
             exit;
         } else {
-            include 'views/volunteer_add_certificate.php';
+            $task = $this->volunteerTasksModel->getTasksByVolunteer($_GET['person_id']);
+            include 'views/volunteer_edit_task.php'; // Show the task editing form
         }
+    }
+
+    // Remove a task from a volunteer
+    public function removeTask($taskId, $personId) {
+        $this->volunteerTasksModel->removeTask($taskId);
+
+        header("Location: index.php?action=volunteer_tasks&person_id=$personId");
+        exit;
     }
 }
 ?>

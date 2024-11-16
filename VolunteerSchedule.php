@@ -8,28 +8,52 @@ class VolunteerSchedule {
         $this->db = Database::getInstance()->getConnection();
     }
 
-    // Add a schedule entry for a volunteer
-    public function addScheduleEntry($volunteerId, $scheduleDate, $hours) {
+    // Add a schedule item for a volunteer
+    public function addScheduleItem($personId, $scheduleDate, $hours) {
         $stmt = $this->db->prepare("
-            INSERT INTO volunteer_schedule (volunteer_id, schedule_date, hours)
-            VALUES (:volunteer_id, :schedule_date, :hours)
+            INSERT INTO Volunteer_Schedule (person_id, schedule_date, hours)
+            VALUES (:personId, :scheduleDate, :hours)
         ");
         $stmt->execute([
-            'volunteer_id' => $volunteerId,
-            'schedule_date' => $scheduleDate,
+            'personId' => $personId,
+            'scheduleDate' => $scheduleDate,
             'hours' => $hours
         ]);
     }
 
-    // Get all schedule entries for a specific volunteer
-    public function getScheduleByVolunteerId($volunteerId) {
+    // Get all schedule items for a specific volunteer
+    public function getScheduleByVolunteer($personId) {
         $stmt = $this->db->prepare("
-            SELECT * FROM volunteer_schedule
-            WHERE volunteer_id = :volunteer_id
+            SELECT id AS schedule_id, schedule_date, hours
+            FROM Volunteer_Schedule
+            WHERE person_id = :personId
             ORDER BY schedule_date ASC
         ");
-        $stmt->execute(['volunteer_id' => $volunteerId]);
+        $stmt->execute(['personId' => $personId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Update a schedule item
+    public function updateScheduleItem($scheduleId, $scheduleDate, $hours) {
+        $stmt = $this->db->prepare("
+            UPDATE Volunteer_Schedule
+            SET schedule_date = :scheduleDate, hours = :hours
+            WHERE id = :scheduleId
+        ");
+        $stmt->execute([
+            'scheduleDate' => $scheduleDate,
+            'hours' => $hours,
+            'scheduleId' => $scheduleId
+        ]);
+    }
+
+    // Remove a schedule item
+    public function removeScheduleItem($scheduleId) {
+        $stmt = $this->db->prepare("
+            DELETE FROM Volunteer_Schedule
+            WHERE id = :scheduleId
+        ");
+        $stmt->execute(['scheduleId' => $scheduleId]);
     }
 }
 ?>

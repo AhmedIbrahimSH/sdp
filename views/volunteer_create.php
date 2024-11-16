@@ -4,21 +4,24 @@
     <title>Add Volunteer</title>
 </head>
 <body>
-<h1>Add New Volunteer</h1>
-<form action="index.php?action=create" method="POST">
-    <label>Name: <input type="text" name="name"></label><br>
-    <label>Email: <input type="email" name="email"></label><br>
-    <label>Phone: <input type="text" name="phone"></label><br>
-    <label>Address: <textarea name="address"></textarea></label><br>
-    <label>Joined Date: <input type="date" name="joined_date"></label><br>
-    <label>Role: <input type="text" name="role"></label><br>
-    <label>Status:
-        <select name="status">
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-        </select>
-    </label><br>
-    <button type="submit">Save</button>
+<h1>Add Volunteer</h1>
+
+<form action="index.php?action=create_volunteer" method="POST">
+    <label for="first_name">First Name:</label>
+    <input type="text" name="first_name" id="first_name" required><br>
+
+    <label for="last_name">Last Name:</label>
+    <input type="text" name="last_name" id="last_name" required><br>
+
+    <label for="email">Email:</label>
+    <input type="email" name="email" id="email" required><br>
+
+    <label for="phone">Phone:</label>
+    <input type="text" name="phone" id="phone" required><br>
+
+    <button type="submit">Add Volunteer</button>
 </form>
+
+<a href="index.php?action=index">Back to List</a>
 </body>
 </html>

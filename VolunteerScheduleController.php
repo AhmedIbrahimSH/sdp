@@ -8,27 +8,49 @@ class VolunteerScheduleController {
         $this->volunteerScheduleModel = new VolunteerSchedule();
     }
 
-    // Add a new schedule entry for a volunteer
-    public function addSchedule($volunteerId) {
+    // Display all schedule items for a specific volunteer
+    public function index($personId) {
+        $scheduleItems = $this->volunteerScheduleModel->getScheduleByVolunteer($personId);
+        include 'views/volunteer_schedule_list.php'; // Pass schedule data to the view
+    }
+
+    // Add a new schedule item for a volunteer
+    public function addSchedule($personId) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $scheduleDate = $_POST['schedule_date'];
             $hours = $_POST['hours'];
 
-            // Add the schedule entry
-            $this->volunteerScheduleModel->addScheduleEntry($volunteerId, $scheduleDate, $hours);
+            $this->volunteerScheduleModel->addScheduleItem($personId, $scheduleDate, $hours);
 
-            // Redirect back to the volunteer's details page
-            header("Location: index.php?action=show&id=$volunteerId");
+            header("Location: index.php?action=volunteer_schedule&person_id=$personId");
             exit;
         } else {
-            include 'views/volunteer_add_schedule.php';
+            include 'views/volunteer_add_schedule.php'; // Show the schedule creation form
         }
     }
 
-    // Retrieve the schedule for a volunteer
-    public function getSchedule($volunteerId) {
-        return $this->volunteerScheduleModel->getScheduleByVolunteerId($volunteerId);
+    // Edit an existing schedule item
+    public function editSchedule($scheduleId) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $scheduleDate = $_POST['schedule_date'];
+            $hours = $_POST['hours'];
+
+            $this->volunteerScheduleModel->updateScheduleItem($scheduleId, $scheduleDate, $hours);
+
+            header("Location: index.php?action=volunteer_schedule&person_id=" . $_POST['person_id']);
+            exit;
+        } else {
+            $scheduleItem = $this->volunteerScheduleModel->getScheduleByVolunteer($_GET['person_id']);
+            include 'views/volunteer_edit_schedule.php'; // Show the schedule editing form
+        }
     }
 
+    // Remove a schedule item for a volunteer
+    public function removeSchedule($scheduleId, $personId) {
+        $this->volunteerScheduleModel->removeScheduleItem($scheduleId);
+
+        header("Location: index.php?action=volunteer_schedule&person_id=$personId");
+        exit;
+    }
 }
 ?>
