@@ -7,7 +7,7 @@ class NeedFactory
             case 'food':
                 require_once 'FoodNeed.php';
                 return new FoodNeed();
-            case 'drugs':
+            case 'drug':
                 require_once 'DrugsNeed.php';
                 return new DrugsNeed();
             case 'medical':

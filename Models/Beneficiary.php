@@ -35,22 +35,36 @@ class Beneficiary extends Person
         $this->hasDisability = $beneficiary->hasDisability;
         $this->isHomeless = $beneficiary->isHomeless;
         $this->PersonID = $beneficiary->PersonID;
+
+        $needs = [];
+        $needTables = ['cashneedhistory', 'foodneedhistory', 'clothingneedhistory', 'drugneedhistory', 'medicalneedhistory', 'shelterneedhistory']; // Add other need tables as necessary
+
+        foreach ($needTables as $table) {
+            $query = "SELECT *, '$table' as table_name FROM $table WHERE BeneficiaryID = :beneficiaryID";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':beneficiaryID', $this->PersonID, PDO::PARAM_INT);
+            $stmt->execute();
+            $needs = array_merge($needs, $stmt->fetchAll(PDO::FETCH_ASSOC));
+        }
+        $this->needs = $needs;
     }
 
 
     public function RequestNeed($need, $amount)
     {
-        // Check for duplicate need type
-        foreach ($this->needs as $existingNeed) {
-            if (get_class($existingNeed) === $need) {
-                return "Error: Duplicate need type";
-            }
-        }
+
+
+        // // Check for duplicate need type
+        // foreach ($this->needs as $existingNeed) {
+        //     if (get_class($existingNeed) === $need) {
+        //         return "Error: Duplicate need type";
+        //     }
+        // }
 
         $need_obj = NeedFactory::createNeed($need);
         if ($need_obj) {
             if ($need_obj->Register_Need_Template($this, $this->PersonID, $amount)) {
-                $this->needs[] = $need_obj;
+
                 return true;
             }
             return false;
@@ -59,21 +73,29 @@ class Beneficiary extends Person
     }
 
 
-    public function RemoveNeed($need)  // update = remove or request/add
+    public function RemoveNeed($db, $needTable, $beneficiaryId)
     {
-        $index = array_search($need, $this->needs);
-        if ($index !== false) {
-            unset($this->needs[$index]);
-            return true;
-        }
-        return false;
+        $query = "DELETE FROM $needTable WHERE BeneficiaryID = :beneficiaryID";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':beneficiaryID', $beneficiaryId, PDO::PARAM_INT);
+        return $stmt->execute();
     }
 
-    public function SupportNeed($need, $amount)
+
+    public function SupportNeed($table, $beneficiaryId)
     {
-        $need->Support_Need_Template($this, $amount);
+        $needType = explode('needhistory', $table)[0];
+        $need_obj = NeedFactory::createNeed($needType);
+        $need_obj->Support_Need_Template($this, $table, $beneficiaryId);
     }
 
+
+    public function getNeeds()
+    {
+        return $this->needs;
+    }
+
+    // get need row by 
 
 
 
@@ -117,10 +139,6 @@ class Beneficiary extends Person
     }
 
 
-    public function getNeeds()
-    {
-        return $this->needs;
-    }
     public function getBloodType()
     {
         return $this->bloodType;

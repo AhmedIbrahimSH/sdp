@@ -9,12 +9,19 @@ class Beneficiary_List_View
 
         // Output the start of the page and container
         echo '<div class="container">';
+        // h1 title in the center that says "Beneficiary Control Panel"
+        echo '<h1>Beneficiary Control Panel</h1>';
+
 
         // Title and action buttons, "Create" button aligned to the right
-        echo '<h2>Beneficiary List</h2>';
+        //echo '<h2>Beneficiary List</h2>';
         echo '<div class="actions">';
         echo '<a href="index.php?action=create_beneficiary" class="btn btn-primary">Create New Beneficiary</a>';
+        echo '<a href="index.php?action=track_distribution" class="btn btn-primary" style="margin-left: 100px;">Track Recources Distribution</a>';
         echo '</div>';
+
+
+
 
         // Start of table with improved structure and modern style
         echo '<table>';
@@ -25,7 +32,7 @@ class Beneficiary_List_View
         foreach ($beneficiaries as $beneficiary) {
             echo '<tr>';
             // Name column with a link to view the beneficiary
-            echo '<td><a href="index.php?action=view&id=' . urlencode($beneficiary['PersonID']) . '" class="name-link">' . htmlspecialchars($beneficiary['FirstName'] . ' ' . $beneficiary['MiddleName'] . ' ' . $beneficiary['LastName']) . '</a></td>';
+            echo '<td><a href="index.php?action=view_beneficiary&id=' . urlencode($beneficiary['PersonID']) . '" class="name-link">' . htmlspecialchars($beneficiary['FirstName'] . ' ' . $beneficiary['MiddleName'] . ' ' . $beneficiary['LastName']) . '</a></td>';
             // Phone column
             echo '<td>' . htmlspecialchars($beneficiary['PersonPhone']) . '</td>';
             // Income column

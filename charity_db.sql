@@ -25,7 +25,6 @@ CREATE TABLE IF NOT EXISTS Person (
 
 
 
-
 -- Create Account table
 CREATE TABLE IF NOT EXISTS  Account (
                                     PersonID INT PRIMARY KEY,
@@ -78,7 +77,9 @@ CREATE TABLE IF NOT EXISTS Charity_Storage (
                              NeedID INT AUTO_INCREMENT PRIMARY KEY,
                              type VARCHAR(100) NOT NULL,
                              Amount DECIMAL(10, 2) NOT NULL,
-                             Spendings DECIMAL(10, 2) NOT NULL
+                             Spendings DECIMAL(10, 2) NOT NULL,
+                             AffectedPeople INT DEFAULT 0
+                                
 );
 
 -- Create Need tables
@@ -87,7 +88,8 @@ CREATE TABLE IF NOT EXISTS CashNeedHistory (
                              BeneficiaryID INT,
                              Amount DECIMAL(10, 2) NOT NULL,
                              Allocated BOOLEAN DEFAULT FALSE,
-                             TransactionDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                             Accepted BOOLEAN DEFAULT FALSE,
+                             RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                              purpose TEXT DEFAULT "Cash Assistance for Low Income/Disabled beneficiary",
                              FOREIGN KEY (BeneficiaryID) REFERENCES Beneficiary(PersonID) ON DELETE CASCADE
 );
@@ -99,7 +101,8 @@ CREATE TABLE IF NOT EXISTS FoodNeedHistory (
                             BeneficiaryID INT Not NULL,
                                 Amount DECIMAL(10, 2) NOT NULL,
                                 Allocated BOOLEAN DEFAULT FALSE,
-                                AllocationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                Accepted BOOLEAN DEFAULT FALSE,
+                                RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                 purpose TEXT DEFAULT "Food Assistance for low income beneficiary",
                                 FOREIGN KEY (BeneficiaryID) REFERENCES Beneficiary(PersonID) ON DELETE CASCADE
 );
@@ -109,7 +112,8 @@ CREATE TABLE IF NOT EXISTS ShelterNeedHistory (
                             BeneficiaryID INT Not NULL,
                                 Amount DECIMAL(10, 2) DEFAULT 1,
                                 Allocated BOOLEAN DEFAULT FALSE,
-                                AllocationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                Accepted BOOLEAN DEFAULT FALSE,
+                                RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                 purpose TEXT DEFAULT "Shelter Assistance for Homeless beneficiary",
                                 FOREIGN KEY (BeneficiaryID) REFERENCES Beneficiary(PersonID) ON DELETE CASCADE 
 );
@@ -119,7 +123,8 @@ CREATE TABLE IF NOT EXISTS ClothingNeedHistory (
                             BeneficiaryID INT Not NULL,
                                 Amount DECIMAL(10, 2) DEFAULT 1,
                                 Allocated BOOLEAN DEFAULT FALSE,
-                                AllocationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                Accepted BOOLEAN DEFAULT FALSE,
+                                RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                 purpose TEXT DEFAULT "Clothing Assistance for low income beneficiary",
                                 FOREIGN KEY (BeneficiaryID) REFERENCES Beneficiary(PersonID) ON DELETE CASCADE
 );
@@ -129,7 +134,8 @@ CREATE TABLE IF NOT EXISTS MedicalNeedHistory (
                             BeneficiaryID INT Not NULL,
                                 Amount DECIMAL(10, 2) DEFAULT 1,
                                 Allocated BOOLEAN DEFAULT FALSE,
-                                AllocationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                Accepted BOOLEAN DEFAULT FALSE,
+                                RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                 purpose TEXT DEFAULT "Medical Assistance for Low Income beneficiary",
                                 FOREIGN KEY (BeneficiaryID) REFERENCES Beneficiary(PersonID) ON DELETE CASCADE
 );
@@ -139,7 +145,8 @@ CREATE TABLE IF NOT EXISTS DrugNeedHistory (
                             BeneficiaryID INT Not NULL,
                                 Amount DECIMAL(10, 2) DEFAULT 1,
                                 Allocated BOOLEAN DEFAULT FALSE,
-                                AllocationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                Accepted BOOLEAN DEFAULT FALSE,
+                                RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                 purpose TEXT DEFAULT CONCAT(DrugType, " - ","Assistance for Low Income/Has Chronic Disease beneficiary"),
                                 DrugType VARCHAR(100) NOT NULL,
                                 FOREIGN KEY (BeneficiaryID) REFERENCES Beneficiary(PersonID) ON DELETE CASCADE
@@ -171,8 +178,8 @@ CREATE TABLE IF NOT EXISTS DrugNeedHistory (
      ('Yonge Street', 6); -- Street, Parent is 'Toronto' (AddressID 6)
 
 -- Insert Beneficiary Admin: Omar Diab
-INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, isPersonDeleted, AddressID)
-VALUES ('Omar', 'Diab', 'Mosaad', 'Egyptian', 'Male', '01076543210', 0, 2);
+INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, AddressID)
+VALUES ('Omar', 'Diab', 'Mosaad', 'Egyptian', 'Male', '01076543210', 2);
 SET @last_person_id = LAST_INSERT_ID();
 
 INSERT INTO Account (PersonID, AccountEmail, AccountPasswordHashed, Status, IsUser, IsAccountDeleted)
@@ -186,8 +193,8 @@ VALUES (@last_person_id, 'BeneficiaryAdmin');
 -- Beneficiaries Fill
 
 -- Insert Beneficiary 1: Ahmed Hassan
-INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, isPersonDeleted, AddressID)
-VALUES ('Ahmed', 'Hassan', 'Ali', 'Egyptian', 'Male', '01012345678', 0, 1);
+INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, AddressID)
+VALUES ('Ahmed', 'Hassan', 'Ali', 'Egyptian', 'Male', '01012345678', 1);
 
 SET @last_person_id = LAST_INSERT_ID();
 INSERT INTO Beneficiary (PersonID, income, blood_type, hasChronicDisease, hasDisability, isHomeless)
@@ -196,8 +203,8 @@ VALUES (@last_person_id, 2000.00, 'A+', FALSE, FALSE, FALSE);
 
 
 -- Insert Beneficiary 2: Sara Mohamed
-INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, isPersonDeleted, AddressID)
-VALUES ('Sara', 'Mohamed', 'Youssef', 'Egyptian', 'Female', '01098765432', 0, 2);
+INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, AddressID)
+VALUES ('Sara', 'Mohamed', 'Youssef', 'Egyptian', 'Female', '01098765432', 2);
 
 SET @last_person_id = LAST_INSERT_ID();
 INSERT INTO Beneficiary (PersonID, income, blood_type, hasChronicDisease, hasDisability, isHomeless)
@@ -206,8 +213,8 @@ VALUES (@last_person_id, 1500.00, 'B-', TRUE, FALSE, FALSE);
 
 
 -- Insert Beneficiary 3: Omar Adel
-INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, isPersonDeleted, AddressID)
-VALUES ('Omar', 'Adel', 'Khaled', 'Egyptian', 'Male', '01056781234', 0, 3);
+INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, AddressID)
+VALUES ('Omar', 'Adel', 'Khaled', 'Egyptian', 'Male', '01056781234', 3);
 
 SET @last_person_id = LAST_INSERT_ID();
 INSERT INTO Beneficiary (PersonID, income, blood_type, hasChronicDisease, hasDisability, isHomeless)
@@ -216,42 +223,63 @@ VALUES (@last_person_id, 0.00, 'O+', FALSE, FALSE, TRUE);
 
 
 -- Insert Beneficiary 4: Mariam Ehab
-INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, isPersonDeleted, AddressID)
-VALUES ('Mariam', 'Ehab', 'Fouad', 'Egyptian', 'Female', '01023456789', 0, 1);
+INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, AddressID)
+VALUES ('Mariam', 'Ehab', 'Fouad', 'Egyptian', 'Female', '01023456789', 1);
 
 SET @last_person_id = LAST_INSERT_ID();
 INSERT INTO Beneficiary (PersonID, income, blood_type, hasChronicDisease, hasDisability, isHomeless)
 VALUES (@last_person_id, 1000.00, 'AB-', TRUE, TRUE, FALSE);
 
 -- Insert storage data
-INSERT INTO Charity_Storage (type, Amount, Spendings)
+INSERT INTO Charity_Storage (type, Amount, Spendings,AffectedPeople)
 VALUES 
-    ('Cash', 15000.00, 0.00),
-    ('Food', 5000.00, 0.00),
-    ('Clothing', 2000.00, 0.00),
-    ('Drugs', 3000.00, 0.00),
-    ('Shelter', 1000.00, 0.00),
-    ('Medical', 8000.00, 0.00);
-
--- Filling Some needs
--- Allocate Cash Assistance for Ahmed Hassan
-INSERT INTO CashNeedHistory (BeneficiaryID, Amount, Allocated)
-VALUES ((SELECT PersonID FROM Beneficiary WHERE PersonID = 2), 1000.00, TRUE);
-
--- Allocate Food Assistance for Ahmed Hassan
-INSERT INTO FoodNeedHistory (BeneficiaryID, Amount, Allocated)
-VALUES ((SELECT PersonID FROM Beneficiary WHERE PersonID = 2), 1.00, TRUE);
-
--- Allocate Cash Assistance for Sara Mohamed
-INSERT INTO CashNeedHistory (BeneficiaryID, Amount, Allocated)
-VALUES ((SELECT PersonID FROM Beneficiary WHERE PersonID = 3), 1500.00, FALSE);
-
--- Allocate Food Assistance for Sara Mohamed
-INSERT INTO FoodNeedHistory (BeneficiaryID, Amount, Allocated)
-VALUES ((SELECT PersonID FROM Beneficiary WHERE PersonID = 3), 2.00, FALSE);
+    ('Cash', 15000.00, 0.00,0),
+    ('Food', 5000.00, 0.00,0),
+    ('Clothing', 2000.00, 0.00,0),
+    ('Drugs', 3000.00, 0.00,0),
+    ('Shelter', 1000.00, 0.00,0),
+    ('Medical', 8000.00, 0.00,0);
 
 
--- Beneficiary Fill End
+INSERT INTO CashNeedHistory (BeneficiaryID, Amount, Allocated, Accepted)
+VALUES ((SELECT PersonID FROM Beneficiary WHERE PersonID = 2), 1000.00, TRUE,TRUE);
+
+
+UPDATE Charity_Storage 
+SET Spendings = Spendings + 1000.00 
+WHERE type = 'Cash';
+
+
+UPDATE Charity_Storage 
+SET AffectedPeople = AffectedPeople + 1
+WHERE type = 'Cash';
+
+
+
+INSERT INTO FoodNeedHistory (BeneficiaryID, Amount, Allocated, Accepted)
+VALUES ((SELECT PersonID FROM Beneficiary WHERE PersonID = 2), 1.00, TRUE,TRUE);
+
+
+UPDATE Charity_Storage 
+SET Spendings = Spendings + 1000.00 
+WHERE type = 'Food';
+
+UPDATE Charity_Storage 
+SET AffectedPeople = AffectedPeople + 1
+WHERE type = 'Food';
+
+
+
+
+INSERT INTO CashNeedHistory (BeneficiaryID, Amount, Allocated, Accepted)
+VALUES ((SELECT PersonID FROM Beneficiary WHERE PersonID = 3), 1500.00, FALSE, FALSE);
+
+
+INSERT INTO FoodNeedHistory (BeneficiaryID, Amount, Allocated, Accepted)
+VALUES ((SELECT PersonID FROM Beneficiary WHERE PersonID = 3), 2.00, FALSE,TRUE);
+
+
+
 
 
 
@@ -259,8 +287,8 @@ VALUES ((SELECT PersonID FROM Beneficiary WHERE PersonID = 3), 2.00, FALSE);
 
 
 -- Insert John Doe
-INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, isPersonDeleted, AddressID)
-VALUES ('John', 'Doe', 'Michael', 'American', 'Male', '1234567890', 0, 1);
+INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, AddressID)
+VALUES ('John', 'Doe', 'Michael', 'American', 'Male', '1234567890',  1);
 SET @last_person_id = LAST_INSERT_ID();
 INSERT INTO Account (PersonID, AccountEmail, AccountPasswordHashed, Status, IsUser, IsAccountDeleted)
 VALUES (@last_person_id, 'johndoe@example.com', 'hashed_password_123', 'Active', 1, 0);
@@ -268,8 +296,8 @@ INSERT INTO Donor (PersonID, BloodType, IsDonorDeleted)
 VALUES (@last_person_id, 'O+', 0);
 
 -- Insert Jane Smith
-INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, isPersonDeleted, AddressID)
-VALUES ('Jane', 'Smith', NULL, 'British', 'Female', '0987654321', 0, 2);
+INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, AddressID)
+VALUES ('Jane', 'Smith', NULL, 'British', 'Female', '0987654321', 2);
 SET @last_person_id = LAST_INSERT_ID();
 INSERT INTO Account (PersonID, AccountEmail, AccountPasswordHashed, Status, IsUser, IsAccountDeleted)
 VALUES (@last_person_id, 'janesmith@example.com', 'hashed_password_456', 'Active', 1, 0);
@@ -277,8 +305,8 @@ INSERT INTO Donor (PersonID, BloodType, IsDonorDeleted)
 VALUES (@last_person_id, NULL, 0);
 
 -- Insert Alex Taylor
-INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, isPersonDeleted, AddressID)
-VALUES ('Alex', 'Taylor', 'Lee', 'Canadian', 'Other', '1122334455', 0, 3);
+INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, AddressID)
+VALUES ('Alex', 'Taylor', 'Lee', 'Canadian', 'Other', '1122334455', 3);
 SET @last_person_id = LAST_INSERT_ID();
 INSERT INTO Account (PersonID, AccountEmail, AccountPasswordHashed, Status, IsUser, IsAccountDeleted)
 VALUES (@last_person_id, 'alextaylor@example.com', 'hashed_password_789', 'Active', 1, 0);

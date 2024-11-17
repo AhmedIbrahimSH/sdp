@@ -1,5 +1,5 @@
 <?php
-
+require 'Controllers/NeedController.php';
 class BeneficiaryController
 {
     private $db;
@@ -51,8 +51,26 @@ class BeneficiaryController
     public function listBeneficiaries()
     {
         $beneficiaries = $this->admin->getBeneficiaries($this->db);
+
         include 'Views/Beneficiary_List_View.php';
         $view = new Beneficiary_List_View();
         $view->showBeneficiaries($beneficiaries);
+    }
+
+    public function show_Beneficiary_profile($id)
+    {
+        $beneficiary = $this->admin->getBeneficiary($this->db, $id);
+        include 'Views/Beneficiary_Profile_View.php';
+        $view = new Beneficiary_Profile_View();
+        $view->showBeneficiary($beneficiary);
+    }
+
+    public function trackDistribution()
+    {
+        $allocated_data = $this->admin->getAllocatedNeeds($this->db);
+        $charity_data = $this->admin->getCharityStorageData($this->db);
+        include 'Views/Track_Distribution_View.php';
+        $view = new Track_Distribution_View();
+        $view->Show_Resource_Distribution($allocated_data, $charity_data);
     }
 }

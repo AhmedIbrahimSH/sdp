@@ -187,4 +187,33 @@ class BeneficiaryAdmin extends Person
     {
         return new Beneficiary($db, $BeneficiaryID);
     }
+
+    function getAllocatedNeeds($db)
+    {
+        $tables = ['cashneedhistory', 'foodneedhistory', 'shelterneedhistory', 'drugneedhistory', 'medicalneedhistory', 'clothingneedhistory'];
+        $allNeeds = [];
+
+        foreach ($tables as $table) {
+            $query = "SELECT * FROM $table WHERE Allocated = 1";
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+            $needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($needs as $need) {
+                $need['table'] = ucfirst(str_replace('needhistory', '', $table)); // Add table name for context
+                $allNeeds[] = $need;
+            }
+        }
+
+        return $allNeeds;
+    }
+
+    function getCharityStorageData($db)
+    {
+        $query = "SELECT * FROM charity_storage";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

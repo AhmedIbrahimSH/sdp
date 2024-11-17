@@ -4,63 +4,95 @@ require_once 'NeedTemplateMethod.php';
 
 class CashNeed extends NeedTemplateMethod
 {
-    // sql query here to check the cash resources (do it ya chatgpt)
-    // + and also store all history of cash resources and spendings
 
     function checkEligibility($beneficiary)
     {
-        return $beneficiary->getIncome() < self::$incomeThreshold && $beneficiary->hasDisability();
+        return $beneficiary->getIncome() < self::getIncomeThreshold() && $beneficiary->hasDisability();
     }
 
-    protected function register($beneficiaryID, $amount)
+    protected function register($beneficiaryID, $amount, $accepted)
     {
+        $accepted = (bool) $accepted; // Make sure it's a boolean
         // Prepare the SQL query with placeholders to prevent SQL injection
-        $query = "INSERT INTO CashNeedHistory (BeneficiaryID, Amount, Allocated)
-              VALUES (?, ?, FALSE)";
+        $query = "INSERT INTO CashNeedHistory (BeneficiaryID, Amount, Allocated, Accepted)
+              VALUES (?, ?, ?, ?)";
 
         // Use a prepared statement
-        if ($stmt = mysqli_prepare($this->dbConnection, $query)) {
-            // Bind the parameters (i for integer, d for double, s for string, etc.)
-            mysqli_stmt_bind_param($stmt, 'id', $beneficiaryID, $amount);
+        try {
+            $stmt = $this->dbConnection->prepare($query);
+            $allocated = 0; // Variable for allocated
+            $stmt->bindParam(1, $beneficiaryID, PDO::PARAM_INT); // Bind beneficiary ID as an integer
+            $stmt->bindParam(2, $amount, PDO::PARAM_STR);        // Bind amount (adjust type if necessary)
+            $stmt->bindParam(3, $allocated, PDO::PARAM_BOOL);    // Bind allocated as a boolean
+            $stmt->bindParam(4, $accepted, PDO::PARAM_BOOL);    // Bind accepted as a boolean
 
-            // Execute the query
-            if (mysqli_stmt_execute($stmt)) {
-                // Close the statement
-                mysqli_stmt_close($stmt);
+            if ($stmt->execute()) {
                 return true; // Return true on success
             } else {
                 // Handle execution errors
-                error_log("Error executing query: " . mysqli_error($this->dbConnection));
+                error_log("Error executing query: " . implode(", ", $stmt->errorInfo()));
             }
-
-            // Close the statement
-            mysqli_stmt_close($stmt);
-        } else {
+        } catch (PDOException $e) {
             // Handle preparation errors
-            error_log("Error preparing query: " . mysqli_error($this->dbConnection));
+            error_log("Error preparing query: " . $e->getMessage());
         }
 
         return false; // Return false on failure
     }
 
 
-    protected function allocateResources($beneficiary)
+
+    protected function allocateResources($table, $beneficiaryID)
     {
-        // Example: Allocate cash resources to the beneficiary
-        echo "Allocating cash resources for " . $beneficiary->getName() . "\n";
+        // Get the needed amount
+        $query = "SELECT Amount FROM $table WHERE BeneficiaryID = ?";
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->bindParam(1, $beneficiaryID, PDO::PARAM_INT); // Beneficiary ID for WHERE clause
+        $stmt->execute();
+        $needed_amount = $stmt->fetchColumn();
+
+        // Mark the row as allocated
+        $query = "UPDATE $table SET Allocated = 1 WHERE BeneficiaryID = ?";
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->bindParam(1, $beneficiaryID, PDO::PARAM_INT); // Beneficiary ID for WHERE clause
+        $stmt->execute();
+
+        // Update the charity storage
+        $query = "UPDATE charity_storage SET Amount = Amount - ?, Spendings = Spendings + ?, AffectedPeople = AffectedPeople + ? WHERE type = 'Cash'";
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->bindParam(1, $needed_amount, PDO::PARAM_STR); // Amount to subtract
+        $stmt->bindParam(2, $needed_amount, PDO::PARAM_STR); // Amount to add to spendings
+        $stmt->bindParam(3, 1, PDO::PARAM_INT); // Number of affected people
+        $stmt->execute();
+
+        return true;
     }
 
-    protected function checkResources($amount)
+
+
+    protected function checkResources($table, $beneficiaryID)
     {
-        // Example: Check if there are enough cash resources for the beneficiary
-        $avaliableCash = 2000;
-        if ($amount > $avaliableCash) {
-            return false;
-        } else {
-            echo "allocated cash! \n";
-            return true;
-        }
+        // Extract the need type (e.g., 'Cash' from 'cashneedhistory')
+        $needType = explode('needhistory', strtolower($table))[0];
+
+        // Get available amount for the need type
+        $query = "SELECT Amount FROM charity_storage WHERE type = ?";
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->bindParam(1, $needType, PDO::PARAM_STR); // Bind need type
+        $stmt->execute();
+        $available_amount = $stmt->fetchColumn();
+
+        // Get needed amount for the beneficiary
+        $query = "SELECT Amount FROM $table WHERE BeneficiaryID = ?";
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->bindParam(1, $beneficiaryID, PDO::PARAM_INT); // Bind Beneficiary ID
+        $stmt->execute();
+        $needed_amount = $stmt->fetchColumn();
+
+        // Compare available and needed amounts
+        return $available_amount >= $needed_amount;
     }
+
 
     protected function getNeedType()
     {
