@@ -25,7 +25,19 @@ CREATE TABLE IF NOT EXISTS Person (
                                       FOREIGN KEY (AddressID) REFERENCES Address(AddressID) ON DELETE SET NULL
 );
 
-
+ CREATE TABLE IF NOT EXISTS events
+ (
+     title                varchar(50) not null,
+     id                   int auto_increment
+         primary key,
+     location             varchar(50) not null,
+     date                 date        not null,
+     price                double      not null,
+     type                 varchar(20) not null,
+     registered_attendees int         null,
+     constraint title
+         unique (title)
+ );
 
 
 -- Create Account table
@@ -133,4 +145,115 @@ INSERT INTO Account (PersonID, AccountEmail, AccountPasswordHashed, Status, IsUs
 VALUES (@last_person_id, 'alextaylor@example.com', 'hashed_password_789', 'Active', 1, 0);
 INSERT INTO Donor (PersonID, BloodType, IsDonorDeleted)
 VALUES (@last_person_id, NULL, 0);
+
+#Donation tables
+
+ CREATE TABLE IF NOT EXISTS Donation (
+                           DonationID INT PRIMARY KEY,
+                           DonationType VARCHAR(50),
+                           DonationDate DATE,
+                           PaymentMethod VARCHAR(50),
+                           TotalAmount DECIMAL(10, 2),
+                           PersonID INT
+ );
+
+
+ CREATE TABLE IF NOT EXISTS FoodDonation (
+                               DonationID INT PRIMARY KEY,
+                               Quantity INT,
+                               Amount DECIMAL(10, 2),
+                               FOREIGN KEY (DonationID) REFERENCES Donation(DonationID)
+ );
+
+ CREATE TABLE IF NOT EXISTS CashDonation (
+                               DonationID INT PRIMARY KEY,
+                               -- Currency VARCHAR(50),
+                               Amount DECIMAL(10, 2),
+                               FOREIGN KEY (DonationID) REFERENCES Donation(DonationID)
+ );
+ CREATE TABLE IF NOT EXISTS ClothesDonation (
+                                  DonationID INT PRIMARY KEY,
+                                  Quantity INT,
+                                  Amount DECIMAL(10, 2),
+                                  FOREIGN KEY (DonationID) REFERENCES Donation(DonationID)
+ );
+ CREATE TABLE IF NOT EXISTS DrugsDonation (
+                                DonationID INT PRIMARY KEY,
+                                Quantity INT,
+                                Amount DECIMAL(10, 2),
+                                FOREIGN KEY (DonationID) REFERENCES Donation(DonationID)
+ );
+ CREATE TABLE IF NOT EXISTS Payment (
+                          PaymentID INT PRIMARY KEY,
+                          PaymentAmount DECIMAL(10, 2),
+                          PaymentDate DATE,
+                          Status VARCHAR(50),
+                          DonationID INT,
+                          FOREIGN KEY (DonationID) REFERENCES Donation(DonationID)
+ );
+
+ CREATE TABLE IF NOT EXISTS Paypal (
+                         PaymentID INT PRIMARY KEY,
+                         PayPalEmail VARCHAR(100),
+                         FOREIGN KEY (PaymentID) REFERENCES Payment(PaymentID)
+ );
+
+ CREATE TABLE IF NOT EXISTS CreditCard (
+                             PaymentID INT PRIMARY KEY,
+                             CardNumber VARCHAR(16),
+                             CardHolderName VARCHAR(100),
+                             ExpirationDate DATE,
+                             CVV VARCHAR(4),
+                             FOREIGN KEY (PaymentID) REFERENCES Payment(PaymentID)
+ );
+
+ CREATE TABLE IF NOT EXISTS BankTransfer (
+                               PaymentID INT PRIMARY KEY,
+                               BankAccountNumber VARCHAR(50),
+                               BankName VARCHAR(100),
+                               FOREIGN KEY (PaymentID) REFERENCES Payment(PaymentID)
+ );
+
+ CREATE TABLE IF NOT EXISTS Invoice (
+                          InvoiceID INT PRIMARY KEY,
+                          InvoiceDate DATE,
+                          TotalAmount DECIMAL(10, 2),
+                          PersonID INT
+ );
+
+ CREATE TABLE IF NOT EXISTS  InvoiceDetails (
+                                 DetailID INT PRIMARY KEY,
+                                 ItemDescription VARCHAR(255),
+                                 Quantity INT,
+                                 UnitPrice DECIMAL(10, 2),
+                                 LineTotal DECIMAL(10, 2),
+                                 InvoiceID INT,
+                                 DonationID INT,
+                                 FOREIGN KEY (InvoiceID) REFERENCES Invoice(InvoiceID),
+                                 FOREIGN KEY (DonationID) REFERENCES Donation(DonationID)
+ );
+
+ INSERT INTO Donation (DonationID, DonationType, DonationDate, PaymentMethod, TotalAmount, PersonID) VALUES
+                                                                                                         (1, 'Food', '2024-11-10', 'PayPal', 10 * 10.00, 1),  -- TotalAmount = Quantity * Amount
+                                                                                                         (2, 'Cash', '2024-11-15', 'Credit Card', 200.00, 2), -- No Quantity for cash, TotalAmount = Amount
+                                                                                                         (3, 'Clothes', '2024-11-18', 'Bank Transfer', 30 * 300.00, 2), -- TotalAmount = Quantity * Amount
+                                                                                                         (4, 'Drugs', '2024-11-20', 'PayPal', 15 * 150.00, 3), -- TotalAmount = Quantity * Amount
+                                                                                                         (5, 'Food', '2024-11-22', 'Credit Card', 20 * 250.00, 1); -- TotalAmount = Quantity * Amount
+
+ INSERT INTO FoodDonation (DonationID, Quantity, Amount) VALUES
+                                                             (1, 10, 10.00),  -- DonationID = 1 from Donation table
+                                                             (5, 20, 250.00); -- DonationID = 5 from Donation table
+ INSERT INTO CashDonation (DonationID, Amount) VALUES
+     (2, 200.00); -- DonationID = 2 from Donation table
+
+ INSERT INTO ClothesDonation (DonationID, Quantity, Amount) VALUES
+     (3, 30, 300.00); -- DonationID = 3 from Donation table
+
+ INSERT INTO DrugsDonation (DonationID, Quantity, Amount) VALUES
+     (4, 15, 150.00); -- DonationID = 4 from Donation table
+
+
+
+
+
 
