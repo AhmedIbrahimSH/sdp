@@ -256,4 +256,13 @@ VALUES (@last_person_id, NULL, 0);
 
 
 
+ INSERT INTO Invoice (InvoiceID, InvoiceDate, TotalAmount, PersonID) VALUES
+     (1, '2024-11-17', 300.00, 101);
+
+ INSERT INTO InvoiceDetails (DetailID, ItemDescription, Quantity, UnitPrice, LineTotal, InvoiceID, DonationID) VALUES
+                                                                                                                   (1, 'Food Donation Kit', 2, 50.00, 100.00, 1, 1),
+                                                                                                                   (2, 'Winter Clothing', 1, 150.00, 150.00, 1, 2),
+                                                                                                                   (3, 'Education Supplies', 5, 10.00, 50.00, 1, 3);
+
+
 
