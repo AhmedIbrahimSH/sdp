@@ -1,0 +1,58 @@
+<?php
+
+class BeneficiaryController
+{
+    private $db;
+    private $admin;
+    // Constructor to inject the Beneficiary model
+    public function __construct($connection, $admin)
+    {
+        $this->db = $connection;
+        $this->admin = $admin;
+    }
+
+
+    public function createBeneficiary()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $this->admin->CreateBeneficiary($this->db, $_POST);
+        } else {
+            // Show the form if not a POST request
+            include 'Views/Create_Beneficiary.php';
+        }
+    }
+
+    public function updateBeneficiary($id)
+    {
+        // Get the beneficiary data from the model
+        $beneficiary = $this->admin->getBeneficiary($this->db, $id);
+
+        // If the form is submitted, update the beneficiary data
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Update beneficiary with the POST data
+            $this->admin->UpdateBeneficiary($this->db, $id, $_POST);
+            // Redirect to the list page after the update
+            BeneficiaryController::listBeneficiaries();
+        } else {
+            // Use the view class to render the update form
+            require_once 'Views/Beneficiary_Update_View.php';
+            $view = new UpdateBeneficiaryView();
+            $view->render($beneficiary);
+        }
+    }
+
+
+    public function deleteBeneficiary()
+    {
+        $this->admin->DeleteBeneficiary($this->db, $_GET['id']);
+        BeneficiaryController::listBeneficiaries();
+    }
+
+    public function listBeneficiaries()
+    {
+        $beneficiaries = $this->admin->getBeneficiaries($this->db);
+        include 'Views/Beneficiary_List_View.php';
+        $view = new Beneficiary_List_View();
+        $view->showBeneficiaries($beneficiaries);
+    }
+}
