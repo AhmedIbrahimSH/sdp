@@ -10,7 +10,7 @@
 <ul>
     <?php foreach ($volunteers as $volunteer): ?>
         <li>
-            <?= htmlspecialchars($volunteer['first_name'] . ' ' . $volunteer['last_name']); ?>
+            <?= htmlspecialchars($volunteer['FirstName'] . ' ' . $volunteer['LastName']); ?>
             <a href="index.php?action=show_volunteer&person_id=<?= htmlspecialchars($volunteer['person_id']); ?>">View</a>
             <a href="index.php?action=edit_volunteer&person_id=<?= htmlspecialchars($volunteer['person_id']); ?>">Edit</a>
             <a href="index.php?action=delete_volunteer&person_id=<?= htmlspecialchars($volunteer['person_id']); ?>">Delete</a>

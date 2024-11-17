@@ -5,10 +5,9 @@
 </head>
 <body>
 <h1>Volunteer Details</h1>
-
-<p><strong>Name:</strong> <?= htmlspecialchars($volunteer['first_name'] . ' ' . $volunteer['last_name']); ?></p>
-<p><strong>Email:</strong> <?= htmlspecialchars($volunteer['email']); ?></p>
-<p><strong>Phone:</strong> <?= htmlspecialchars($volunteer['phone']); ?></p>
+<p><strong>Name:</strong> <?= htmlspecialchars($volunteer['FirstName'] . ' ' . $volunteer['LastName']); ?></p>
+<p><strong>Email:</strong> <?= htmlspecialchars($volunteer['AccountEmail']); ?></p>
+<p><strong>Phone:</strong> <?= htmlspecialchars($volunteer['PersonPhone']); ?></p>
 
 <h2>Skills</h2>
 <ul>

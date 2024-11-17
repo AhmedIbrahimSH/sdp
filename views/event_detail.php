@@ -13,7 +13,8 @@
 <h2>Assigned Volunteers</h2>
 <ul>
     <?php foreach ($volunteers as $volunteer): ?>
-        <li><?= htmlspecialchars($volunteer['first_name'] . ' ' . $volunteer['last_name']); ?></li>
+        <li><?= htmlspecialchars($volunteer['FirstName'] . ' ' . $volunteer['LastName']); ?></li>
+
     <?php endforeach; ?>
 </ul>
 

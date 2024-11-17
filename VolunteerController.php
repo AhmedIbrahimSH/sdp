@@ -49,7 +49,7 @@ class VolunteerController {
 
             $personId = $this->volunteerModel->createVolunteer($data);
 
-            header("Location: index.php?action=show_volunteer&id=$personId");
+            header("Location: index.php?action=show_volunteer&person_id=$personId");
             exit;
         } else {
             include 'views/volunteer_create.php';
@@ -58,22 +58,22 @@ class VolunteerController {
 
     // Edit an existing volunteer
     public function edit($personId) {
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
-                'firstName' => $_POST['first_name'],
-                'lastName' => $_POST['last_name'],
-                'middleName' => $_POST['middle_name'] ?? null,
+                'firstName' => $_POST['firstName'],
+                'lastName' => $_POST['lastName'],
+                'middleName' => $_POST['middleName'] ?? null,
                 'nationality' => $_POST['nationality'],
                 'gender' => $_POST['gender'],
                 'phone' => $_POST['phone'],
                 'email' => $_POST['email'],
-                'addressId' => $_POST['address_id'],
+                'addressId' => $_POST['addressId'],
                 'status' => $_POST['status']
             ];
 
             $this->volunteerModel->updateVolunteer($personId, $data);
-
-            header("Location: index.php?action=show_volunteer&id=$personId");
+            header("Location: index.php?action=show_volunteer&person_id=$personId");
             exit;
         } else {
             $volunteer = $this->volunteerModel->getVolunteerById($personId);

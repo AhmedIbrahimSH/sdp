@@ -34,26 +34,64 @@ class  Volunteer extends Account {
     }
 
 
-    public function createPerson($data) {
-        $stmt = $this->db->prepare("INSERT INTO person (name, email) VALUES (:name, :email)");
-        $stmt->execute(['name' => $data['name'], 'email' => $data['email']]);
-        return $this->db->lastInsertId();  // Return person_id
+    public function createVolunteer($data) {
+        try {
+            // Start transaction
+            $this->db->beginTransaction();
+
+            // Step 1: Create Person
+            $stmt = $this->db->prepare("
+            INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, AddressID)
+            VALUES (:firstName, :lastName, :middleName, :nationality, :gender, :phone, :addressId)
+        ");
+            $stmt->execute([
+                'firstName' => $data['firstName'],
+                'lastName' => $data['lastName'],
+                'middleName' => $data['middleName'] ?? null,
+                'nationality' => $data['nationality'] ?? null,
+                'gender' => $data['gender'],
+                'phone' => $data['phone'],
+                'addressId' => 1
+            ]);
+            $personId = $this->db->lastInsertId(); // Get the newly created person_id
+
+            // Step 2: Create Account
+            $stmt = $this->db->prepare("
+            INSERT INTO Account (person_id, AccountEmail, Status)
+            VALUES (:personId, :email, :status)
+        ");
+            $stmt->execute([
+                'personId' => $personId,
+                'email' => $data['email'],
+                'status' => $data['status']
+            ]);
+
+            // Step 3: Create Volunteer
+            $stmt = $this->db->prepare("
+            INSERT INTO Volunteer (person_id)
+            VALUES (:personId)
+        ");
+            $stmt->execute(['personId' => $personId]);
+
+            // Commit transaction
+            $this->db->commit();
+
+            return $personId;
+        } catch (Exception $e) {
+            // Rollback on failure
+            $this->db->rollBack();
+            throw $e;
+        }
     }
 
-    public function createVolunteer($data) {
-        $stmt = $this->db->prepare("
-            INSERT INTO volunteer (person_id, phone, address, joined_date, role, status)
-            VALUES (:person_id, :phone, :address, :joined_date, :role, :status)
-        ");
-        return $stmt->execute($data);
-    }
 
     public function getVolunteerById($id) {
         $stmt = $this->db->prepare("
-            SELECT v.id, v.person_id, p.name, p.email, v.phone, v.address, v.joined_date, v.role, v.status
+            SELECT v.person_id, p.FirstName, p.LastName, a.AccountEmail, p.PersonPhone, p.AddressID, p.MiddleName, p.Nationality, p.Gender, p.PersonPhone, a.Status
             FROM volunteer v
-            JOIN person p ON v.person_id = p.person_id
-            WHERE v.person_id = :id
+            JOIN person p ON v.person_id = p.person_id 
+            JOIN Account a ON  a.person_id = p.person_id
+            WHERE v.person_id = :id AND v.IsVolunteerDeleted = 0
         ");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -63,16 +101,62 @@ class  Volunteer extends Account {
 
 
     public function updateVolunteer($id, $data) {
+        // Update Person table
         $stmt = $this->db->prepare("
-            UPDATE volunteer SET phone = :phone, address = :address, joined_date = :joined_date, role = :role, status = :status
-            WHERE id = :id
+        UPDATE Person 
+        SET 
+            FirstName = :firstName,
+            LastName = :lastName,
+            MiddleName = :middleName,
+            Nationality = :nationality,
+            Gender = :gender,
+            PersonPhone = :phone,
+            AddressID = :addressId
+        WHERE person_id = :id
+    ");
+        $stmt->execute([
+            'firstName' => $data['firstName'],
+            'lastName' => $data['lastName'],
+            'middleName' => $data['middleName'],
+            'nationality' => $data['nationality'],
+            'gender' => $data['gender'],
+            'phone' => $data['phone'],
+            'addressId' => 1,
+            'id' => $id
+        ]);
+
+        // Update Account table
+        $stmt = $this->db->prepare("
+        UPDATE Account 
+        SET 
+            AccountEmail = :email,
+            Status = :status
+        WHERE person_id = :id
+    ");
+        $stmt->execute([
+            'email' => $data['email'],
+            'status' => $data['status'],
+            'id' => $id
+        ]);
+
+        // Update Volunteer table (if necessary)
+        if (isset($data['isVolunteerDeleted'])) {
+            $stmt = $this->db->prepare("
+            UPDATE Volunteer 
+            SET IsVolunteerDeleted = :isVolunteerDeleted
+            WHERE person_id = :id
         ");
-        $stmt->execute(array_merge(['id' => $id], $data));
+            $stmt->execute([
+                'isVolunteerDeleted' => $data['isVolunteerDeleted'],
+                'id' => $id
+            ]);
+        }
     }
+
 
     public function deleteVolunteer($id) {
         $stmt = $this->db->prepare("
-            DELETE FROM person WHERE person_id = (SELECT person_id FROM volunteer WHERE id = :id)
+            DELETE FROM person WHERE person_id = :id
         ");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();

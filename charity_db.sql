@@ -5,16 +5,16 @@ CREATE DATABASE  charity_db;
 USE charity_db;
 
 CREATE TABLE  Address (
-                                       AddressID INT AUTO_INCREMENT PRIMARY KEY, -- Unique ID for each address
-                                       Name VARCHAR(255) NOT NULL,              -- Name of the address
+    AddressID INT AUTO_INCREMENT PRIMARY KEY, -- Unique ID for each address
+    Name VARCHAR(255) NOT NULL,              -- Name of the address
     ParentID INT DEFAULT NULL,               -- Self-referencing Parent ID
     FOREIGN KEY (ParentID) REFERENCES Address(AddressID) ON DELETE SET NULL
     );
 
 -- Create Person table
 CREATE TABLE  Person (
-                                      person_id INT AUTO_INCREMENT PRIMARY KEY,
-                                      FirstName VARCHAR(100) NOT NULL,
+    person_id INT AUTO_INCREMENT PRIMARY KEY,
+    FirstName VARCHAR(100) NOT NULL,
     LastName VARCHAR(100) NOT NULL,
     MiddleName VARCHAR(100),
     Nationality VARCHAR(100),
@@ -30,38 +30,38 @@ CREATE TABLE  Person (
 
 -- Create Account table
 CREATE TABLE   Account (
-                                        person_id INT PRIMARY KEY,
-                                        AccountEmail VARCHAR(100) UNIQUE NOT NULL,
-    AccountPasswordHashed  VARCHAR(255) NOT NULL UNIQUE ,
+    person_id INT PRIMARY KEY,
+    AccountEmail VARCHAR(100) UNIQUE NOT NULL,
+    AccountPasswordHashed  VARCHAR(255) NOT NULL DEFAULT 'admin',
     Status ENUM('Active', 'Inactive') DEFAULT 'Active',
     IsUser TINYINT(1) DEFAULT 1,
     IsAccountDeleted TINYINT(1) DEFAULT 0,
     FOREIGN KEY (person_id) REFERENCES Person(person_id) ON DELETE CASCADE
     );
 CREATE TABLE  Volunteer (
-                            person_id INT PRIMARY KEY,
-                                         IsVolunteerDeleted TINYINT(1) DEFAULT 0,
+    person_id INT PRIMARY KEY,
+    IsVolunteerDeleted TINYINT(1) DEFAULT 0,
     FOREIGN KEY (person_id) REFERENCES Account(person_id) ON DELETE CASCADE
     );
 CREATE TABLE  Skill (
-                                     id INT AUTO_INCREMENT PRIMARY KEY,      -- Foreign key to volunteers table
-                                     skill VARCHAR(255) NOT NULL
+    id INT AUTO_INCREMENT PRIMARY KEY,      -- Foreign key to volunteers table
+    skill VARCHAR(255) NOT NULL
     );
 
 -- Create the volunteer_skills table to store skills associated with each volunteer
 CREATE TABLE  Volunteer_Skills (
-                                  id INT AUTO_INCREMENT PRIMARY KEY,
-                                  person_id INT,                            -- Foreign key to volunteers table
-                                  skill_id INT,
-                                  IsVolunteerSkillDeleted TINYINT(1) DEFAULT 0,
-                                  FOREIGN KEY (person_id) REFERENCES Volunteer(person_id) ON DELETE CASCADE,
-                                  FOREIGN KEY (skill_id) REFERENCES Skill(id) ON DELETE CASCADE
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    person_id INT,                            -- Foreign key to volunteers table
+    skill_id INT,
+    IsVolunteerSkillDeleted TINYINT(1) DEFAULT 0,
+    FOREIGN KEY (person_id) REFERENCES Volunteer(person_id) ON DELETE CASCADE,
+    FOREIGN KEY (skill_id) REFERENCES Skill(id) ON DELETE CASCADE
 );
 
 -- Create Event table (for reference)
 CREATE TABLE  Event (
-                                     EventID INT AUTO_INCREMENT PRIMARY KEY,
-                                     EventName VARCHAR(255) NOT NULL,
+    EventID INT AUTO_INCREMENT PRIMARY KEY,
+    EventName VARCHAR(255) NOT NULL,
     EventDate DATE NOT NULL,
     Description TEXT
     );
@@ -69,10 +69,10 @@ CREATE TABLE  Event (
 
 -- Volunteer_Events table to associate volunteers with events
 CREATE TABLE  Volunteer_Events (
-                                                id INT AUTO_INCREMENT PRIMARY KEY,
-                                                person_id INT NOT NULL,                            -- Foreign key to volunteers
-                                                event_id INT NOT NULL,                             -- Foreign key to Event
-                                                IsVolunteerEventDeleted TINYINT(1) DEFAULT 0,
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    person_id INT NOT NULL,                            -- Foreign key to volunteers
+    event_id INT NOT NULL,                             -- Foreign key to Event
+    IsVolunteerEventDeleted TINYINT(1) DEFAULT 0,
     FOREIGN KEY (person_id) REFERENCES Volunteer(person_id) ON DELETE CASCADE,
     FOREIGN KEY (event_id) REFERENCES Event(EventID) ON DELETE CASCADE
     );
@@ -80,59 +80,59 @@ CREATE TABLE  Volunteer_Events (
 
 -- Create the volunteer_tasks table to store tasks associated with each volunteer
 CREATE TABLE  Volunteer_Tasks (
-                                 id INT AUTO_INCREMENT PRIMARY KEY,
-                                 person_id INT,                            -- Foreign key to volunteers table
-                                 task_name VARCHAR(255) NOT NULL,
-                                 description TEXT,
-                                 due_date DATE,
-                                 FOREIGN KEY (person_id) REFERENCES Volunteer(person_id) ON DELETE CASCADE
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    person_id INT,                            -- Foreign key to volunteers table
+    task_name VARCHAR(255) NOT NULL,
+    description TEXT,
+    due_date DATE,
+    FOREIGN KEY (person_id) REFERENCES Volunteer(person_id) ON DELETE CASCADE
 );
 -- Create the volunteer_schedule table to store schedule information for each volunteer
 CREATE TABLE  volunteer_schedule (
-                                    id INT AUTO_INCREMENT PRIMARY KEY,
-                                    person_id INT,                            -- Foreign key to Volunteer table
-                                    schedule_date DATE NOT NULL,
-                                    hours INT NOT NULL,
-                                    FOREIGN KEY (person_id) REFERENCES Volunteer(person_id) ON DELETE CASCADE
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    person_id INT,                            -- Foreign key to Volunteer table
+    schedule_date DATE NOT NULL,
+    hours INT NOT NULL,
+    FOREIGN KEY (person_id) REFERENCES Volunteer(person_id) ON DELETE CASCADE
 );
 
 -- Create Admin table
 CREATE TABLE    Admin (
-                                       person_id INT PRIMARY KEY,
-                                       AdminType ENUM('BeneficiaryAdmin', 'DonorAdmin', 'VolunteerAdmin') NOT NULL,
+    person_id INT PRIMARY KEY,
+    AdminType ENUM('BeneficiaryAdmin', 'DonorAdmin', 'VolunteerAdmin') NOT NULL,
     FOREIGN KEY (person_id) REFERENCES Account(person_id) ON DELETE CASCADE
     );
 
 
 CREATE TABLE  Donor (
-                                     person_id INT PRIMARY KEY,
-                                     BloodType VARCHAR(3),
+    person_id INT PRIMARY KEY,
+    BloodType VARCHAR(3),
     IsDonorDeleted TINYINT(1) DEFAULT 0,
     FOREIGN KEY (person_id) REFERENCES Account(person_id) ON DELETE CASCADE
     );
 
 
 CREATE TABLE  Beneficiary (
-                                           person_id INT PRIMARY KEY,
-                                           IsBeneficiaryDeleted TINYINT(1) DEFAULT 0,
+    person_id INT PRIMARY KEY,
+    IsBeneficiaryDeleted TINYINT(1) DEFAULT 0,
     FOREIGN KEY (person_id) REFERENCES Account(person_id) ON DELETE CASCADE
     );
 -- Create Appointments table
 CREATE TABLE   Appointments (
-                                             AppointmentID INT AUTO_INCREMENT PRIMARY KEY,
-                                             AppointmentDate DATE NOT NULL,
-                                             AppointmentTime TIME NOT NULL,
-                                             CurrentCapacity INT DEFAULT 0,
-                                             MaxCapacity INT NOT NULL
+    AppointmentID INT AUTO_INCREMENT PRIMARY KEY,
+    AppointmentDate DATE NOT NULL,
+    AppointmentTime TIME NOT NULL,
+    CurrentCapacity INT DEFAULT 0,
+    MaxCapacity INT NOT NULL
 
 );
 
 -- Create Reserve table
 CREATE TABLE  Reserve (
-                                       person_id INT,
-                                       AppointmentID INT,
-                                       ReservationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                       PRIMARY KEY (person_id, AppointmentID),
+    person_id INT,
+    AppointmentID INT,
+    ReservationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (person_id, AppointmentID),
     FOREIGN KEY (person_id) REFERENCES Donor(person_id) ON DELETE CASCADE,
     FOREIGN KEY (AppointmentID) REFERENCES Appointments(AppointmentID) ON DELETE CASCADE
     );
