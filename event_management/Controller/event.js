@@ -13,7 +13,7 @@
 },
     events: function(fetchInfo, successCallback, failureCallback) {
         // AJAX call to get events from PHP
-        fetch('../Model/load_events.php')
+        fetch('../Model/events_json_retrieval.php')
             .then(response => response.json())
             .then(data => successCallback(data))
             .catch(error => failureCallback(error));

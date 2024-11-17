@@ -2,11 +2,11 @@
 
 require_once 'observer.php';
 require_once 'publisher.php';
+
 class subscriber implements observer
 {
     private $publisher;
     private $subscriber_name;
-
     private $subscriber_type;
 
     public function __construct($subscriber_name, $subscriber_type)

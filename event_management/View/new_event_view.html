@@ -7,23 +7,20 @@
 
     <link rel = "stylesheet" href="new_event.css">
     <!-- Link to Google Places API (Replace YOUR_API_KEY with your actual key) -->
-<!--    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>-->
 
     <!-- Link to FullCalendar CSS and JS -->
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
     <style>
-        /* Target event elements */
         .fc-event {
-            font-size: 12px;           /* Adjust font size to fit within cell */
-            padding: 2px;              /* Reduce padding */
-            overflow: hidden;          /* Hide overflow text */
-            white-space: nowrap;       /* Prevent text wrapping */
-            text-overflow: ellipsis;   /* Add ellipsis for long text */
+            font-size: 12px;
+            padding: 2px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
         .fc-time, .fc-title {
-            display: inline-block;     /* Display time and title inline */
-            vertical-align: middle;    /* Center content vertically */
+            display: inline-block;
         }
     </style>
 
@@ -32,11 +29,8 @@
 </head>
 <body>
 
-<!--<h2>Add New Event</h2>-->
 <br>
 
-<!--<button class="add-event-button">Show events history</button>-->
-<!-- Form to add an event -->
 <form action="../Controller/add_event.php" method="post" id="eventForm">
     <br>
     <label style="text-align: center">Create new event</label>
@@ -44,7 +38,6 @@
     <label for="title">Event Name:</label>
     <input type="text" id="title" name="title" required><br><br>
 
-    <!-- Location Dropdown with popular places in Cairo, Egypt -->
     <label for="location">Location:</label>
     <select id="location" name="location" required>
         <option value="">Select a Location</option>

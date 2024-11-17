@@ -8,13 +8,6 @@ header('Content-Type: application/json'); // Ensure JSON response
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $input = json_decode(file_get_contents('php://input'), true);
 
-    // Check if decoding was successful
-//    if (is_null($input)) {
-//        echo json_encode(['success' => false, 'message' => 'No JSON data received']);
-//        exit;
-//    }
-
-    // Extract fields with null check
     $title = isset($input['title']) ? $input['title'] : null;
     $location = isset($input['location']) ? $input['location'] : null;
     $date = isset($input['date']) ? $input['date'] : null;
