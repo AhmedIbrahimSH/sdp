@@ -25,7 +25,7 @@ imageline($image, $line_x, 0, $line_x, $height, $gray);
 $eventName = "Event: Tech Conference";
 $eventDate = "Date: 2024-12-01";
 $eventLocation = "Location: Cairo, Egypt";
-
+//
 imagestring($image, 5, 20, 50, $eventName, $black);
 imagestring($image, 5, 20, 100, $eventDate, $black);
 imagestring($image, 5, 20, 150, $eventLocation, $black);
