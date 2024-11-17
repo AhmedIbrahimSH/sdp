@@ -3,7 +3,7 @@
 
 require 'subject.php';
 
-class publisher implements  sub
+class publisher implements  subject
 {
     public static $subscribers = array();
     private $email;
@@ -34,7 +34,7 @@ class publisher implements  sub
     {
         foreach (self::$subscribers as $subscriber) {
             if($type == $subscriber->getEventType()) {
-                $subscriber->sendEmail($event_name);
+                $subscriber->sendMsg($event_name, "Hey " . $subscriber->getObserverName() . " , a new event $event_name has been added!");
             }
         }
     }
@@ -42,9 +42,16 @@ class publisher implements  sub
     public function processForm() {
         if ($this->subscribe) {
             $this->notify();
-        } else {
         }
     }
 
 
+    public function notify_cancellation($event_name, $event_date, $type)
+    {
+        foreach (self::$subscribers as $subscriber) {
+            if($type == $subscriber->getEventType()) {
+                $subscriber->sendMsg($event_name, $event_date);
+            }
+        }
+    }
 }

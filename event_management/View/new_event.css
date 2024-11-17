@@ -9,6 +9,7 @@ body {
     form {
         flex: 0 0 300px;
         margin-right: 60px;
+        /*margin-top: 30px;*/
         border: 1px solid #ccc; /* Light border */
         border-radius: 8px; /* Rounded corners for a modern look */
         /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); !* Soft shadow *!*/

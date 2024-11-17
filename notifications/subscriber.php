@@ -21,10 +21,16 @@ class subscriber implements observer
         return $this->subscriber_type;
     }
 
-    public function sendEmail($event_name) {
-        $message = "Hey $this->subscriber_name a new event $event_name is added ";
+    public function getObserverName()
+    {
+        return $this->subscriber_name;
+    }
+
+    public function sendMsg($event_name, $msg = null) {
         $logFile = '../../notifications.log';
-        file_put_contents($logFile, date('[Y-m-d H:i:s] ') . $message . PHP_EOL, FILE_APPEND);
+        file_put_contents($logFile, date('[Y-m-d H:i:s] ') . $msg . PHP_EOL, FILE_APPEND);
 
     }
+
+
 }

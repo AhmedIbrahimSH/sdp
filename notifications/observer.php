@@ -3,5 +3,5 @@
 
 interface observer
 {
-    public function sendEmail($event_name);
+    public function sendMsg($event_name, $msg = null);
 }
