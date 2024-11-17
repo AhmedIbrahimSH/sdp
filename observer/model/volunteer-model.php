@@ -1,10 +1,8 @@
 <?php
-// namespace notify;
 require_once "observer.php";
 require_once "event-model.php";
 class Volunteer implements Observer {
     private $name;
-
     public function __construct($name) {
         $this->name = $name;
     }

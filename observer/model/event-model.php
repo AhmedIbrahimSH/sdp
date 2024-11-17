@@ -1,11 +1,8 @@
 <?php
-// namespace notify;
 require_once "volunteer-model.php";
 class Event {
     private $observers = [];  // List of subscribers (volunteers)
     private $eventName;
-
-
     public function __construct($eventName) {
         $this->eventName = $eventName;
     }
@@ -17,9 +14,10 @@ class Event {
 
     // Unsubscribe a volunteer from the event
     public function unsubscribe(Volunteer $volunteer) {
-        $this->observers = array_filter($this->observers, function($observer) use ($volunteer) {
-            return $observer !== $volunteer;
-        });
+        $key = array_search($volunteer, $this->observers, true);
+        if ($key !== false) {
+            unset($this->observers[$key]);
+        }
     }
 
     // Notify all subscribers (volunteers) about the event
@@ -31,6 +29,23 @@ class Event {
 
     // Get event details (e.g., the event name)
     public function getEventDetails() {
-        return $this->eventName;
+        return "Event: " . $this->eventName;
+    }
+}
+class WorkshopEvent extends Event {
+    public function __construct($eventName = "Workshop") {
+        parent::__construct($eventName);
+    }
+}
+
+class FundraiserEvent extends Event {
+    public function __construct($eventName = "Fundraiser") {
+        parent::__construct($eventName);
+    }
+}
+
+class ProgramEvent extends Event {
+    public function __construct($eventName = "Program") {
+        parent::__construct($eventName);
     }
 }

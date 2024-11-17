@@ -1,27 +1,34 @@
 <?php
-// namespace notify;
 require_once "../model/event-model.php";
 require_once  "../model/volunteer-model.php";
 class NotificationController {
-    private $event;
-    private $volunteers;
-
+    private $events = [];
     public function __construct() {
-        // Create an event and volunteer objects
-        $this->event = new Event("Charity Run");
-        $this->volunteers = [
-            new Volunteer("John Doe"),
-            new Volunteer("Jane Smith"),
-        ];
-
-        // Subscribe volunteers to the event
-        foreach ($this->volunteers as $volunteer) {
-            $volunteer->subscribeToEvent($this->event);
-        }
+        // Initialize events for different types
+        $this->events['workshop'] = new WorkshopEvent();
+        $this->events['fundraiser'] = new FundraiserEvent();
+        $this->events['program'] = new ProgramEvent();
     }
 
-    // Notify all volunteers about the event
-    public function notifyVolunteers() {
-        $this->event->notifyVolunteers();
+    // Add a volunteer to a specific event type
+    public function addVolunteer($name, $eventType) {
+        if (!isset($this->events[$eventType])) {
+            echo "Invalid event type: $eventType<br>";
+            return;
+        }
+
+        $volunteer = new Volunteer($name);
+        $volunteer->subscribeToEvent($this->events[$eventType]);
+        echo "{$name} has been registered for the {$eventType} event.<br>";
+    }
+
+    // Notify all subscribers of a specific event type
+    public function notifyVolunteers($eventType) {
+        if (!isset($this->events[$eventType])) {
+            echo "Invalid event type: $eventType<br>";
+            return;
+        }
+
+        $this->events[$eventType]->notifyVolunteers();
     }
 }
