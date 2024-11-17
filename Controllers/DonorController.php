@@ -49,10 +49,8 @@ class DonorController
     // Update donor details
     public function update($id, $data)
     {
-        echo "AFTERRRRRRRRRRRRRRRR ";
         try {
             $this->model->updateDonor($id, $data);
-            echo "REDIRECT";
             header("Location: index.php?action=showAllDonors"); // Redirect to donor list
         } catch (Exception $e) {
             throw new Exception("Failed to update donor: " . $e->getMessage());

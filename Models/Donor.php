@@ -99,12 +99,40 @@ class Donor
             (City, Country, Street)
             VALUES (?, ?, ?)
         ");
+            // Insert Country into Address table
+            $stmt = $this->db->prepare("
+            INSERT INTO Address 
+            (Name, ParentID) 
+            VALUES (?, ?)
+        ");
             $stmt->execute([
-                $data['city'],
-                $data['country'],
-                $data['street'],
-
+                $data['country'], // Country Name
+                NULL // ParentID for Country is NULL
             ]);
+            $countryID = $this->db->lastInsertId();
+            if (!$countryID) {
+                throw new Exception("Failed to insert country into address.");
+            }
+
+            // Insert City into Address table
+            $stmt->execute([
+                $data['city'], // City Name
+                $countryID // ParentID for City is Country ID
+            ]);
+            $cityID = $this->db->lastInsertId();
+            if (!$cityID) {
+                throw new Exception("Failed to insert city into address.");
+            }
+
+            // Insert Street into Address table
+            $stmt->execute([
+                $data['street'], // Street Name
+                $cityID // ParentID for Street is City ID
+            ]);
+            $streetID = $this->db->lastInsertId();
+            if (!$streetID) {
+                throw new Exception("Failed to insert street into address.");
+            }
             $addressID = $this->db->lastInsertId();
             if (!$addressID) {
                 throw new Exception("Failed to insert address.");
