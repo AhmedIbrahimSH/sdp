@@ -1,7 +1,7 @@
 <?php
 // namespace notify;
-require_once __DIR__ ."observer.php";
-require_once __DIR__ . "event-model.php";
+require_once "observer.php";
+require_once "event-model.php";
 class Volunteer implements Observer {
     private $name;
 

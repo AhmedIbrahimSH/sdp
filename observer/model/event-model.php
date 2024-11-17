@@ -1,6 +1,6 @@
 <?php
 // namespace notify;
-require_once __DIR__ ."volunteer-model.php";
+require_once "volunteer-model.php";
 class Event {
     private $observers = [];  // List of subscribers (volunteers)
     private $eventName;

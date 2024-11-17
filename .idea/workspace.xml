@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d14e4477-a9b0-4956-80cf-499b2ff5c6c1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/observer/view/notification-view.php" beforeDir="false" afterPath="$PROJECT_DIR$/observer/view/notification-view.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="CSS File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP" />
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2oQhD9wLtyUDRpSN8N4oKXRh6Iq" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Database Script.database.sql (1).executor": "Run",
+    "Database Script.database.sql.executor": "Run",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "JavaScript Debug.event_history.php.executor": "Debug",
+    "JavaScript Debug.new_event_view.html.executor": "Debug",
+    "PHP Script.database_connection.php.executor": "Debug",
+    "PHP Script.event_history.php.executor": "Debug",
+    "PHP Script.events_history_view.php.executor": "Debug",
+    "PHP Script.get_events.php.executor": "Run",
+    "PHP Script.load_events.php.executor": "Run",
+    "PHP Script.new_event_view.html.executor": "Debug",
+    "PHP Script.subscriber.php.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "notification__observer",
+    "last_opened_file_path": "A:/Ahmed_SH/Uni/9th semester/sdp/event_management/View/new_event_view.html",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "php.override.implement.member.chooser.php.doc": "NONE",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ],
+    "RunConfigurationTargetLRU": [
+      "68f55503-b8cc-484c-81e5-fb39ca44dd30"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="A:\Ahmed_SH\Uni\9th semester\sdp" />
+      <recent name="A:\Ahmed_SH\Uni\9th semester\sdp\event_management\Controller" />
+      <recent name="A:\Ahmed_SH\Uni\9th semester\sdp\event_management" />
+      <recent name="A:\Ahmed_SH\Uni\9th semester\sdp\event_management\View" />
+    </key>
+  </component>
+  <component name="RunManager" selected="PHP Script.new_event_view.html">
+    <configuration name="database.sql (1)" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
+      <script-file value="$PROJECT_DIR$/event_management/Model/database.sql" />
+      <script-mode>FILE</script-mode>
+      <data-source id="68f55503-b8cc-484c-81e5-fb39ca44dd30" namespace="schema/&quot;event_management&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="database.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
+      <script-file value="$PROJECT_DIR$/event_management/Model/database.sql" />
+      <script-mode>FILE</script-mode>
+      <data-source id="68f55503-b8cc-484c-81e5-fb39ca44dd30" />
+      <method v="2" />
+    </configuration>
+    <configuration name="new_event_view.html" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/event_management/View/new_event_view.html">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="PHP" />
+        </PhpTestInterpreterSettings>
+      </CommandLine>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Database Script.database.sql (1)" />
+      <item itemvalue="Database Script.database.sql" />
+      <item itemvalue="PHP Script.new_event_view.html" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="PHP Script.new_event_view.html" />
+        <item itemvalue="Database Script.database.sql (1)" />
+        <item itemvalue="Database Script.database.sql" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-PS-242.23726.107" />
+        <option value="bundled-php-predefined-a98d8de5180a-90914f2295cb-com.jetbrains.php.sharedIndexes-PS-242.23726.107" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d14e4477-a9b0-4956-80cf-499b2ff5c6c1" name="Changes" comment="" />
+      <created>1730807585438</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1730807585438</updated>
+      <workItem from="1730807586401" duration="107000" />
+      <workItem from="1730807700838" duration="85000" />
+      <workItem from="1730807793522" duration="7938000" />
+      <workItem from="1731075756214" duration="6941000" />
+      <workItem from="1731184550895" duration="421000" />
+      <workItem from="1731184981912" duration="5593000" />
+      <workItem from="1731190642156" duration="6137000" />
+      <workItem from="1731252581178" duration="2501000" />
+      <workItem from="1731425224544" duration="4368000" />
+      <workItem from="1731429642245" duration="5913000" />
+      <workItem from="1731440461546" duration="1329000" />
+      <workItem from="1731444396155" duration="2073000" />
+      <workItem from="1731529616477" duration="11238000" />
+      <workItem from="1731541749070" duration="6844000" />
+      <workItem from="1731590706908" duration="1312000" />
+      <workItem from="1731617756401" duration="3000" />
+      <workItem from="1731671585303" duration="269000" />
+      <workItem from="1731761382596" duration="9300000" />
+      <workItem from="1731847494935" duration="6022000" />
+      <workItem from="1731854156178" duration="959000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/event_management/Model/load_events.php</url>
+          <line>21</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/event_management/Controller/add_event.php</url>
+          <line>39</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/event_management/Controller/add_event.php</url>
+          <line>41</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

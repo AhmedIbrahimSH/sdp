@@ -1,7 +1,7 @@
 <?php
 // namespace notify;
-require_once __DIR__ ."../model/event-model.php";
-require_once __DIR__ ."../model/volunteer-model.php";
+require_once "../model/event-model.php";
+require_once  "../model/volunteer-model.php";
 class NotificationController {
     private $event;
     private $volunteers;
