@@ -39,8 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $publisher = new publisher($_POST);
-    $subscriber = new subscriber("ahmed", "fundraiser");
-    $secsub = new subscriber("omar", "workshop");
+    $first_subscriber = new subscriber("ahmed", "fundraiser");
+    $second_subscriber = new subscriber("omar", "workshop");
 
     $publisher->notify($title, $type);
 

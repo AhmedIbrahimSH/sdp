@@ -71,3 +71,17 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+/* Add this CSS code to your stylesheet */
+.delete-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.delete-button:hover {
+    background-color: darkred;
+}
