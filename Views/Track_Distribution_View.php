@@ -22,10 +22,11 @@ class Track_Distribution_View
         echo '<table class="data-table">';
         echo '<thead>';
         echo '<tr>';
-        echo '<th>Table</th>';
+        echo '<th>Resource Type</th>';
         echo '<th>Beneficiary ID</th>';
         echo '<th>Amount</th>';
-        echo '<th>Allocated</th>';
+        echo '<th>RegisterDate</th>';
+        echo '<th>Purpose</th>';
         echo '</tr>';
         echo '</thead>';
         echo '<tbody>';
@@ -35,7 +36,8 @@ class Track_Distribution_View
             echo '<td>' . htmlspecialchars($need['table']) . '</td>';
             echo '<td>' . htmlspecialchars($need['BeneficiaryID']) . '</td>';
             echo '<td>' . htmlspecialchars($need['Amount']) . '</td>';
-            echo '<td>' . ($need['Allocated'] == 1 ? 'Yes' : 'No') . '</td>';
+            echo '<td>' . htmlspecialchars($need['RegisterDate']) . '</td>';
+            echo '<td>' . htmlspecialchars($need['purpose']) . '</td>';
             echo '</tr>';
         }
 

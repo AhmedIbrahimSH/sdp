@@ -22,6 +22,7 @@ class Beneficiary_Profile_View
         echo '<div class="info-item"><span class="label">Nationality:</span> ' . htmlspecialchars($beneficiary->getNationality()) . '</div>';
         echo '<div class="info-item"><span class="label">Gender:</span> ' . htmlspecialchars($beneficiary->getGender()) . '</div>';
         echo '<div class="info-item"><span class="label">Blood Type:</span> ' . htmlspecialchars($beneficiary->getBloodType()) . '</div>';
+        echo '<div class="info-item"><span class="label">Beneficiary ID:</span> ' . htmlspecialchars($beneficiary->getPersonID()) . '</div>';
         echo '</div>';
         echo '</div>';
 
@@ -82,7 +83,7 @@ class Beneficiary_Profile_View
         echo '<div class="available-needs">';
         echo '<br>';
         echo '<h3 class="section-heading">Register New Beneficiary Need</h3>';
-        $allNeeds = ['Cash', 'Food', 'Clothing', 'Shelter', 'Drugs', 'Medical'];
+        $allNeeds = ['Cash', 'Food', 'Clothing', 'Shelter', 'Drug', 'Medical'];
         foreach ($allNeeds as $need) {
             echo '<div class="need-card">';
             echo '<form method="POST" action="index.php?action=register_need">';

@@ -53,14 +53,6 @@ class Beneficiary extends Person
     public function RequestNeed($need, $amount)
     {
 
-
-        // // Check for duplicate need type
-        // foreach ($this->needs as $existingNeed) {
-        //     if (get_class($existingNeed) === $need) {
-        //         return "Error: Duplicate need type";
-        //     }
-        // }
-
         $need_obj = NeedFactory::createNeed($need);
         if ($need_obj) {
             if ($need_obj->Register_Need_Template($this, $this->PersonID, $amount)) {

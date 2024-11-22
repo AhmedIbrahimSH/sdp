@@ -44,6 +44,7 @@ class CashNeed extends NeedTemplateMethod
 
     protected function allocateResources($table, $beneficiaryID)
     {
+
         // Get the needed amount
         $query = "SELECT Amount FROM $table WHERE BeneficiaryID = ?";
         $stmt = $this->dbConnection->prepare($query);
@@ -62,7 +63,8 @@ class CashNeed extends NeedTemplateMethod
         $stmt = $this->dbConnection->prepare($query);
         $stmt->bindParam(1, $needed_amount, PDO::PARAM_STR); // Amount to subtract
         $stmt->bindParam(2, $needed_amount, PDO::PARAM_STR); // Amount to add to spendings
-        $stmt->bindParam(3, 1, PDO::PARAM_INT); // Number of affected people
+        $affectedPeople = 1; // Fixed number of affected people
+        $stmt->bindParam(3, $affectedPeople, PDO::PARAM_INT); // Number of affected people
         $stmt->execute();
 
         return true;

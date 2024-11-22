@@ -78,6 +78,7 @@ CREATE TABLE IF NOT EXISTS Charity_Storage (
                              type VARCHAR(100) NOT NULL,
                              Amount DECIMAL(10, 2) NOT NULL,
                              Spendings DECIMAL(10, 2) NOT NULL,
+                             Donors INT DEFAULT 3,
                              AffectedPeople INT DEFAULT 0
                                 
 );
@@ -147,8 +148,7 @@ CREATE TABLE IF NOT EXISTS DrugNeedHistory (
                                 Allocated BOOLEAN DEFAULT FALSE,
                                 Accepted BOOLEAN DEFAULT FALSE,
                                 RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                purpose TEXT DEFAULT CONCAT(DrugType, " - ","Assistance for Low Income/Has Chronic Disease beneficiary"),
-                                DrugType VARCHAR(100) NOT NULL,
+                                purpose TEXT DEFAULT "Assistance for Low Income/Has Chronic Disease beneficiary",
                                 FOREIGN KEY (BeneficiaryID) REFERENCES Beneficiary(PersonID) ON DELETE CASCADE
 );
 
@@ -198,7 +198,7 @@ VALUES ('Ahmed', 'Hassan', 'Ali', 'Egyptian', 'Male', '01012345678', 1);
 
 SET @last_person_id = LAST_INSERT_ID();
 INSERT INTO Beneficiary (PersonID, income, blood_type, hasChronicDisease, hasDisability, isHomeless)
-VALUES (@last_person_id, 2000.00, 'A+', FALSE, FALSE, FALSE);
+VALUES (@last_person_id, 2000.00, 'A+', FALSE, TRUE, FALSE);
 
 
 
@@ -246,13 +246,9 @@ VALUES ((SELECT PersonID FROM Beneficiary WHERE PersonID = 2), 1000.00, TRUE,TRU
 
 
 UPDATE Charity_Storage 
-SET Spendings = Spendings + 1000.00 
+SET Spendings = Spendings + 1000.00, Amount = Amount - 1000.00, AffectedPeople = AffectedPeople + 1
 WHERE type = 'Cash';
 
-
-UPDATE Charity_Storage 
-SET AffectedPeople = AffectedPeople + 1
-WHERE type = 'Cash';
 
 
 
@@ -261,11 +257,7 @@ VALUES ((SELECT PersonID FROM Beneficiary WHERE PersonID = 2), 1.00, TRUE,TRUE);
 
 
 UPDATE Charity_Storage 
-SET Spendings = Spendings + 1000.00 
-WHERE type = 'Food';
-
-UPDATE Charity_Storage 
-SET AffectedPeople = AffectedPeople + 1
+SET Spendings = Spendings + 1.00, Amount = Amount - 1.00, AffectedPeople = AffectedPeople + 1
 WHERE type = 'Food';
 
 
@@ -277,11 +269,6 @@ VALUES ((SELECT PersonID FROM Beneficiary WHERE PersonID = 3), 1500.00, FALSE, F
 
 INSERT INTO FoodNeedHistory (BeneficiaryID, Amount, Allocated, Accepted)
 VALUES ((SELECT PersonID FROM Beneficiary WHERE PersonID = 3), 2.00, FALSE,TRUE);
-
-
-
-
-
 
 
 
