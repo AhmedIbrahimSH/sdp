@@ -58,9 +58,6 @@ class BeneficiaryAdmin extends Person
                 $hasChronicDisease = isset($data['hasChronicDisease']) ? true : false;
                 $hasDisability = isset($data['hasDisability']) ? true : false;
                 $isHomeless = isset($data['isHomeless']) ? true : false;
-
-                echo "hellooo>>> " . $hasChronicDisease . " " . $hasDisability . " " . $isHomeless . "<br>" . "<br>";
-
                 $stmt->bindParam(':hasChronicDisease', $hasChronicDisease);
                 $stmt->bindParam(':hasDisability', $hasDisability);
                 $stmt->bindParam(':isHomeless', $isHomeless);

@@ -16,6 +16,8 @@ class BeneficiaryController
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->admin->CreateBeneficiary($this->db, $_POST);
+            // Redirect to the list page after the creation
+            BeneficiaryController::listBeneficiaries();
         } else {
             // Show the form if not a POST request
             include 'Views/Create_Beneficiary.php';
