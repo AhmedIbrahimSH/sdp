@@ -1,7 +1,6 @@
 
 <?php
 
-
 require_once 'database_connection.php';
 
 $conn = Database::get_instance();
@@ -9,7 +8,6 @@ $conn = Database::get_instance();
 if (!$conn) {
     die("Connection failed");
 }
-
 
 class Events {
     public $events_list;
