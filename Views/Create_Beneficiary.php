@@ -59,20 +59,6 @@
                 <input type="number" step="0.01" id="income" name="income" required>
             </div>
 
-            <div class="form-group">
-                <label for="bloodType">Blood Type</label>
-                <select id="bloodType" name="bloodType" required>
-                    <option value="A+">A+</option>
-                    <option value="A-">A-</option>
-                    <option value="B+">B+</option>
-                    <option value="B-">B-</option>
-                    <option value="AB+">AB+</option>
-                    <option value="AB-">AB-</option>
-                    <option value="O+">O+</option>
-                    <option value="O-">O-</option>
-                </select>
-            </div>
-
             <div class="form-group-checkbox">
                 <label for="hasChronicDisease">
                     <input type="checkbox" id="hasChronicDisease" name="hasChronicDisease">

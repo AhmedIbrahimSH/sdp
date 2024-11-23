@@ -62,20 +62,6 @@ class UpdateBeneficiaryView
         echo '<input type="number" step="0.01" id="income" name="income" value="' . htmlspecialchars($beneficiary->getIncome()) . '" required>';
         echo '</div>';
 
-        // Blood Type dropdown, pre-selected with the current value
-        echo '<div class="form-group">';
-        echo '<label for="bloodType">Blood Type</label>';
-        echo '<select id="bloodType" name="bloodType" required>';
-        echo '<option value="A+" ' . ($beneficiary->getBloodType() == 'A+' ? 'selected' : '') . '>A+</option>';
-        echo '<option value="A-" ' . ($beneficiary->getBloodType() == 'A-' ? 'selected' : '') . '>A-</option>';
-        echo '<option value="B+" ' . ($beneficiary->getBloodType() == 'B+' ? 'selected' : '') . '>B+</option>';
-        echo '<option value="B-" ' . ($beneficiary->getBloodType() == 'B-' ? 'selected' : '') . '>B-</option>';
-        echo '<option value="AB+" ' . ($beneficiary->getBloodType() == 'AB+' ? 'selected' : '') . '>AB+</option>';
-        echo '<option value="AB-" ' . ($beneficiary->getBloodType() == 'AB-' ? 'selected' : '') . '>AB-</option>';
-        echo '<option value="O+" ' . ($beneficiary->getBloodType() == 'O+' ? 'selected' : '') . '>O+</option>';
-        echo '<option value="O-" ' . ($beneficiary->getBloodType() == 'O-' ? 'selected' : '') . '>O-</option>';
-        echo '</select>';
-        echo '</div>';
 
         // Chronic Disease checkbox, pre-checked if true
         echo '<div class="form-group-checkbox">';

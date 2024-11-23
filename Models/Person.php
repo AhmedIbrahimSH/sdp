@@ -6,7 +6,7 @@ abstract class Person
     protected $MiddleName;
     protected $Nationality;
     protected $Gender;
-    protected $PersonPhone;
+    protected $Phone;
     protected $AddressID;
 
     public function __construct($firstName, $lastName, $middleName = null, $nationality = null, $gender = null, $phone = null, $addressID = null)
@@ -16,7 +16,7 @@ abstract class Person
         $this->MiddleName = $middleName;
         $this->Nationality = $nationality;
         $this->Gender = $gender;
-        $this->PersonPhone = $phone;
+        $this->Phone = $phone;
         $this->AddressID = $addressID;
     }
 
@@ -40,7 +40,7 @@ abstract class Person
 
     public function getPhone()
     {
-        return $this->PersonPhone;
+        return $this->Phone;
     }
 
     public function getNationality()

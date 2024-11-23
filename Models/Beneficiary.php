@@ -6,7 +6,6 @@ require_once 'Needs/NeedFactory.php';
 class Beneficiary extends Person
 {
     private $income;
-    private $bloodType;
     private $hasChronicDisease;
     private $hasDisability;
     private $isHomeless;
@@ -26,11 +25,10 @@ class Beneficiary extends Person
         $beneficiary = $stmt->fetch(PDO::FETCH_OBJ);
 
         // Call the parent constructor to set the common properties
-        parent::__construct($beneficiary->FirstName, $beneficiary->LastName, $beneficiary->MiddleName, $beneficiary->Nationality, $beneficiary->Gender, $beneficiary->PersonPhone, $beneficiary->AddressID);
+        parent::__construct($beneficiary->FirstName, $beneficiary->LastName, $beneficiary->MiddleName, $beneficiary->Nationality, $beneficiary->Gender, $beneficiary->Phone, $beneficiary->AddressID);
 
         // Set the Beneficiary specific properties
         $this->income = $beneficiary->income;
-        $this->bloodType = $beneficiary->blood_type;
         $this->hasChronicDisease = $beneficiary->hasChronicDisease;
         $this->hasDisability = $beneficiary->hasDisability;
         $this->isHomeless = $beneficiary->isHomeless;
@@ -131,10 +129,7 @@ class Beneficiary extends Person
     }
 
 
-    public function getBloodType()
-    {
-        return $this->bloodType;
-    }
+
 
     public function getPersonID()
     {

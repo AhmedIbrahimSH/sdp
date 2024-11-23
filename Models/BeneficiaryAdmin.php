@@ -25,7 +25,7 @@ class BeneficiaryAdmin extends Person
     {
         try {
             // Prepare SQL statement
-            $query = "INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, AddressID)
+            $query = "INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, Phone, AddressID)
                       VALUES (:firstName, :lastName, :middleName, :nationality, :gender, :phone, :addressID)";
 
             $stmt = $db->prepare($query);
@@ -45,15 +45,14 @@ class BeneficiaryAdmin extends Person
                 $personID = $db->lastInsertId();
 
                 // Now insert into the Beneficiary table
-                $query = "INSERT INTO Beneficiary (PersonID, income, blood_type, hasChronicDisease, hasDisability, isHomeless)
-                          VALUES (:personID, :income, :bloodType, :hasChronicDisease, :hasDisability, :isHomeless)";
+                $query = "INSERT INTO Beneficiary (PersonID, income,hasChronicDisease, hasDisability, isHomeless)
+                          VALUES (:personID, :income,  :hasChronicDisease, :hasDisability, :isHomeless)";
 
                 $stmt = $db->prepare($query);
 
                 // Bind parameters for the Beneficiary table
                 $stmt->bindParam(':personID', $personID);
                 $stmt->bindParam(':income', $data['income']);
-                $stmt->bindParam(':bloodType', $data['bloodType']);
 
                 $hasChronicDisease = isset($data['hasChronicDisease']) ? true : false;
                 $hasDisability = isset($data['hasDisability']) ? true : false;
@@ -118,14 +117,14 @@ class BeneficiaryAdmin extends Person
                         FirstName = COALESCE(:firstName, FirstName),
                         MiddleName = COALESCE(:middleName, MiddleName),
                         LastName = COALESCE(:lastName, LastName),
-                        PersonPhone = COALESCE(:phone, PersonPhone),
+                        Phone = COALESCE(:phone, Phone),
                         AddressID = COALESCE(:addressID, AddressID)
                         WHERE PersonID = :personID";
         $stmtPerson = $db->prepare($queryPerson);
         $stmtPerson->bindParam(':firstName', $data['FirstName'], PDO::PARAM_STR);
         $stmtPerson->bindParam(':middleName', $data['MiddleName'], PDO::PARAM_STR);
         $stmtPerson->bindParam(':lastName', $data['LastName'], PDO::PARAM_STR);
-        $stmtPerson->bindParam(':phone', $data['PersonPhone'], PDO::PARAM_STR);
+        $stmtPerson->bindParam(':phone', $data['Phone'], PDO::PARAM_STR);
         $stmtPerson->bindParam(':addressID', $data['AddressID'], PDO::PARAM_INT);
         $stmtPerson->bindParam(':personID', $beneficiaryId, PDO::PARAM_INT);
 
@@ -135,14 +134,12 @@ class BeneficiaryAdmin extends Person
                              hasChronicDisease = COALESCE(:hasChronicDisease, hasChronicDisease),
                              hasDisability = COALESCE(:hasDisability, hasDisability),
                              isHomeless = COALESCE(:isHomeless, isHomeless),
-                             blood_type = COALESCE(:bloodType, blood_type)
                              WHERE PersonID = :personID";
         $stmtBeneficiary = $db->prepare($queryBeneficiary);
         $stmtBeneficiary->bindParam(':income', $data['income'], PDO::PARAM_STR);
         $stmtBeneficiary->bindParam(':hasChronicDisease', $data['hasChronicDisease'], PDO::PARAM_BOOL);
         $stmtBeneficiary->bindParam(':hasDisability', $data['hasDisability'], PDO::PARAM_BOOL);
         $stmtBeneficiary->bindParam(':isHomeless', $data['isHomeless'], PDO::PARAM_BOOL);
-        $stmtBeneficiary->bindParam(':bloodType', $data['bloodType'], PDO::PARAM_STR);
         $stmtBeneficiary->bindParam(':personID', $beneficiaryId, PDO::PARAM_INT);
 
         // Execute both queries
@@ -152,13 +149,12 @@ class BeneficiaryAdmin extends Person
                     $beneficiary->FirstName = $data['FirstName'] ?? $beneficiary->FirstName;
                     $beneficiary->MiddleName = $data['MiddleName'] ?? $beneficiary->MiddleName;
                     $beneficiary->LastName = $data['LastName'] ?? $beneficiary->LastName;
-                    $beneficiary->PersonPhone = $data['PersonPhone'] ?? $beneficiary->PersonPhone;
+                    $beneficiary->Phone = $data['Phone'] ?? $beneficiary->Phone;
                     $beneficiary->AddressID = $data['AddressID'] ?? $beneficiary->AddressID;
                     $beneficiary->income = $data['income'] ?? $beneficiary->income;
                     $beneficiary->hasChronicDisease = $data['hasChronicDisease'] ?? $beneficiary->hasChronicDisease;
                     $beneficiary->hasDisability = $data['hasDisability'] ?? $beneficiary->hasDisability;
                     $beneficiary->isHomeless = $data['isHomeless'] ?? $beneficiary->isHomeless;
-                    $beneficiary->blood_type = $data['bloodType'] ?? $beneficiary->blood_type;
                     return true;
                 }
             }
@@ -169,7 +165,7 @@ class BeneficiaryAdmin extends Person
 
     public function getBeneficiaries($db)
     {
-        $query = "SELECT p.PersonID, p.FirstName,p.MiddleName,p.LastName ,p.PersonPhone, p.AddressID,b.income, b.hasChronicDisease, b.hasDisability,b.isHomeless 
+        $query = "SELECT p.PersonID, p.FirstName,p.MiddleName,p.LastName ,p.Phone, p.AddressID,b.income, b.hasChronicDisease, b.hasDisability,b.isHomeless 
                   FROM person p 
                   JOIN beneficiary b ON p.PersonID = b.PersonID";
         $stmt = $db->prepare($query);

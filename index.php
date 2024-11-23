@@ -18,13 +18,11 @@ if (!$db) {
 // admin object
 $admin = new BeneficiaryAdmin();
 
-// Determine the action from the query string
-$action = isset($_GET['action']) ? $_GET['action'] : 'list_beneficiaries';
-
-
 // Instantiate the BeneficiaryController
 $beneficiaryController = new BeneficiaryController($db, $admin);
 
+// Determine the action from the query string
+$action = isset($_GET['action']) ? $_GET['action'] : 'list_beneficiaries';
 // Routing logic
 switch ($action) {
     case 'create_beneficiary':

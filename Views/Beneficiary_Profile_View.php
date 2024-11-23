@@ -21,7 +21,6 @@ class Beneficiary_Profile_View
         echo '<div class="info-item"><span class="label">Chronic Disease:</span> ' . ($beneficiary->hasChronicDisease() ? 'Yes' : 'No') . '</div>';
         echo '<div class="info-item"><span class="label">Nationality:</span> ' . htmlspecialchars($beneficiary->getNationality()) . '</div>';
         echo '<div class="info-item"><span class="label">Gender:</span> ' . htmlspecialchars($beneficiary->getGender()) . '</div>';
-        echo '<div class="info-item"><span class="label">Blood Type:</span> ' . htmlspecialchars($beneficiary->getBloodType()) . '</div>';
         echo '<div class="info-item"><span class="label">Beneficiary ID:</span> ' . htmlspecialchars($beneficiary->getPersonID()) . '</div>';
         echo '</div>';
         echo '</div>';

@@ -34,7 +34,7 @@ class Beneficiary_List_View
             // Name column with a link to view the beneficiary
             echo '<td><a href="index.php?action=view_beneficiary&id=' . urlencode($beneficiary['PersonID']) . '" class="name-link">' . htmlspecialchars($beneficiary['FirstName'] . ' ' . $beneficiary['MiddleName'] . ' ' . $beneficiary['LastName']) . '</a></td>';
             // Phone column
-            echo '<td>' . htmlspecialchars($beneficiary['PersonPhone']) . '</td>';
+            echo '<td>' . htmlspecialchars($beneficiary['Phone']) . '</td>';
             // Income column
             echo '<td>' . htmlspecialchars($beneficiary['income']) . '</td>';
             // Disability column
