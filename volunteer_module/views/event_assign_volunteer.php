@@ -11,7 +11,7 @@
     <select name="person_id" id="person_id" required>
         <?php foreach ($availableVolunteers as $volunteer): ?>
             <option value="<?= htmlspecialchars($volunteer['person_id']); ?>">
-                <?= htmlspecialchars($volunteer['first_name'] . ' ' . $volunteer['last_name']); ?>
+                <?= htmlspecialchars($volunteer['FirstName'] . ' ' . $volunteer['LastName']); ?>
             </option>
         <?php endforeach; ?>
     </select>

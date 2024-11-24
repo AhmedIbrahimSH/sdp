@@ -1,14 +1,18 @@
 <?php
 
-class Address {
+namespace views;
+class Address
+{
     private $db;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->db = $db;
     }
 
     // Fetch the hierarchical address data
-    public function getAddressHierarchy($parentId = null) {
+    public function getAddressHierarchy($parentId = null)
+    {
         $stmt = $this->db->prepare("
             SELECT AddressID, Name, ParentID 
             FROM Address 
@@ -27,7 +31,8 @@ class Address {
     }
 
     // Fetch a single address by ID
-    public function getAddressById($addressId) {
+    public function getAddressById($addressId)
+    {
         $stmt = $this->db->prepare("
             SELECT * 
             FROM Address 

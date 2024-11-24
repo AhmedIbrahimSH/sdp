@@ -23,7 +23,7 @@ $id = isset($_GET['id']) ? $_GET['id'] : null;
 $personId = isset($_GET['person_id']) ? $_GET['person_id'] : null;
 $taskId = isset($_GET['task_id']) ? $_GET['task_id'] : null;
 $certificateId = isset($_GET['certificate_id']) ? $_GET['certificate_id'] : null;
-
+$eventId = isset($_GET['event_id']) ? $_GET['event_id'] : null;
 // Routing logic
 switch ($action) {
     // Volunteer-related actions
@@ -105,6 +105,12 @@ switch ($action) {
         break;
     case 'create_event': // Add a new event
         $eventsController->create();
+        break;
+    case 'subscribe_to_event':
+        $volunteerController->subscribeToEvent($eventId);
+        break;
+    case 'volunteer_subscriptions':
+        $volunteerController->manageSubscriptions();
         break;
     case 'edit_event': // Edit an event
         $eventsController->edit($id);

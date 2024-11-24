@@ -9,7 +9,7 @@
 <p><strong>Name:</strong> <?= htmlspecialchars($event['EventName']); ?></p>
 <p><strong>Date:</strong> <?= htmlspecialchars($event['EventDate']); ?></p>
 <p><strong>Description:</strong> <?= htmlspecialchars($event['Description']); ?></p>
-
+<p>Type: <?= htmlspecialchars($event['EventType']); ?></p>
 <h2>Assigned Volunteers</h2>
 <ul>
     <?php foreach ($volunteers as $volunteer): ?>

@@ -17,6 +17,8 @@ class EventsController {
     // Show a single event by ID
     public function show($eventId) {
         $event = $this->eventModel->getEventById($eventId);
+        // Fetch assigned volunteers for the event
+        $volunteers = $this->eventModel->getVolunteersByEventId($eventId);
         include 'views/event_detail.php'; // Pass event to the view
     }
 
@@ -62,16 +64,24 @@ class EventsController {
 
     // Assign a volunteer to an event
     public function assignVolunteer($eventId) {
+        $volunteerModel = new Volunteer(); // Instantiate Volunteer model to fetch volunteers
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $personId = $_POST['person_id']; // The ID of the volunteer to assign
             $this->eventModel->assignVolunteerToEvent($personId, $eventId);
 
-            header("Location: index.php?action=event&id=$eventId"); // Redirect to the event detail page
+            header("Location: index.php?action=show_event&id=$eventId"); // Redirect to the event detail page
             exit;
         } else {
-            include 'views/event_assign_volunteer.php'; // Show the volunteer assignment form
+            // Fetch all volunteers
+            $availableVolunteers = $volunteerModel->getAllVolunteers();
+
+            // Pass the event ID and available volunteers to the view
+            include 'views/event_assign_volunteer.php';
         }
     }
+
+
 
     // Show all events for a specific volunteer
     public function showVolunteerEvents($personId) {

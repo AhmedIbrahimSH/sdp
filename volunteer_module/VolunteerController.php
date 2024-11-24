@@ -55,6 +55,34 @@ class VolunteerController {
             include 'views/volunteer_create.php';
         }
     }
+    public function manageSubscriptions() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $personId = $_POST['person_id'];
+            $subscriptions = $_POST['subscriptions'] ?? [];
+
+            // Remove all current subscriptions
+            $stmt = $this->db->prepare("DELETE FROM Volunteer_Subscriptions WHERE person_id = :person_id");
+            $stmt->execute(['person_id' => $personId]);
+
+            // Add new subscriptions
+            foreach ($subscriptions as $type) {
+                $stmt = $this->db->prepare("
+                    INSERT INTO Volunteer_Subscriptions (person_id, event_type)
+                    VALUES (:person_id, :event_type)
+                ");
+                $stmt->execute(['person_id' => $personId, 'event_type' => $type]);
+            }
+
+            header("Location: index.php?action=volunteer_subscriptions");
+        } else {
+            $personId = $_GET['person_id'];
+            $stmt = $this->db->prepare("SELECT event_type FROM Volunteer_Subscriptions WHERE person_id = :person_id");
+            $stmt->execute(['person_id' => $personId]);
+            $currentSubscriptions = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+            include 'views/volunteer_subscriptions.php';
+        }
+    }
 
     // Edit an existing volunteer
     public function edit($personId) {
@@ -86,6 +114,21 @@ class VolunteerController {
         $this->volunteerModel->deleteVolunteer($personId);
         header("Location: index.php?action=index");
         exit;
+    }
+    public function subscribeToEvent($eventId) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $personId = $_POST['person_id']; // The volunteer's ID
+            $eventType = $_POST['event_type']; // The event type they are subscribing to
+
+            // Call the model to handle subscription
+            $this->volunteerModel->subscribeToEvent($personId, $eventType);
+
+            header("Location: index.php?action=show_event&id=$eventId");
+            exit;
+        } else {
+            $volunteers = $this->volunteerModel->getAllVolunteers(); // Fetch all volunteers
+            include 'views/volunteer_subscribe_to_event.php';
+        }
     }
 }
 ?>

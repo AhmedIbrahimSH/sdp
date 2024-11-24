@@ -3,8 +3,8 @@ require_once 'Database.php';
 require_once 'Person.php';
 require_once 'Account.php';
 require_once 'VolunteerTracker.php'; // Include the VolunteerTracker class
-
-class  Volunteer extends Account {
+require_once 'VolunteerObserver.php';
+class  Volunteer extends Account implements VolunteerObserver {
 
     private $tracker; // Aggregation: VolunteerTracker instance
 
@@ -20,14 +20,14 @@ class  Volunteer extends Account {
     public function getAllVolunteers() {
         $stmt = $this->db->prepare("
         SELECT 
-            v.person_id AS person_id, 
+            v.PersonID AS PersonID, 
             p.FirstName, 
             p.LastName, 
             p.Nationality, 
             p.Gender, 
-            p.PersonPhone
+            p.Phone
         FROM Volunteer v
-        JOIN Person p ON v.person_id = p.person_id
+        JOIN Person p ON v.PersonID = p.PersonID
     ");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -41,7 +41,7 @@ class  Volunteer extends Account {
 
             // Step 1: Create Person
             $stmt = $this->db->prepare("
-            INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, AddressID)
+            INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, Phone, AddressID)
             VALUES (:firstName, :lastName, :middleName, :nationality, :gender, :phone, :addressId)
         ");
             $stmt->execute([
@@ -53,11 +53,11 @@ class  Volunteer extends Account {
                 'phone' => $data['phone'],
                 'addressId' => 1
             ]);
-            $personId = $this->db->lastInsertId(); // Get the newly created person_id
+            $personId = $this->db->lastInsertId(); // Get the newly created PersonID
 
             // Step 2: Create Account
             $stmt = $this->db->prepare("
-            INSERT INTO Account (person_id, AccountEmail, Status)
+            INSERT INTO Account (PersonID, Email)
             VALUES (:personId, :email, :status)
         ");
             $stmt->execute([
@@ -68,7 +68,7 @@ class  Volunteer extends Account {
 
             // Step 3: Create Volunteer
             $stmt = $this->db->prepare("
-            INSERT INTO Volunteer (person_id)
+            INSERT INTO Volunteer (PersonID)
             VALUES (:personId)
         ");
             $stmt->execute(['personId' => $personId]);
@@ -87,11 +87,11 @@ class  Volunteer extends Account {
 
     public function getVolunteerById($id) {
         $stmt = $this->db->prepare("
-            SELECT v.person_id, p.FirstName, p.LastName, a.AccountEmail, p.PersonPhone, p.AddressID, p.MiddleName, p.Nationality, p.Gender, p.PersonPhone, a.Status
+            SELECT v.PersonID, p.FirstName, p.LastName, a.Email, p.Phone, p.AddressID, p.MiddleName, p.Nationality, p.Gender, p.Phone
             FROM volunteer v
-            JOIN person p ON v.person_id = p.person_id 
-            JOIN Account a ON  a.person_id = p.person_id
-            WHERE v.person_id = :id AND v.IsVolunteerDeleted = 0
+            JOIN person p ON v.PersonID = p.PersonID 
+            JOIN Account a ON  a.PersonID = p.PersonID
+            WHERE v.PersonID = :id AND v.IsVolunteerDeleted = 0
         ");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -110,9 +110,9 @@ class  Volunteer extends Account {
             MiddleName = :middleName,
             Nationality = :nationality,
             Gender = :gender,
-            PersonPhone = :phone,
+            Phone = :phone,
             AddressID = :addressId
-        WHERE person_id = :id
+        WHERE PersonID = :id
     ");
         $stmt->execute([
             'firstName' => $data['firstName'],
@@ -129,13 +129,11 @@ class  Volunteer extends Account {
         $stmt = $this->db->prepare("
         UPDATE Account 
         SET 
-            AccountEmail = :email,
-            Status = :status
-        WHERE person_id = :id
+            Email = :email
+        WHERE PersonID = :id
     ");
         $stmt->execute([
             'email' => $data['email'],
-            'status' => $data['status'],
             'id' => $id
         ]);
 
@@ -144,7 +142,7 @@ class  Volunteer extends Account {
             $stmt = $this->db->prepare("
             UPDATE Volunteer 
             SET IsVolunteerDeleted = :isVolunteerDeleted
-            WHERE person_id = :id
+            WHERE PersonID = :id
         ");
             $stmt->execute([
                 'isVolunteerDeleted' => $data['isVolunteerDeleted'],
@@ -156,10 +154,34 @@ class  Volunteer extends Account {
 
     public function deleteVolunteer($id) {
         $stmt = $this->db->prepare("
-            DELETE FROM person WHERE person_id = :id
+            UPDATE Volunteer 
+            SET IsVolunteerDeleted = 1
+            WHERE PersonID = :id
         ");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
+    }
+
+    public function update($eventType, $eventDetails, $PersonID) {
+        if ($this->personId === $PersonID) { // Notify only the intended volunteer
+            $logMessage = "Notification for Volunteer (Person ID: {$this->personId}): ";
+            $logMessage .= "A new {$eventType} has been created: {$eventDetails['EventName']} on {$eventDetails['EventDate']}.\n";
+
+            // Write the log message to notifications.log
+            file_put_contents('notifications.log', $logMessage, FILE_APPEND);
+        }
+    }
+
+    public function subscribeToEvent($personId, $eventType) {
+        $stmt = $this->db->prepare("
+            INSERT INTO Volunteer_Subscriptions (PersonID, event_type)
+            VALUES (:PersonID, :event_type)
+            ON DUPLICATE KEY UPDATE event_type = :event_type
+        ");
+        $stmt->execute([
+            'PersonID' => $personId,
+            'event_type' => $eventType
+        ]);
     }
 }
 ?>

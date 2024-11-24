@@ -10,8 +10,8 @@
 <ul>
     <?php foreach ($events as $event): ?>
         <li>
-            <strong><?= htmlspecialchars($event['EventName']); ?></strong>
-            (<?= htmlspecialchars($event['EventDate']); ?>)
+            <?= htmlspecialchars($event['EventName']); ?>
+            (<?= htmlspecialchars($event['EventType']); ?>)
             <a href="index.php?action=show_event&id=<?= htmlspecialchars($event['EventID']); ?>">View</a>
             <a href="index.php?action=edit_event&id=<?= htmlspecialchars($event['EventID']); ?>">Edit</a>
             <a href="index.php?action=delete_event&id=<?= htmlspecialchars($event['EventID']); ?>">Delete</a>
