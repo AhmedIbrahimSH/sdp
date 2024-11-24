@@ -50,7 +50,7 @@
 </head>
 <body>
 <h2>Add Donor</h2>
-<form action="index.php?action=saveDonor" method="POST">
+<form action="../index.php?action=saveDonor" method="POST">
     <!-- Personal Information -->
     <div class="section">
         <h3>Personal Information</h3>
