@@ -1,0 +1,23 @@
+.btn {
+    padding: 5px 10px;
+    text-decoration: none;
+    color: white;
+    border-radius: 3px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.btn-update {
+    background-color: #007bff; /* Blue */
+}
+.btn-add {
+    background-color: #007bff; /* Blue */
+}
+
+.btn-delete {
+    background-color: #dc3545; /* Red */
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
