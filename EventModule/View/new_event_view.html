@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Event</title>
-    <link rel = "stylesheet" href="new_event.css">
+    <base href="sdp/">
+    <link rel = "stylesheet" href="../new_event.css">
+    <script src="../../Controller/event.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
     <style>
@@ -18,9 +20,9 @@
         .fc-time, .fc-title {
             display: inline-block;
         }
+
     </style>
 
-    <link rel="stylesheet" href="new_event.css"> <!-- External CSS File -->
 
 </head>
 <body>
@@ -29,7 +31,7 @@
 
 <!-- Move the button here, below the form -->
 <div style="text-align: center;">
-    <a href="../Controller/event_history.php" style="text-decoration: none;">
+    <a href="../events_history_view.php" style="text-decoration: none;">
         <button type="button">Show Event History</button>
     </a>
 </div>

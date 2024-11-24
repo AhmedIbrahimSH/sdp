@@ -1,12 +1,16 @@
 <?php
 
-class SignupController {
-    public function index() {
+namespace controller;
+class SignupController
+{
+    public function index()
+    {
         $error = null;
         require_once '../View/signup.php';
     }
 
-    public function register() {
+    public function register()
+    {
         $username = $_POST['username'] ?? '';
         $email = $_POST['email'] ?? '';
         $phone = $_POST['phone'] ?? '';
