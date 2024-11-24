@@ -29,7 +29,6 @@ CREATE TABLE IF NOT EXISTS  Account (
                                     PersonID INT PRIMARY KEY,
                                     Email VARCHAR(100) UNIQUE NOT NULL,
                                     PasswordHashed  VARCHAR(255) NOT NULL,
-                                    IsUser TINYINT(1) DEFAULT 1,
                                     IsAccountDeleted TINYINT(1) DEFAULT 0,
                                     FOREIGN KEY (PersonID) REFERENCES Person(PersonID) ON DELETE CASCADE
 );
@@ -88,7 +87,7 @@ CREATE TABLE IF NOT EXISTS CashNeedHistory (
                              Allocated BOOLEAN DEFAULT FALSE,
                              Accepted BOOLEAN DEFAULT FALSE,
                              RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                             purpose TEXT DEFAULT "Cash Assistance for Low Income/Disabled beneficiary",
+                             purpose VARCHAR(255) DEFAULT 'Cash Assistance for Low Income/Disabled beneficiary',
                              FOREIGN KEY (BeneficiaryID) REFERENCES Beneficiary(PersonID) ON DELETE CASCADE
 );
 
@@ -101,7 +100,7 @@ CREATE TABLE IF NOT EXISTS FoodNeedHistory (
                                 Allocated BOOLEAN DEFAULT FALSE,
                                 Accepted BOOLEAN DEFAULT FALSE,
                                 RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                purpose TEXT DEFAULT "Food Assistance for low income beneficiary",
+                                purpose VARCHAR(255) DEFAULT 'Food Assistance for low income beneficiary',
                                 FOREIGN KEY (BeneficiaryID) REFERENCES Beneficiary(PersonID) ON DELETE CASCADE
 );
 
@@ -113,7 +112,7 @@ CREATE TABLE IF NOT EXISTS ShelterNeedHistory (
                                 Allocated BOOLEAN DEFAULT FALSE,
                                 Accepted BOOLEAN DEFAULT FALSE,
                                 RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                purpose TEXT DEFAULT "Shelter Assistance for Homeless beneficiary",
+                                purpose VARCHAR(255) DEFAULT 'Shelter Assistance for Homeless beneficiary',
                                 FOREIGN KEY (BeneficiaryID) REFERENCES Beneficiary(PersonID) ON DELETE CASCADE 
 );
 
@@ -124,7 +123,7 @@ CREATE TABLE IF NOT EXISTS ClothingNeedHistory (
                                 Allocated BOOLEAN DEFAULT FALSE,
                                 Accepted BOOLEAN DEFAULT FALSE,
                                 RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                purpose TEXT DEFAULT "Clothing Assistance for low income beneficiary",
+                                purpose VARCHAR(255) DEFAULT 'Clothing Assistance for low income beneficiary',
                                 FOREIGN KEY (BeneficiaryID) REFERENCES Beneficiary(PersonID) ON DELETE CASCADE
 );
 
@@ -135,7 +134,7 @@ CREATE TABLE IF NOT EXISTS MedicalNeedHistory (
                                 Allocated BOOLEAN DEFAULT FALSE,
                                 Accepted BOOLEAN DEFAULT FALSE,
                                 RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                purpose TEXT DEFAULT "Medical Assistance for Low Income beneficiary",
+                                purpose VARCHAR(255) DEFAULT 'Medical Assistance for Low Income beneficiary',
                                 FOREIGN KEY (BeneficiaryID) REFERENCES Beneficiary(PersonID) ON DELETE CASCADE
 );
 
@@ -146,7 +145,7 @@ CREATE TABLE IF NOT EXISTS DrugNeedHistory (
                                 Allocated BOOLEAN DEFAULT FALSE,
                                 Accepted BOOLEAN DEFAULT FALSE,
                                 RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                purpose TEXT DEFAULT "Assistance for Low Income/Has Chronic Disease beneficiary",
+                                purpose VARCHAR(255) DEFAULT 'Assistance for Low Income/Has Chronic Disease beneficiary',
                                 FOREIGN KEY (BeneficiaryID) REFERENCES Beneficiary(PersonID) ON DELETE CASCADE
 );
 -- Beneficiary Module END
@@ -172,7 +171,6 @@ CREATE TABLE IF NOT EXISTS Donation (
 
  CREATE TABLE IF NOT EXISTS CashDonation (
                                DonationID INT PRIMARY KEY,
-                               -- Currency VARCHAR(50),
                                Amount DECIMAL(10, 2),
                                FOREIGN KEY (DonationID) REFERENCES Donation(DonationID)
  );
@@ -261,7 +259,7 @@ CREATE TABLE  Skill (
     );
 
 -- Create the volunteer_skills table to store skills associated with each volunteer
-CREATE TABLE  Skills (
+CREATE TABLE  Volunteer_Skills (
     id INT AUTO_INCREMENT PRIMARY KEY,
     PersonID INT,                            -- Foreign key to volunteers table
     skill_id INT,
@@ -319,8 +317,8 @@ INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, Phone,
 VALUES ('Omar', 'Diab', 'Mosaad', 'Egyptian', 'Male', '01076543210', 2);
 SET @last_PersonID = LAST_INSERT_ID();
 
-INSERT INTO Account (PersonID, Email, PasswordHashed,  IsUser, IsAccountDeleted)
-VALUES (@last_PersonID, 'omarmdiab35@gmail.com', 'hashed_password_admin_001',  1, 0);
+INSERT INTO Account (PersonID, Email, PasswordHashed, IsAccountDeleted)
+VALUES (@last_PersonID, 'omarmdiab35@gmail.com', 'hashed_password_admin_001', 0);
 
 INSERT INTO Admin (PersonID, Type)
 VALUES (@last_PersonID, 'BeneficiaryAdmin');
@@ -388,7 +386,6 @@ WHERE type = 'Cash';
 
 
 
-
 INSERT INTO FoodNeedHistory (BeneficiaryID, Amount, Allocated, Accepted)
 VALUES ((SELECT PersonID FROM Beneficiary WHERE PersonID = 2), 1.00, TRUE,TRUE);
 
@@ -414,8 +411,8 @@ VALUES ((SELECT PersonID FROM Beneficiary WHERE PersonID = 3), 2.00, FALSE,TRUE)
 INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, Phone, AddressID)
 VALUES ('John', 'Doe', 'Michael', 'American', 'Male', '1234567890',  1);
 SET @last_PersonID = LAST_INSERT_ID();
-INSERT INTO Account (PersonID, Email, PasswordHashed,  IsUser, IsAccountDeleted)
-VALUES (@last_PersonID, 'johndoe@example.com', 'hashed_password_123',  1, 0);
+INSERT INTO Account (PersonID, Email, PasswordHashed,  IsAccountDeleted)
+VALUES (@last_PersonID, 'johndoe@example.com', 'hashed_password_123',  0);
 INSERT INTO Donor (PersonID,IsDonorDeleted)
 VALUES (@last_PersonID,  0);
 
@@ -423,8 +420,8 @@ VALUES (@last_PersonID,  0);
 INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, Phone, AddressID)
 VALUES ('Jane', 'Smith', NULL, 'British', 'Female', '0987654321', 2);
 SET @last_PersonID = LAST_INSERT_ID();
-INSERT INTO Account (PersonID, Email, PasswordHashed,  IsUser, IsAccountDeleted)
-VALUES (@last_PersonID, 'janesmith@example.com', 'hashed_password_456',  1, 0);
+INSERT INTO Account (PersonID, Email, PasswordHashed,  IsAccountDeleted)
+VALUES (@last_PersonID, 'janesmith@example.com', 'hashed_password_456', 0);
 INSERT INTO Donor (PersonID, IsDonorDeleted)
 VALUES (@last_PersonID,  0);
 
@@ -432,7 +429,7 @@ VALUES (@last_PersonID,  0);
 INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, Phone, AddressID)
 VALUES ('Alex', 'Taylor', 'Lee', 'Canadian', 'Other', '1122334455', 3);
 SET @last_PersonID = LAST_INSERT_ID();
-INSERT INTO Account (PersonID, Email, PasswordHashed,  IsUser, IsAccountDeleted)
-VALUES (@last_PersonID, 'alextaylor@example.com', 'hashed_password_789',  1, 0);
+INSERT INTO Account (PersonID, Email, PasswordHashed,  IsAccountDeleted)
+VALUES (@last_PersonID, 'alextaylor@example.com', 'hashed_password_789', 0);
 INSERT INTO Donor (PersonID, IsDonorDeleted)
 VALUES (@last_PersonID, 0);
