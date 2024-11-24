@@ -1,0 +1,88 @@
+
+body {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+    form {
+        flex: 0 0 300px;
+        margin-right: 60px;
+        /*margin-top: 30px;*/
+        border: 1px solid #ccc; /* Light border */
+        border-radius: 8px; /* Rounded corners for a modern look */
+        /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); !* Soft shadow *!*/
+    }
+
+.checkbox-container {
+    display: flex;
+    align-items: center; /* Vertically aligns checkbox and label */
+    font-family: Arial, sans-serif;
+}
+
+.checkbox-container input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px; /* Space between checkbox and label */
+}
+
+.checkbox-container label {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+
+#calendar {
+    flex: 1;
+    min-width: 300px;
+    min-height: 300px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Add this CSS code to your stylesheet */
+.delete-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.delete-button:hover {
+    background-color: darkred;
+}

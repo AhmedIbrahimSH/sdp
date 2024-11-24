@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Event</title>
+    <base href="sdp/">
+    <link rel = "stylesheet" href="../new_event.css">
+    <script src="../../Controller/event.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+    <style>
+        .fc-event {
+            font-size: 12px;
+            padding: 2px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .fc-time, .fc-title {
+            display: inline-block;
+        }
+
+    </style>
+
+
+</head>
+<body>
+
+<br>
+
+<!-- Move the button here, below the form -->
+<div style="text-align: center;">
+    <a href="../events_history_view.php" style="text-decoration: none;">
+        <button type="button">Show Event History</button>
+    </a>
+</div>
+
+<form action="../Controller/add_event.php" method="post" id="eventForm">
+    <br>
+    <label style="text-align: center">Create new event</label>
+    <br>
+    <label for="title">Event Name:</label>
+    <input type="text" id="title" name="title" required><br><br>
+
+    <label for="location">Location:</label>
+    <select id="location" name="location" required>
+        <option value="">Select a Location</option>
+        <option value="The Egyptian Museum">The Egyptian Museum</option>
+        <option value="Cairo Tower">Cairo Tower</option>
+        <option value="Pyramids of Giza">Pyramids of Giza</option>
+        <option value="Al-Azhar Park">Al-Azhar Park</option>
+        <option value="Khan el-Khalili">Khan el-Khalili</option>
+        <option value="Cairo Opera House">Cairo Opera House</option>
+        <option value="Citadel of Saladin">Citadel of Saladin</option>
+        <option value="Mall of Egypt">Mall of Egypt</option>
+        <option value="Downtown Cairo">Downtown Cairo</option>
+        <option value="Zamalek District">Zamalek District</option>
+        <option value="Maadi District">Maadi District</option>
+    </select><br><br>
+
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" required><br><br>
+
+    <label for="time">Time:</label>
+    <input type="time" id="time" name="time" required><br><br>
+
+    <label for="price">Price ($):</label>
+    <input type="number" id="price" name="price" step="0.01" required><br><br>
+
+    <label for="type">Event Type:</label>
+    <select id="type" name="type" required>
+        <option value="fundraiser">Fundraiser</option>
+        <option value="workshop">Workshop</option>
+        <option value="program">Program</option>
+    </select><br><br>
+
+    <script src="../Controller/event.js"></script>
+    <div class="checkbox-container">
+        <input type="checkbox" name="subscribe" value="yes" id="notify">
+        <label for="notify">Notify attendees</label>
+    </div>
+    <button type="submit" onclick="addEventFunction(this)">Add Event</button>
+
+
+</form>
+
+<div id="calendar"></div>
+
+</body>
+</html>
