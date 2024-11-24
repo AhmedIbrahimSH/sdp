@@ -107,6 +107,7 @@ CREATE TABLE IF NOT EXISTS FoodNeedHistory (
 
 CREATE TABLE IF NOT EXISTS ShelterNeedHistory (
     -- no need for allocation id as the beneficiary will have 1 shelter allocation
+    AllocationID INT AUTO_INCREMENT PRIMARY KEY,
                             BeneficiaryID INT Not NULL,
                                 Amount DECIMAL(10, 2) DEFAULT 1,
                                 Allocated BOOLEAN DEFAULT FALSE,

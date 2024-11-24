@@ -11,14 +11,36 @@ class DrugsNeed extends NeedTemplateMethod
 
     protected function register($beneficiaryID, $amount, $accepted)
     {
-        $accepted = (bool) $accepted; // Make sure it's a boolean
-        // Prepare the SQL query with placeholders to prevent SQL injection
-        $query = "INSERT INTO DrugNeedHistory (BeneficiaryID, Amount, Allocated, Accepted)
-              VALUES (?, ?, ?, ?)";
+        // Check if the beneficiary ID already exists in the DrugNeedHistory table to update accpeted column
+        $query = "SELECT COUNT(*) FROM DrugNeedHistory WHERE BeneficiaryID = ? AND Accepted = 0";
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->bindParam(1, $beneficiaryID, PDO::PARAM_INT);
+        $stmt->execute();
+        $count = $stmt->fetchColumn();
+        if ($count > 0) {
+            if ($accepted) {
+                // Beneficiary ID already exists, update the accepted column to TRUE
+                $query = "UPDATE DrugNeedHistory SET Accepted = 1 WHERE BeneficiaryID = ? AND Accepted = 0";
+                $stmt = $this->dbConnection->prepare($query);
+                $stmt->bindParam(1, $beneficiaryID, PDO::PARAM_INT);
+                if ($stmt->execute()) {
+                    return true; // Return true on success
+                } else {
+                    // Handle execution errors
+                    error_log("Error executing update query: " . implode(", ", $stmt->errorInfo()));
+                }
+            } else {
+                echo "Beneficiary need Rejected";
+            }
+        } else {
 
-        // Use a prepared statement
-        try {
+
+
+            // If the beneficiary ID does not exist, insert the data
+            $query = "INSERT INTO DrugNeedHistory (BeneficiaryID, Amount, Allocated, Accepted)
+          VALUES (?, ?, ?, ?)";
             $stmt = $this->dbConnection->prepare($query);
+            $accepted = (bool) $accepted; // Make sure it's a boolean
             $allocated = 0; // Variable for allocated
             $stmt->bindParam(1, $beneficiaryID, PDO::PARAM_INT); // Bind beneficiary ID as an integer
             $stmt->bindParam(2, $amount, PDO::PARAM_STR);        // Bind amount (adjust type if necessary)
@@ -31,12 +53,9 @@ class DrugsNeed extends NeedTemplateMethod
                 // Handle execution errors
                 error_log("Error executing query: " . implode(", ", $stmt->errorInfo()));
             }
-        } catch (PDOException $e) {
-            // Handle preparation errors
-            error_log("Error preparing query: " . $e->getMessage());
-        }
 
-        return false; // Return false on failure
+            return false;
+        }
     }
 
     protected function allocateResources($table, $beneficiaryID)

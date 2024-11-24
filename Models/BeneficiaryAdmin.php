@@ -120,6 +120,7 @@ class BeneficiaryAdmin extends Person
                         Phone = COALESCE(:phone, Phone),
                         AddressID = COALESCE(:addressID, AddressID)
                         WHERE PersonID = :personID";
+
         $stmtPerson = $db->prepare($queryPerson);
         $stmtPerson->bindParam(':firstName', $data['FirstName'], PDO::PARAM_STR);
         $stmtPerson->bindParam(':middleName', $data['MiddleName'], PDO::PARAM_STR);
@@ -133,8 +134,9 @@ class BeneficiaryAdmin extends Person
                              income = COALESCE(:income, income),
                              hasChronicDisease = COALESCE(:hasChronicDisease, hasChronicDisease),
                              hasDisability = COALESCE(:hasDisability, hasDisability),
-                             isHomeless = COALESCE(:isHomeless, isHomeless),
+                             isHomeless = COALESCE(:isHomeless, isHomeless)
                              WHERE PersonID = :personID";
+
         $stmtBeneficiary = $db->prepare($queryBeneficiary);
         $stmtBeneficiary->bindParam(':income', $data['income'], PDO::PARAM_STR);
         $stmtBeneficiary->bindParam(':hasChronicDisease', $data['hasChronicDisease'], PDO::PARAM_BOOL);

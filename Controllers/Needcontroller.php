@@ -54,7 +54,9 @@ class NeedController
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $needType = $_POST['need_type'];
-            $this->beneficiary->RemoveNeed($this->db, $needType, $_POST['beneficiary_id']);
+            $need_id = $_POST['AllocationID'];
+            $BeneficiaryID = $_POST['beneficiary_id'];
+            $this->beneficiary->RemoveNeed($this->db, $needType, $BeneficiaryID, $need_id);
             header('Location: index.php?action=view_beneficiary&id=' . urlencode($_POST['beneficiary_id']));
             exit();
         }

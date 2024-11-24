@@ -63,13 +63,15 @@ class Beneficiary extends Person
     }
 
 
-    public function RemoveNeed($db, $needTable, $beneficiaryId)
+    public function RemoveNeed($db, $needTable, $beneficiaryId, $needId)
     {
-        $query = "DELETE FROM $needTable WHERE BeneficiaryID = :beneficiaryID";
+        $query = "DELETE FROM $needTable WHERE BeneficiaryID = :beneficiaryID AND AllocationID = :needID";
         $stmt = $db->prepare($query);
         $stmt->bindParam(':beneficiaryID', $beneficiaryId, PDO::PARAM_INT);
+        $stmt->bindParam(':needID', $needId, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
 
 
     public function SupportNeed($table, $beneficiaryId)

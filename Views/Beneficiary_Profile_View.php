@@ -44,11 +44,19 @@ class Beneficiary_Profile_View
 
                 if (!$need['Allocated']) {
                     if (!$need['Accepted']) {
-                        echo '<div class="need-card">';
+                        echo '<div class="need-card" style="border: 2px solid red;">';
                         echo '<p><strong>Status:</strong> Beneficier need Rejected ❌</p>';
+
                         echo '</div>'; // Close card
+
+                        echo '<form method="POST" action="index.php?action=register_need" class="action-form">';
+                        echo '<input type="hidden" name="need_type" value="' . htmlspecialchars($needType) . '">';
+                        echo '<input type="hidden" name="beneficiary_id" value="' . htmlspecialchars($beneficiary->getPersonID()) . '">';
+                        echo '<input type="hidden" name="amount" value="' . htmlspecialchars($need['Amount']) . '">';
+                        echo '<button type="submit" class="btn-secondary">Reapply</button>';
+                        echo '</form>';
                     } else {
-                        echo '<div class="need-card">';
+                        echo '<div class="need-card" >';
                         echo '<p><strong>Status:</strong> Beneficier need Approved Pending Support... </p>';
                         echo '</div>'; // Close card
 
@@ -61,10 +69,11 @@ class Beneficiary_Profile_View
                     echo '<form method="POST" action="index.php?action=remove_need" class="action-form">';
                     echo '<input type="hidden" name="need_type" value="' . htmlspecialchars($need['table_name']) . '">';
                     echo '<input type="hidden" name="beneficiary_id" value="' . htmlspecialchars($beneficiary->getPersonID()) . '">';
+                    echo '<input type="hidden" name="AllocationID" value="' . htmlspecialchars($need['AllocationID']) . '">';
                     echo '<button type="submit" class="btn-danger">Remove Need</button>';
                     echo '</form>';
                 } else {
-                    echo '<div class="need-card">';
+                    echo '<div class="need-card" >';
                     echo '<p><strong>Status:</strong> Allocated✅</p>';
                     echo '</div>'; // Close card
                 }
