@@ -15,7 +15,7 @@ class EventHistoryController
 
     public static function delete_event($event_title){
         $conn = Database::get_instance();
-        $query = "DELETE FROM events WHERE title = :title";
+        $query = "DELETE FROM events WHERE Title = :title";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':title', $event_title);
         $stmt->execute();

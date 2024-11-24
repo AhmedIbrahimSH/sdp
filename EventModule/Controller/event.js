@@ -1,7 +1,6 @@
 
     let calendar;
 
-    // Initialize the calendar
     document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
@@ -12,7 +11,6 @@
     right: 'dayGridMonth'
 },
     events: function(fetchInfo, successCallback, failureCallback) {
-        // AJAX call to get events from PHP
         fetch('../Model/events_json_retrieval.php')
             .then(response => response.json())
             .then(data => successCallback(data))
@@ -40,15 +38,14 @@
 
     const eventStart = new Date(`${date}T${time}`);
     eventData = {
-        title: title,
-        location : location,
-        date: date,
-        time: time,
-        price: price,
-        type: type
+        Title: title,
+        Location : location,
+        Date: date,
+        Time: time,
+        Price: price,
+        Type: type
     };
-        // console.log(eventData)
-    // Add event to FullCalendar
+
     calendar.addEvent({
     title: `${title} - `,
     start: eventStart,

@@ -28,14 +28,14 @@ class EventHistoryView{
 
         foreach ($this->event_object->getEvents() as $event) {
             echo "<tr>
-        <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['title']) . "</td>
-        <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['location']) . "</td>
-        <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['date']) . "</td>
-         <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['type']) . "</td>
-        <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['price']) . "</td>
+        <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['Title']) . "</td>
+        <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['Location']) . "</td>
+        <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['Date']) . "</td>
+         <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['Type']) . "</td>
+        <td style='border: 1px solid #ddd; padding: 8px;'>" . htmlspecialchars($event['Price']) . "</td>
         <td style='border: 1px solid #ddd; padding: 8px;'>
             <form method='POST'>
-                <input type='hidden' name='title' value='" . htmlspecialchars($event['title']) . "'>
+                <input type='hidden' name='title' value='" . htmlspecialchars($event['Title']) . "'>
                 <button type='submit' name='delete_event' 
                     style='background-color: red; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 5px; transition: background-color 0.3s;'>
                     Delete

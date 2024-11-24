@@ -20,7 +20,7 @@
     <?php endif; ?>
 
     <!-- Login form -->
-    <form action="/login" method="POST">
+    <form action="/LoginModule" method="POST">
         <input type="text" name="username" placeholder="Username" required>
         <input type="password" name="password" placeholder="Password" required>
         <input type="submit" value="Login">
@@ -29,7 +29,7 @@
     <!-- Sign Up button -->
     <div class="signup-link">
         <p>Don't have an account?</p>
-        <a href="/signup" class="signup-button">Sign Up</a>
+        <a href="/SignUpModule" class="signup-button">Sign Up</a>
     </div>
 </div>
 </body>

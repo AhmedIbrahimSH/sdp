@@ -1,7 +1,7 @@
 <?php
 require_once '../Model/database_connection.php';
-require_once '../../notifications/subscriber.php';
-require_once '../../notifications/publisher.php';
+require_once '../../NotificationsModule/subscriber.php';
+require_once '../../NotificationsModule/publisher.php';
 require_once '../view/events_history_view.php';
 header('Content-Type: application/json'); // Ensure JSON response
 
@@ -17,13 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $conn = Database::get_instance();
 
-    $query = "INSERT INTO events (title, location, date, price, type) VALUES (:title, :location, :date, :price, :type)";
+    $query = "INSERT INTO events (Title, Location, Date, Price, Type) VALUES (:title, :location, :date, :price, :type)";
     $stmt = $conn->prepare($query);
-    $stmt->bindParam(':title', $title);
-    $stmt->bindParam(':location', $location);
-    $stmt->bindParam(':date', $date);
-    $stmt->bindParam(':price', $price);
-    $stmt->bindParam(':type', $type);
+    $stmt->bindParam(':Title', $title);
+    $stmt->bindParam(':Location', $location);
+    $stmt->bindParam(':Date', $date);
+    $stmt->bindParam(':Price', $price);
+    $stmt->bindParam(':Type', $type);
 
     if ($stmt->execute()) {
 //        echo json_encode(['success' => true]);

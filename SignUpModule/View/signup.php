@@ -14,7 +14,7 @@
             <div class="error"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
 
-        <form action="/signup" method="POST">
+        <form action="/SignUpModule" method="POST">
             <label for="username">User Name</label>
             <input type="text" id="username" name="username" placeholder="Enter your name" required>
 

@@ -27,7 +27,7 @@ class subscriber implements observer
     }
 
     public function sendMsg($event_name, $msg = null) {
-        $logFile = '../../notifications.log';
+        $logFile = '../../NotificationsModule.log';
         file_put_contents($logFile, date('[Y-m-d H:i:s] ') . $msg . PHP_EOL, FILE_APPEND);
 
     }

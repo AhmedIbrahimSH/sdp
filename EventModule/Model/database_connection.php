@@ -2,7 +2,7 @@
 
 class Database {
     private $host = 'localhost';
-    private $db_name = 'event_management';
+    private $db_name = 'charity_db';
     private $username = 'root';
     private $password = '';
     private static $conn = null;

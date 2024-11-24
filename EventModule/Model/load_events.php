@@ -16,7 +16,7 @@ class Events {
 
     public function load_events_from_db() {
         global $conn;
-        $query = "SELECT id, title , location, date, price , type FROM events";
+        $query = "SELECT EventID, Title , Location, Date, Price , Type FROM events";
         $stmt = $conn->prepare($query);
         $stmt->execute();
         $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
