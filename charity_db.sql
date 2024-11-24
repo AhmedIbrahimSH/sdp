@@ -30,15 +30,10 @@ CREATE TABLE IF NOT EXISTS  Account (
                                     Email VARCHAR(100) UNIQUE NOT NULL,
                                     PasswordHashed  VARCHAR(255) NOT NULL,
                                     IsAccountDeleted TINYINT(1) DEFAULT 0,
+                                    Type VARCHAR(15),
                                     FOREIGN KEY (PersonID) REFERENCES Person(PersonID) ON DELETE CASCADE
 );
 
--- Create Admin table
-CREATE TABLE  IF NOT EXISTS  Admin (
-                               PersonID INT PRIMARY KEY,
-                               Type ENUM('BeneficiaryAdmin', 'DonationAdmin', 'VolunteerAdmin','PayementAdmin','EventAdmin') NOT NULL,
-                               FOREIGN KEY (PersonID) REFERENCES Account(PersonID) ON DELETE CASCADE
-);
 
 
 CREATE TABLE IF NOT EXISTS Donor (
@@ -317,11 +312,10 @@ INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, Phone,
 VALUES ('Omar', 'Diab', 'Mosaad', 'Egyptian', 'Male', '01076543210', 2);
 SET @last_PersonID = LAST_INSERT_ID();
 
-INSERT INTO Account (PersonID, Email, PasswordHashed, IsAccountDeleted)
-VALUES (@last_PersonID, 'omarmdiab35@gmail.com', 'hashed_password_admin_001', 0);
+INSERT INTO Account (PersonID, Email, PasswordHashed, IsAccountDeleted,Type)
+VALUES (@last_PersonID, 'omarmdiab35@gmail.com', 'hashed_password_admin_001', 0,'B_A');
 
-INSERT INTO Admin (PersonID, Type)
-VALUES (@last_PersonID, 'BeneficiaryAdmin');
+
 
 
 
@@ -411,8 +405,8 @@ VALUES ((SELECT PersonID FROM Beneficiary WHERE PersonID = 3), 2.00, FALSE,TRUE)
 INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, Phone, AddressID)
 VALUES ('John', 'Doe', 'Michael', 'American', 'Male', '1234567890',  1);
 SET @last_PersonID = LAST_INSERT_ID();
-INSERT INTO Account (PersonID, Email, PasswordHashed,  IsAccountDeleted)
-VALUES (@last_PersonID, 'johndoe@example.com', 'hashed_password_123',  0);
+INSERT INTO Account (PersonID, Email, PasswordHashed,  IsAccountDeleted,Type)
+VALUES (@last_PersonID, 'johndoe@example.com', 'hashed_password_123',  0,'D');
 INSERT INTO Donor (PersonID,IsDonorDeleted)
 VALUES (@last_PersonID,  0);
 
@@ -420,8 +414,8 @@ VALUES (@last_PersonID,  0);
 INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, Phone, AddressID)
 VALUES ('Jane', 'Smith', NULL, 'British', 'Female', '0987654321', 2);
 SET @last_PersonID = LAST_INSERT_ID();
-INSERT INTO Account (PersonID, Email, PasswordHashed,  IsAccountDeleted)
-VALUES (@last_PersonID, 'janesmith@example.com', 'hashed_password_456', 0);
+INSERT INTO Account (PersonID, Email, PasswordHashed,  IsAccountDeleted,Type)
+VALUES (@last_PersonID, 'janesmith@example.com', 'hashed_password_456', 0,'D');
 INSERT INTO Donor (PersonID, IsDonorDeleted)
 VALUES (@last_PersonID,  0);
 
@@ -429,7 +423,7 @@ VALUES (@last_PersonID,  0);
 INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, Phone, AddressID)
 VALUES ('Alex', 'Taylor', 'Lee', 'Canadian', 'Other', '1122334455', 3);
 SET @last_PersonID = LAST_INSERT_ID();
-INSERT INTO Account (PersonID, Email, PasswordHashed,  IsAccountDeleted)
-VALUES (@last_PersonID, 'alextaylor@example.com', 'hashed_password_789', 0);
+INSERT INTO Account (PersonID, Email, PasswordHashed,  IsAccountDeleted,Type)
+VALUES (@last_PersonID, 'alextaylor@example.com', 'hashed_password_789', 0,'D');
 INSERT INTO Donor (PersonID, IsDonorDeleted)
 VALUES (@last_PersonID, 0);
