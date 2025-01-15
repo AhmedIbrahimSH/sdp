@@ -246,6 +246,20 @@ CREATE TABLE IF NOT EXISTS events (
 );
 -- Event Module END
 
+-- Notification Module Begin
+
+CREATE TABLE EmailLogs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    sender_email VARCHAR(255) NOT NULL,
+    recipient_email VARCHAR(255) NOT NULL,
+    subject VARCHAR(255) NOT NULL,
+    body TEXT NOT NULL,
+    sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('success', 'failure') NOT NULL,
+    error_message TEXT NULL
+);
+
+-- Notification Module Begin
 
 -- Volunteer Module Begin
 CREATE TABLE  Skill (
