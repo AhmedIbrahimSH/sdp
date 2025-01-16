@@ -1,16 +1,21 @@
 <?php
 
 namespace Controllers;
-
 use Models\EmailModel;
-
+// require_once '../models/EmailModel.php';
+require_once './EmailModel.php';
 class EmailController
 {
     private $emailModel;
 
-    public function __construct($db)
+    public function __construct($emailModel)
     {
-        $this->emailModel = new EmailModel($db);
+        $this->emailModel = $emailModel;
+    }
+
+    public function showForm()
+    {
+        require_once __DIR__ . '/NotificationsModule/views/EmailForm.php';
     }
 
     public function sendEmail()

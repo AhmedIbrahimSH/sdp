@@ -2,15 +2,21 @@
 
 namespace Models;
 
-require_once("Database.php");
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-//Load Composer's autoloader
-require 'vendor/autoload.php';
+// require_once __DIR__ . 'Database.php';
+// require_once __DIR__ . '/../config.php';
+// require_once __DIR__ . '/../../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+// require_once __DIR__ . '/../../vendor/phpmailer/phpmailer/src/SMTP.php';
+// require_once __DIR__ . '/../../vendor/phpmailer/phpmailer/src/Exception.php';
 
+require_once 'Database.php';
+require_once './NotificationsModule/config.php' ;
+require_once './vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require_once './vendor/phpmailer/phpmailer/src/SMTP.php' ;
+require_once './vendor/phpmailer/phpmailer/src/Exception.php';
 
 class EmailModel
 {
@@ -24,7 +30,7 @@ class EmailModel
     public function sendEmail($recipient, $subject, $body)
     {
         // Load email configuration
-        $config = require __DIR__ . '/../../config/email_config.php';
+        $config = require __DIR__ . '/NotificationsModule/config.php';
 
         $mail = new PHPMailer(true);
 

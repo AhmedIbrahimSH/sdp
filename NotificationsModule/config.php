@@ -9,3 +9,4 @@ return [
     'from_email' => 'charitysdp5@gmail.com',
     'from_name' => 'Charity SDP Organization',
 ];
+
