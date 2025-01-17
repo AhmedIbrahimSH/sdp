@@ -28,6 +28,7 @@ class  Volunteer extends Account implements VolunteerObserver {
             p.Phone
         FROM Volunteer v
         JOIN Person p ON v.PersonID = p.PersonID
+        WHERE v.IsVolunteerDeleted = 0
     ");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -51,19 +52,20 @@ class  Volunteer extends Account implements VolunteerObserver {
                 'nationality' => $data['nationality'] ?? null,
                 'gender' => $data['gender'],
                 'phone' => $data['phone'],
-                'addressId' => 1
+                'addressId' => $data['addressId'] ?? 1 // Use provided addressId or default to 1
             ]);
             $personId = $this->db->lastInsertId(); // Get the newly created PersonID
 
             // Step 2: Create Account
             $stmt = $this->db->prepare("
-            INSERT INTO Account (PersonID, Email)
-            VALUES (:personId, :email, :status)
+            INSERT INTO Account (PersonID, Email, PasswordHashed, Account_Type)
+            VALUES (:personId, :email, :passwordHashed, :Account_Type)
         ");
             $stmt->execute([
                 'personId' => $personId,
                 'email' => $data['email'],
-                'status' => $data['status']
+                'passwordHashed' => $data['passwordHashed'], // Use the hashed password
+                'Account_Type' => 'Volunteer' // Default to 'Volunteer' if not provided
             ]);
 
             // Step 3: Create Volunteer

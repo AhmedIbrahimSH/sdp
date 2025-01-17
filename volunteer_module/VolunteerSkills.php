@@ -26,7 +26,7 @@ class VolunteerSkills {
             SELECT s.id AS skill_id, s.skill
             FROM Volunteer_Skills vs
             JOIN Skill s ON vs.skill_id = s.id
-            WHERE vs.person_id = :personId AND vs.IsVolunteerSkillDeleted = 0
+            WHERE vs.PersonID = :personId 
         ");
         $stmt->execute(['personId' => $personId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

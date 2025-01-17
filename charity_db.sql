@@ -1,4 +1,4 @@
-
+DROP DATABASE IF EXISTS charity_db;
 CREATE DATABASE IF NOT EXISTS charity_db;
 USE charity_db;
 
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS  Account (
                                     Email VARCHAR(100) UNIQUE NOT NULL,
                                     PasswordHashed  VARCHAR(255) NOT NULL,
                                     IsAccountDeleted TINYINT(1) DEFAULT 0,
-                                    Type VARCHAR(15),
+                                    Account_Type VARCHAR(15),
                                     FOREIGN KEY (PersonID) REFERENCES Person(PersonID) ON DELETE CASCADE
 );
 
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS Charity_Storage (
                              Spendings DECIMAL(10, 2) NOT NULL,
                              Donations INT DEFAULT 0,
                              AffectedPeople INT DEFAULT 0
-                                
+
 );
 
 -- Create Need tables
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS ShelterNeedHistory (
                                 Accepted BOOLEAN DEFAULT FALSE,
                                 RegisterDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                 purpose VARCHAR(255) DEFAULT 'Shelter Assistance for Homeless beneficiary',
-                                FOREIGN KEY (BeneficiaryID) REFERENCES Beneficiary(PersonID) ON DELETE CASCADE 
+                                FOREIGN KEY (BeneficiaryID) REFERENCES Beneficiary(PersonID) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS ClothingNeedHistory (
@@ -374,7 +374,7 @@ VALUES (@last_PersonID, 1000.00, TRUE, TRUE, FALSE);
 
 -- Insert storage data
 INSERT INTO Charity_Storage (type, Amount, Spendings,AffectedPeople)
-VALUES 
+VALUES
     ('Cash', 15000.00, 0.00,0),
     ('Food', 5000.00, 0.00,0),
     ('Clothing', 2000.00, 0.00,0),
@@ -387,7 +387,7 @@ INSERT INTO CashNeedHistory (BeneficiaryID, Amount, Allocated, Accepted)
 VALUES ((SELECT PersonID FROM Beneficiary WHERE PersonID = 2), 1000.00, TRUE,TRUE);
 
 
-UPDATE Charity_Storage 
+UPDATE Charity_Storage
 SET Spendings = Spendings + 1000.00, Amount = Amount - 1000.00, AffectedPeople = AffectedPeople + 1
 WHERE type = 'Cash';
 
@@ -397,7 +397,7 @@ INSERT INTO FoodNeedHistory (BeneficiaryID, Amount, Allocated, Accepted)
 VALUES ((SELECT PersonID FROM Beneficiary WHERE PersonID = 2), 1.00, TRUE,TRUE);
 
 
-UPDATE Charity_Storage 
+UPDATE Charity_Storage
 SET Spendings = Spendings + 1.00, Amount = Amount - 1.00, AffectedPeople = AffectedPeople + 1
 WHERE type = 'Food';
 

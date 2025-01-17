@@ -26,8 +26,8 @@ class VolunteerTasks {
     public function getTasksByVolunteer($personId) {
         $stmt = $this->db->prepare("
             SELECT id AS task_id, task_name, description, due_date
-            FROM Volunteer_Tasks
-            WHERE person_id = :personId
+            FROM Tasks
+            WHERE PersonID = :personId
             ORDER BY due_date ASC
         ");
         $stmt->execute(['personId' => $personId]);
@@ -37,7 +37,7 @@ class VolunteerTasks {
     // Update a task for a volunteer
     public function updateTask($taskId, $taskName, $description, $dueDate) {
         $stmt = $this->db->prepare("
-            UPDATE Volunteer_Tasks
+            UPDATE Tasks
             SET task_name = :taskName, description = :description, due_date = :dueDate
             WHERE id = :taskId
         ");

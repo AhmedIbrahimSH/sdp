@@ -42,11 +42,12 @@ class VolunteerController {
 
     // Add a new volunteer
     public function create() {
-            // Use the CountryProxy to fetch nationalities
-            $countryProxy = new CountryProxy();
-            $nationalities = $countryProxy->getAllCountries();
+        // Use the CountryProxy to fetch nationalities
+        $countryProxy = new CountryProxy();
+        $nationalities = $countryProxy->getAllCountries();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Collect form data
             $data = [
                 'firstName' => $_POST['first_name'],
                 'lastName' => $_POST['last_name'],
@@ -55,15 +56,27 @@ class VolunteerController {
                 'gender' => $_POST['gender'],
                 'phone' => $_POST['phone'],
                 'email' => $_POST['email'],
+                'passwordHashed' => $_POST['hashed_password'], // Use the hashed password
+                'type' => $_POST['type'] ?? 'Volunteer', // Add type field (default to 'Volunteer')
                 'addressId' => $_POST['address_id'],
                 'status' => $_POST['status']
             ];
 
-            $personId = $this->volunteerModel->createVolunteer($data);
+            try {
+                // Create the volunteer
+                $personId = $this->volunteerModel->createVolunteer($data);
 
-            header("Location: index.php?action=show_volunteer&person_id=$personId");
-            exit;
+                // Redirect to the volunteer's profile page
+                header("Location: index.php?action=show_volunteer&person_id=$personId");
+                exit;
+            } catch (Exception $e) {
+                // Handle errors (e.g., display an error message)
+                $error = "Error creating volunteer: " . $e->getMessage();
+                echo $e;
+                //include 'views/error.php';
+            }
         } else {
+            // Display the volunteer creation form
             include 'views/volunteer_create.php';
         }
     }
