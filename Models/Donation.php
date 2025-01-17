@@ -47,12 +47,16 @@ class Donation
     public function setstrategy($strategy)
     {
         $this->strategy = $strategy;
-
     }
+    public function getStrategy()
+    {
+        return $this->strategy;
+    }
+
 
     public function returnStrategytype()
     {
-        print"lol";
+        //print"lol";
     }
 
     public function sendDataToStrategy($data)
@@ -86,10 +90,6 @@ class Donation
     /**
      * @return mixed
      */
-    public function getStrategy()
-    {
-        return $this->strategy;
-    }
 
 
     public function addDonation($type, $date, $paymentMethod, $totalAmount, $personID)

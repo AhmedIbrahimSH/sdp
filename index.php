@@ -1,14 +1,17 @@
 <?php
 // Enable error reporting
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
+
+use Controllers\DonationCartController;
 use Controllers\DonationController;
 use Controllers\DonorController;
 use Controllers\InvoiceController;
 use Controllers\PaymentController;
 use Models\CashDonation;
 use Models\ClothesDonation;
+use Models\Command\DonationCart;
 use Models\Database;
 use Models\Donation;
 use Models\Donor;
@@ -24,41 +27,42 @@ session_start();
 //}
 
 // Include model, controller, and view classes
-require_once 'DonationModule/Models/Database.php';
-require_once 'DonationModule/Models/Donor.php';
-require_once 'DonationModule/Models/Donation.php';
-require_once 'DonationModule/Models/CashDonation.php';
-require_once 'DonationModule/Models/FoodDonation.php';
-require_once 'DonationModule/Models/DrugsDonation.php';
-require_once 'DonationModule/Models/ClothesDonation.php';
-require_once 'DonationModule/Models/Strategy/Payment.php';
-require_once 'DonationModule/Models/Strategy/IPay.php';
+require_once 'Models/Database.php';
+require_once 'Models/Donor.php';
+require_once 'Models/Donation.php';
+require_once 'Models/CashDonation.php';
+require_once 'Models/FoodDonation.php';
+require_once 'Models/DrugsDonation.php';
+require_once 'Models/ClothesDonation.php';
+require_once 'Models/Strategy/Payment.php';
+require_once 'Models/Strategy/IPay.php';
 
 
 
-require_once 'DonationModule/Controllers/DonorController.php';
-require_once 'DonationModule/Controllers/DonationController.php';
+require_once 'Controllers/DonorController.php';
+require_once 'Controllers/DonationController.php';
 
-require_once 'DonationModule/controllers/InvoiceController.php';
-require_once 'DonationModule/Controllers/PaymentController.php';
+require_once 'controllers/InvoiceController.php';
+require_once 'Controllers/PaymentController.php';
+require_once 'Controllers/DonationCartController.php';
 
 
-require_once 'DonationModule/Views/donorView.php';
-require_once 'DonationModule/Views/DonorsListView.php';
-require_once 'DonationModule/Views/UpdateDonorView.php';
+require_once './Views/donorView.php';
+require_once './Views/DonorsListView.php';
+require_once './Views/UpdateDonorView.php';
 
-require_once 'DonationModule/Views/DonationsView.php'; // Add Donations View
+require_once './Views/DonationsView.php'; // Add Donations View
 
-require_once 'DonationModule/Views/AddCashDonationView.php';
-require_once 'DonationModule/Views/AddFoodDonationView.php';
-require_once 'DonationModule/Views/AddDrugsDonationView.php';
-require_once 'DonationModule/Views/AddClothesDonationView.php';
+require_once './Views/AddCashDonationView.php';
+require_once './Views/AddFoodDonationView.php';
+require_once './Views/AddDrugsDonationView.php';
+require_once './Views/AddClothesDonationView.php';
 
-require_once 'DonationModule/Views/PaymentStrategiesView.php';
-require_once 'DonationModule/Views/CreditCardPaymentView.php';
-require_once 'DonationModule/Views/PayPalPaymentView.php';
-require_once 'DonationModule/Views/BankTransferPaymentView.php';
-
+require_once './Views/PaymentStrategiesView.php';
+require_once './Views/CreditCardPaymentView.php';
+require_once './Views/PayPalPaymentView.php';
+require_once './Views/BankTransferPaymentView.php';
+require_once './Views/DonationCartView.php';
 
 
 // Initialize database connection
@@ -74,6 +78,7 @@ $FoodDonationModel =new FoodDonation($pdo);
 $PaymentModel=new Payment($pdo);
 
 
+
 // Initialize controllers
 $donorController = new DonorController($donorModel);
 
@@ -82,6 +87,8 @@ $donationController = new DonationController($donationModel);
 
 $InvoiceController = new InvoiceController();
 $PaymentController = new PaymentController($PaymentModel);
+$DonationCartController =new DonationCartController($donationModel);
+
 
 // Check the action parameter to determine the requested action
 if (isset($_GET['action'])) {
@@ -101,7 +108,7 @@ if (isset($_GET['action'])) {
 
         // Add donor
         case 'addDonor':
-            include 'DonationModule/views/AddDonorView.php';
+            include './views/AddDonorView.php';
             break;
 
         case 'saveDonor':
@@ -183,6 +190,69 @@ if (isset($_GET['action'])) {
 
 
 
+
+        //Add donation to the cart
+        case 'addToDonationCart':
+//            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//                $donationQuantity = $_POST['Data']; // Get donation data
+//
+//                // Retrieve cart from session or create a new one
+//                if (!isset($_SESSION['donation_cart'])) {
+//                    $_SESSION['donation_cart'] = [];
+//                }
+//
+//                // Add donation to the session cart
+//                //$_SESSION['donation_cart'][] = $donationQuantity;
+//                $Donation=$donationController->getStrategy();
+//                $DonationCartController = new DonationCartController($Donation);
+//
+//                $DonationCartController->AddDonationToCart();
+//
+//
+//                echo "Donation added to cart!";
+//            }
+//            break;
+            echo "lol";
+            $donationStrategy = $donationController->getStrategy();
+            //$DonationCartController->AddDonationToCart();
+            var_dump($donationStrategy); // Prints detailed structure of the strategy model
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Retrieve the donation strategy
+
+                echo "success"; // Response for AJAX
+            }
+            break;
+
+
+
+
+
+
+
+
+
+        case 'showCart':
+            $view = new \Views\DonationCartView();
+            $view->render();
+
+            var_dump($_SESSION['donation_cart']);
+            break;
+
+
+
+
+
+
+
+
+        case 'del':
+            session_unset();
+
+
+
+
+
+
         case 'proceedToPayment':
             if (isset($_SESSION['strategy_type'])) {
                 $strategyType = $_SESSION['strategy_type'];
@@ -191,6 +261,9 @@ if (isset($_GET['action'])) {
                 echo "Strategy not set. Please choose a donation type.";
             }
             break;
+
+
+
 
 
         case 'choosePayment':
@@ -254,8 +327,8 @@ if (isset($_GET['action'])) {
             break;
 
 
-//
-//
+
+
 //        case  'addCashDonation':
 //            $cashStrategy = new CashDonation($pdo);
 //            $donationController->PerformDonation($cashStrategy);
@@ -282,17 +355,17 @@ if (isset($_GET['action'])) {
 //                exit;
 //            }
 //            break;
-//        case 'showPaymentPage':
-//            // Retrieve the amount from the session
-//            $amount = $_SESSION['cashDonationAmount'];
-//
-//            // Render the payment page with the amount
-//            echo "<h2>Payment for Donation Amount: $amount</h2>";
-//        // Render further payment details or a form
-//            break;
-//
-//
-//
+        case 'showPaymentPage':
+            // Retrieve the amount from the session
+            $amount = $_SESSION['cashDonationAmount'];
+
+            // Render the payment page with the amount
+            echo "<h2>Payment for Donation Amount: $amount</h2>";
+        // Render further payment details or a form
+            break;
+
+
+
 //        case 'cashDonation':
 //            $CashDonationController->showAll();
 //            break;
@@ -315,11 +388,11 @@ if (isset($_GET['action'])) {
 //        case 'clothesDonation':
 //            $ClothesDonationController->showAll();
 //            break;
-//
-//        case 'invoice':
-//
-//            $InvoiceController->showInvoice(1); // Example: Show invoice with ID 1
-//            break;
+
+        case 'invoice':
+
+            $InvoiceController->showInvoice(1); // Example: Show invoice with ID 1
+            break;
 
         default:
             echo "Unknown action: " . htmlspecialchars($_GET['action']);

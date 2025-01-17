@@ -1,9 +1,10 @@
 <?php
 
 namespace Controllers;
-
+use Models\Donation;
 use Models\CashDonation;
 use Models\ClothesDonation;
+use Models\DonationStrategy;
 use Models\DrugsDonation;
 use Models\FoodDonation;
 use Views\AddCashDonationView;
@@ -34,7 +35,7 @@ require_once 'Views/PaymentStrategiesView.php';
 
 class DonationController
 {
-    private $donationModel;
+    private Donation $donationModel;
     private $strategy;
 
     /**
@@ -42,7 +43,15 @@ class DonationController
      */
     public function getStrategy()
     {
-        return $this->strategy;
+        print("From Donation Controller");
+
+        var_dump($this->donationModel->getStrategy());
+        print("------------");
+        return $this->donationModel->getStrategy();
+    }
+    public function setStrategy($strategy)
+    {
+         $this->strategy=$strategy;
     }
 
     // Constructor to initialize the model
@@ -55,8 +64,8 @@ class DonationController
 //            $this->donationModel->setStrategy($this->strategy);
 //        }
 
-
     }
+
 
     //Navigate to the Donation types screen
     public function DonationTypes()
@@ -77,7 +86,7 @@ class DonationController
             case 'foodDonation':
                 $strategy = new FoodDonation($this->donationModel);
                 $view = new AddFoodDonationView();
-                $view->render($strategy->getPREDEFINEDAMOUNTPERITEM());
+                $view->render('foodDonation',$strategy->getPREDEFINEDAMOUNTPERITEM());
                 break;
 
             case 'drugsDonation':
@@ -98,6 +107,7 @@ class DonationController
         // Store the strategy in the session
         $_SESSION['strategy'] = serialize($strategy); // Serialize to store the object in session
         $this->donationModel->setstrategy($strategy);
+        $this->setStrategy($strategy);
 
 
     }
