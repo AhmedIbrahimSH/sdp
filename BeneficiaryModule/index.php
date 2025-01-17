@@ -5,7 +5,6 @@ use models\Database;
 require_once 'Models/Database.php';
 require_once 'Models/Beneficiary.php';
 require_once 'Controllers/BeneficiaryController.php';
-require_once 'Controllers/HomeController.php';
 require_once 'Models/BeneficiaryAdmin.php';
 require_once 'Controllers/NeedController.php';
 
@@ -19,7 +18,7 @@ if (!$db) {
 }
 
 // admin object
-$admin = new BeneficiaryAdmin();
+$admin = new BeneficiaryAdmin($db);
 
 // Instantiate the BeneficiaryController
 $beneficiaryController = new BeneficiaryController($db, $admin);
@@ -59,8 +58,6 @@ switch ($action) {
 
     case 'view_beneficiary':
         if (isset($_GET['id'])) {
-
-
             $beneficiaryController->show_Beneficiary_profile($_GET['id']); // this will create my need controller instance 
         } else {
             echo "Error: Beneficiary ID not provided";
@@ -95,8 +92,7 @@ switch ($action) {
         break;
 
     default:
-        // Default action can be handled by a HomeController (optional)
-        $homeController = new HomeController();
-        $homeController->index();
+        //$beneficiaryController->listBeneficiaries();
+        echo "Default Not supposed to be shown";
         break;
 }
