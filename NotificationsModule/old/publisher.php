@@ -34,7 +34,8 @@ class publisher implements  subject
     {
         foreach (self::$subscribers as $subscriber) {
             if($type == $subscriber->getEventType()) {
-                smsSender::send_sms($event_name, "2024-10-04");
+
+//                smsSender::send_sms($event_name, "2024-10-04");
             }
         }
     }

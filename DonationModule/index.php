@@ -35,7 +35,7 @@ require_once 'Models/Strategy/IPay.php';
 require_once 'Controllers/DonorController.php';
 require_once 'Controllers/DonationController.php';
 
-require_once 'controllers/InvoiceController.php';
+require_once 'Controllers/InvoiceController.php';
 require_once 'Controllers/PaymentController.php';
 
 

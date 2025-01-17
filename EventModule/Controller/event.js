@@ -53,27 +53,27 @@
                 type === 'program' ? 'red' : 'default'
     });
 
-    alert('Event added to the calendar!');
+    alert(JSON.stringify(eventData, null, 2));
 
-        // console.log(eventData);
-        fetch('../../Controller/add_event.php', {
+
+        alert('Event added to the calendar!');
+
+        fetch('/sdp/EventModule/Controller/add_event.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(eventData)
     })
-        .then(response => response.text())  // Use text() to inspect raw response first
-        .then(data => {
-            // console.log("Raw data:", data);  // Log the raw response to check for issues
-            // const jsonData = JSON.parse(data);
-            // if (jsonData.success) {
-            //     alert("Event added successfully!");
-            // } else {
-            //     alert("Failed to add event: " + jsonData.message);
-            // }
-        })
-        .catch(error => console.error('Error:', error));
+            .then(response => {
+                console.log("Response status:", response.status); // Log the HTTP status code
+                return response.text(); // Use text() to inspect raw response first
+            })
+            .then(data => {
+                console.log("Raw response data:", data); // Log the raw response
+            })
+            .catch(error => console.error('Error:', error));
+        alert('oooo added to the calendar!');
 
         document.getElementById('eventForm').reset();
 }

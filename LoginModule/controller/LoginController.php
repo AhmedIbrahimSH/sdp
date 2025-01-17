@@ -11,7 +11,15 @@ class LoginController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
-
+            $_SESSION['user'] = $username;
+            // Check if 'user' is set in the session
+            if (isset($_SESSION['user'])) {
+                // Echo the session value for testing
+                echo 'User session: ' . $_SESSION['user'];
+            } else {
+                // If session 'user' is not set, echo a message
+                echo 'No user session found.';
+            }
             if (empty($username) || empty($password)) {
                 $this->redirectWithError("Username or Password cannot be empty.");
                 return;

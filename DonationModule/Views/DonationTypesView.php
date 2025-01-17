@@ -4,7 +4,7 @@ namespace Views;
 class DonationTypesView
 {
     // Method to render the donation type selection view
-    public function renderDonationTypeSelection()
+    public static function renderDonationTypeSelection()
     {
         return "
         <!DOCTYPE html>
@@ -87,3 +87,6 @@ class DonationTypesView
         ";
     }
 }
+
+echo DonationTypesView::renderDonationTypeSelection();
+
