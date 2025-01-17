@@ -36,18 +36,6 @@ class Beneficiary extends Person
 
         // Fetch and initialize needs
         $this->initializeNeeds();
-
-        // $needs = [];
-        // $needTables = ['cashneedhistory', 'foodneedhistory', 'clothingneedhistory', 'drugneedhistory', 'medicalneedhistory', 'shelterneedhistory']; // Add other need tables as necessary
-
-        // foreach ($needTables as $table) {
-        //     $query = "SELECT *, '$table' as table_name FROM $table WHERE BeneficiaryID = :beneficiaryID";
-        //     $stmt = $this->db->prepare($query);
-        //     $stmt->bindParam(':beneficiaryID', $this->PersonID, PDO::PARAM_INT);
-        //     $stmt->execute();
-        //     $needs = array_merge($needs, $stmt->fetchAll(PDO::FETCH_ASSOC));
-        // }
-        // $this->needs = $needs;
     }
 
 
