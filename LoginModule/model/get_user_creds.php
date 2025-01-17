@@ -1,5 +1,7 @@
 <?php
 
+use models\Database;
+
 require_once '../../EventModule/Model/database_connection.php';
 
 class UserCredModel{

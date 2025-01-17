@@ -1,5 +1,7 @@
 <?php
 
+use models\Person;
+
 require_once 'Person.php';
 require_once 'Needs/SimpleNeedFactory.php';
 require_once 'Needs_Iterators/Needs_Collection_Interface.php';

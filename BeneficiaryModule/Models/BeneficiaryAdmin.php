@@ -1,4 +1,7 @@
 <?php
+
+use models\Person;
+
 require_once 'Person.php';
 require_once 'Beneficiary_Iterators\Beneficiary_Collection_Interface.php';
 require_once 'Beneficiary_Iterators\Income_Based_Iterator.php';

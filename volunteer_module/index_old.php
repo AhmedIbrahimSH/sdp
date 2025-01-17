@@ -1,5 +1,12 @@
 <?php
 // Require all necessary controllers
+use controllers\EventsController;
+use controllers\VolunteerCertificateController;
+use controllers\VolunteerController;
+use controllers\VolunteerScheduleController;
+use controllers\VolunteerSkillsController;
+use controllers\VolunteerTasksController;
+
 require_once 'VolunteerController.php';
 require_once 'VolunteerTasksController.php';
 require_once 'VolunteerScheduleController.php';

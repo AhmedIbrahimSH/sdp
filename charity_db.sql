@@ -95,11 +95,9 @@ CREATE TABLE  schedule (
 
 CREATE TABLE Volunteer_Certificates (
                                         id INT AUTO_INCREMENT PRIMARY KEY,
-                                        task_id INT NOT NULL,
                                         PersonID INT,
                                         certificate_name VARCHAR(255) NOT NULL,
                                         date_awarded DATE NOT NULL,
-                                        FOREIGN KEY (task_id) REFERENCES Tasks(id) ON DELETE CASCADE,
                                         FOREIGN KEY (PersonID) REFERENCES Volunteer(PersonID) ON DELETE CASCADE
                                     );
 -- Insert sample rows into the Skill table

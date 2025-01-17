@@ -1,5 +1,7 @@
 <?php
 
+use models\Event;
+
 require_once '../Model/load_events.php';
 require_once '../Controller/event_history.php';
 class EventHistoryView{

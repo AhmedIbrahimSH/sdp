@@ -1,4 +1,7 @@
 <?php
+
+use models\Database;
+
 require_once 'Models/Database.php';
 require_once 'Models/Beneficiary.php';
 require_once 'Controllers/BeneficiaryController.php';

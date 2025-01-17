@@ -1,5 +1,7 @@
 <?php
 
+use models\Database;
+
 require_once '../View/events_history_view.php';
 
 

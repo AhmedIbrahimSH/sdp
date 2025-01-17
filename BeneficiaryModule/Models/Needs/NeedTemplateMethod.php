@@ -1,4 +1,7 @@
 <?php
+
+use models\Database;
+
 require_once 'Models\Database.php';
 
 abstract class NeedTemplateMethod

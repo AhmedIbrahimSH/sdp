@@ -1,11 +1,18 @@
 <?php
 // Require all necessary controllers
-require_once 'VolunteerController.php';
-require_once 'VolunteerTasksController.php';
-require_once 'VolunteerScheduleController.php';
-require_once 'VolunteerSkillsController.php';
-require_once 'VolunteerCertificateController.php';
-require_once 'EventsController.php';
+use controllers\EventsController;
+use controllers\VolunteerCertificateController;
+use controllers\VolunteerController;
+use controllers\VolunteerScheduleController;
+use controllers\VolunteerSkillsController;
+use controllers\VolunteerTasksController;
+
+require_once 'controllers/VolunteerController.php';
+require_once 'controllers/VolunteerTasksController.php';
+require_once 'controllers/VolunteerScheduleController.php';
+require_once 'controllers/VolunteerSkillsController.php';
+require_once 'controllers/VolunteerCertificateController.php';
+require_once 'controllers/EventsController.php';
 
 // Instantiate all controllers
 $volunteerController = new VolunteerController();
@@ -90,7 +97,7 @@ switch ($action) {
         $certificateController->indexByVolunteer($personId);
         break;
     case 'add_certificate': // Add a certificate to a task
-        $certificateController->addCertificate($taskId);
+        $certificateController->addCertificate($personId);
         break;
     case 'remove_certificate': // Remove a certificate
         $certificateController->removeCertificate($certificateId, $taskId);
