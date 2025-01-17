@@ -1,7 +1,7 @@
 <?php
 class Beneficiary_List_View
 {
-    public function showBeneficiaries($beneficiaries)
+    public function showBeneficiaries($beneficiaries_iterator)
     {
         // Embedding the CSS directly within the PHP function for modern look
         echo '<link rel="stylesheet" type="text/css" href="Views/styles/list.css">';
@@ -12,9 +12,9 @@ class Beneficiary_List_View
         echo '<h1>Beneficiary Control Panel</h1>';
 
         // Title and action buttons, "Create" button aligned to the right
-        echo '<div class="actions">';
-        echo '<a href="index.php?action=create_beneficiary" class="btn btn-primary">Create New Beneficiary</a>';
-        echo '<a href="index.php?action=track_distribution" class="btn btn-primary" style="margin-left: 100px;">Track Resources Distribution</a>';
+        echo '<div class="actions" style="text-align: center;">';
+        echo '<a href="index.php?action=create_beneficiary" class="btn btn-primary" style="margin-right: 50px;">Create New Beneficiary</a>';
+        echo '<a href="index.php?action=track_distribution" class="btn btn-primary">Track Resources Distribution</a>';
         echo '</div>';
 
         // Start of table with improved structure and modern style
@@ -22,8 +22,10 @@ class Beneficiary_List_View
         echo '<thead><tr><th>Name</th><th>Phone</th><th>Income</th><th>Has Disability</th><th>Is Homeless</th><th>Has Chronic Disease</th><th>Actions</th></tr></thead>';
         echo '<tbody>';
 
-        // Loop through beneficiaries and display their details
-        foreach ($beneficiaries as $beneficiary) {
+        // Use the iterator to traverse the beneficiaries
+        while ($beneficiaries_iterator->hasNext()) {
+            $beneficiary = $beneficiaries_iterator->next();
+
             echo '<tr>';
             // Name column with a link to view the beneficiary
             echo '<td><a href="index.php?action=view_beneficiary&id=' . urlencode($beneficiary->getPersonID()) . '" class="name-link">' . htmlspecialchars($beneficiary->getFirstName() . ' ' . $beneficiary->getMiddleName() . ' ' . $beneficiary->getLastName()) . '</a></td>';

@@ -1,13 +1,13 @@
 <?php
 abstract class Person
 {
-    protected $FirstName;
-    protected $LastName;
-    protected $MiddleName;
-    protected $Nationality;
-    protected $Gender;
-    protected $Phone;
-    protected $AddressID;
+    public $FirstName;
+    public $LastName;
+    public $MiddleName;
+    public $Nationality;
+    public $Gender;
+    public $Phone;
+    public $AddressID;
 
     public function __construct($firstName, $lastName, $middleName = null, $nationality = null, $gender = null, $phone = null, $addressID = null)
     {

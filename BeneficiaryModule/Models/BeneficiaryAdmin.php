@@ -1,7 +1,8 @@
 <?php
 require_once 'Person.php';
-
-class BeneficiaryAdmin extends Person
+require_once 'Beneficiary_Iterators\Beneficiary_Collection_Interface.php';
+require_once 'Beneficiary_Iterators\Income_Based_Iterator.php';
+class BeneficiaryAdmin extends Person implements BeneficiariesCollectionInterface
 {
     protected $email;
     protected $username;
@@ -9,17 +10,33 @@ class BeneficiaryAdmin extends Person
     //protected $Assigned_Location;
     protected $beneficiaries = []; // To store registered beneficiaries
 
-    // public function __construct($name, $mobile, $address, $blood_type, $email, $username, $password)
-    // {
-    //     $this->email = $email;
-    //     $this->username = $username;
-    //     $this->password = $password;
-    //     // $this->Assigned_Location = $Assigned_Location;
+    public function __construct($db)
+    {
+        $this->initBeneficiaries($db);
+    }
 
+    public function getIterator(): BeneficiaryIterator
+    {
+        return new IncomeBasedIterator($this->beneficiaries);
+    }
 
-    //     parent::__construct($id, $name, $mobile, $address, $blood_type);
-    // }
-    public function __construct() {}
+    public function initBeneficiaries($db)
+    {
+        $query = "SELECT p.PersonID 
+              FROM person p 
+              JOIN beneficiary b ON p.PersonID = b.PersonID";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Create an array of Beneficiary objects
+        $beneficiaries = [];
+        foreach ($result as $row) {
+            $beneficiary = new Beneficiary($db, $row['PersonID']);
+            $beneficiaries[] = $beneficiary;
+        }
+        $this->beneficiaries = $beneficiaries;
+    }
 
     public function CreateBeneficiary($db, $data)
     {
@@ -97,7 +114,7 @@ class BeneficiaryAdmin extends Person
 
             // Remove from beneficiaries array
             foreach ($this->beneficiaries as $key => $beneficiary) {
-                if ($beneficiary->id == $beneficiaryId) {
+                if ($beneficiary->getPersonID() == $beneficiaryId) {
                     unset($this->beneficiaries[$key]);
                     return true;
                 }
@@ -112,8 +129,12 @@ class BeneficiaryAdmin extends Person
 
     public function updateBeneficiary($db, $beneficiaryId, $data)
     {
-        // Update the person table
-        $queryPerson = "UPDATE person SET 
+        try {
+            // Begin transaction
+            $db->beginTransaction();
+
+            // Update the person table
+            $queryPerson = "UPDATE person SET 
                         FirstName = COALESCE(:firstName, FirstName),
                         MiddleName = COALESCE(:middleName, MiddleName),
                         LastName = COALESCE(:lastName, LastName),
@@ -121,80 +142,71 @@ class BeneficiaryAdmin extends Person
                         AddressID = COALESCE(:addressID, AddressID)
                         WHERE PersonID = :personID";
 
-        $stmtPerson = $db->prepare($queryPerson);
-        $stmtPerson->bindParam(':firstName', $data['FirstName'], PDO::PARAM_STR);
-        $stmtPerson->bindParam(':middleName', $data['MiddleName'], PDO::PARAM_STR);
-        $stmtPerson->bindParam(':lastName', $data['LastName'], PDO::PARAM_STR);
-        $stmtPerson->bindParam(':phone', $data['Phone'], PDO::PARAM_STR);
-        $stmtPerson->bindParam(':addressID', $data['AddressID'], PDO::PARAM_INT);
-        $stmtPerson->bindParam(':personID', $beneficiaryId, PDO::PARAM_INT);
+            $stmtPerson = $db->prepare($queryPerson);
 
-        // Update the beneficiary table
-        $queryBeneficiary = "UPDATE beneficiary SET 
+            $stmtPerson->bindValue(':firstName', $data['firstName'] ?? null, PDO::PARAM_STR);
+            $stmtPerson->bindValue(':middleName', $data['middleName'] ?? null, PDO::PARAM_STR);
+            $stmtPerson->bindValue(':lastName', $data['lastName'] ?? null, PDO::PARAM_STR);
+            $stmtPerson->bindValue(':phone', $data['phone'] ?? null, PDO::PARAM_STR);
+            $stmtPerson->bindValue(':addressID', $data['addressID'] ?? null, PDO::PARAM_INT);
+            $stmtPerson->bindValue(':personID', $beneficiaryId, PDO::PARAM_INT);
+
+            // Execute the person update query
+            if (!$stmtPerson->execute()) {
+                throw new Exception("Failed to update person: " . implode(", ", $stmtPerson->errorInfo()));
+            }
+
+            // Update the beneficiary table
+            $queryBeneficiary = "UPDATE beneficiary SET 
                              income = COALESCE(:income, income),
                              hasChronicDisease = COALESCE(:hasChronicDisease, hasChronicDisease),
                              hasDisability = COALESCE(:hasDisability, hasDisability),
                              isHomeless = COALESCE(:isHomeless, isHomeless)
                              WHERE PersonID = :personID";
 
-        $stmtBeneficiary = $db->prepare($queryBeneficiary);
-        $stmtBeneficiary->bindParam(':income', $data['income'], PDO::PARAM_STR);
-        $stmtBeneficiary->bindParam(':hasChronicDisease', $data['hasChronicDisease'], PDO::PARAM_BOOL);
-        $stmtBeneficiary->bindParam(':hasDisability', $data['hasDisability'], PDO::PARAM_BOOL);
-        $stmtBeneficiary->bindParam(':isHomeless', $data['isHomeless'], PDO::PARAM_BOOL);
-        $stmtBeneficiary->bindParam(':personID', $beneficiaryId, PDO::PARAM_INT);
+            $stmtBeneficiary = $db->prepare($queryBeneficiary);
+            $stmtBeneficiary->bindValue(':income', $data['income'] ?? null, PDO::PARAM_STR);
+            $stmtBeneficiary->bindValue(':hasChronicDisease', $data['hasChronicDisease'] ?? null, PDO::PARAM_BOOL);
+            $stmtBeneficiary->bindValue(':hasDisability', $data['hasDisability'] ?? null, PDO::PARAM_BOOL);
+            $stmtBeneficiary->bindValue(':isHomeless', $data['isHomeless'] ?? null, PDO::PARAM_BOOL);
+            $stmtBeneficiary->bindValue(':personID', $beneficiaryId, PDO::PARAM_INT);
 
-        // Execute both queries
-        if ($stmtPerson->execute() && $stmtBeneficiary->execute()) {
+            // Execute the beneficiary update query
+            if (!$stmtBeneficiary->execute()) {
+                throw new Exception("Failed to update beneficiary: " . implode(", ", $stmtBeneficiary->errorInfo()));
+            }
+
+            // Commit transaction
+            $db->commit();
+
+            // Update the beneficiary object in memory
             foreach ($this->beneficiaries as $beneficiary) {
-                if ($beneficiary->id == $beneficiaryId) {
-                    $beneficiary->FirstName = $data['FirstName'] ?? $beneficiary->FirstName;
-                    $beneficiary->MiddleName = $data['MiddleName'] ?? $beneficiary->MiddleName;
-                    $beneficiary->LastName = $data['LastName'] ?? $beneficiary->LastName;
-                    $beneficiary->Phone = $data['Phone'] ?? $beneficiary->Phone;
-                    $beneficiary->AddressID = $data['AddressID'] ?? $beneficiary->AddressID;
+                if ($beneficiary->getPersonID() == $beneficiaryId) {
+                    $beneficiary->FirstName = $data['firstName'] ?? $beneficiary->FirstName;
+                    $beneficiary->MiddleName = $data['middleName'] ?? $beneficiary->MiddleName;
+                    $beneficiary->LastName = $data['lastName'] ?? $beneficiary->LastName;
+                    $beneficiary->Phone = $data['phone'] ?? $beneficiary->Phone;
+                    $beneficiary->AddressID = $data['addressID'] ?? $beneficiary->AddressID;
                     $beneficiary->income = $data['income'] ?? $beneficiary->income;
                     $beneficiary->hasChronicDisease = $data['hasChronicDisease'] ?? $beneficiary->hasChronicDisease;
                     $beneficiary->hasDisability = $data['hasDisability'] ?? $beneficiary->hasDisability;
                     $beneficiary->isHomeless = $data['isHomeless'] ?? $beneficiary->isHomeless;
-                    return true;
+                    break;
                 }
             }
+
+            return true;
+        } catch (Exception $e) {
+            // Rollback transaction if something failed
+            $db->rollBack();
+            // Log the error or handle it as needed
+            error_log("Error updating beneficiary: " . $e->getMessage());
+            return false;
         }
-        return false;
     }
 
 
-    // public function getBeneficiaries($db)
-    // {
-    //     $query = "SELECT p.PersonID, p.FirstName,p.MiddleName,p.LastName ,p.Phone, p.AddressID,b.income, b.hasChronicDisease, b.hasDisability,b.isHomeless 
-    //               FROM person p 
-    //               JOIN beneficiary b ON p.PersonID = b.PersonID";
-    //     $stmt = $db->prepare($query);
-    //     $stmt->execute();
-    //     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    //     return $result;
-    // }
-
-    public function getBeneficiaries($db)
-    {
-        $query = "SELECT p.PersonID 
-              FROM person p 
-              JOIN beneficiary b ON p.PersonID = b.PersonID";
-        $stmt = $db->prepare($query);
-        $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // Create an array of Beneficiary objects
-        $beneficiaries = [];
-        foreach ($result as $row) {
-            $beneficiary = new Beneficiary($db, $row['PersonID']);
-            $beneficiaries[] = $beneficiary;
-        }
-
-        return $beneficiaries;
-    }
 
 
     public function getBeneficiary($db, $BeneficiaryID) // gets a single beneficiary
