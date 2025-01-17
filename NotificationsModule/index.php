@@ -8,8 +8,6 @@ error_reporting(E_ALL);
 // echo 'Full Path: ' . realpath('./NotificationsModule/models/Database.php') . PHP_EOL;
 // require_once './NotificationsModule/models/Database.php';
 
-
-
 use Controllers\EmailController;
 use Models\Database;
 use Models\EmailModel;
@@ -17,6 +15,7 @@ use Models\EmailModel;
 // require_once __DIR__ . '/NotificationsModule/models/Database.php';
 // require_once './NotificationsModule/models/EmailModel.php';
 // require_once './NotificationsModule/controllers/EmailController.php';
+
 require_once './Database.php';
 require_once './EmailModel.php';
 require_once './EmailController.php';

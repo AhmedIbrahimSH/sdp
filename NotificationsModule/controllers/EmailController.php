@@ -1,9 +1,13 @@
 <?php
-
 namespace Controllers;
-use Models\EmailModel;
-// require_once '../models/EmailModel.php';
+
+
+use services\EmailFacade;
+// use Models\EmailModel;
+
 require_once './EmailModel.php';
+require_once './EmailFacade.php';
+
 class EmailController
 {
     private $emailModel;
@@ -15,7 +19,7 @@ class EmailController
 
     public function showForm()
     {
-        require_once __DIR__ . '/NotificationsModule/views/EmailForm.php';
+        require_once './NotificationsModule/views/EmailForm.php';
     }
 
     public function sendEmail()
@@ -30,8 +34,15 @@ class EmailController
             return;
         }
 
-        // Call the model to send the email
-        $result = $this->emailModel->sendEmail($recipient, $subject, $body);
+        // Use the Facade class to send the email
+        $emailFacade = new EmailFacade();
+        $result = $emailFacade->sendEmail($recipient, $subject, $body);
+
+        // Log email to the database
+        $status = $result['status'] === 'success' ? 'success' : 'failure';
+        $errorMessage = $result['status'] === 'failure' ? $result['message'] : null;
+
+        $this->emailModel->logEmail('charitysdp5@gmail.com', $recipient, $subject, $body, $status, $errorMessage);
 
         echo json_encode($result);
     }
