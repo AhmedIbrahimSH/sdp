@@ -2,13 +2,16 @@
 
 require_once 'Person.php';
 require_once 'Needs/SimpleNeedFactory.php';
+require_once 'Needs_Iterators/Needs_Collection_Interface.php';
+require_once 'Needs_Iterators/Needs_Allocation_Status_Iterator.php';
+
 // Beneficiary Class
-class Beneficiary extends Person
+class Beneficiary extends Person implements NeedsCollectionInterface
 {
-    private $income;
-    private $hasChronicDisease;
-    private $hasDisability;
-    private $isHomeless;
+    public $income;
+    public $hasChronicDisease;
+    public $hasDisability;
+    public $isHomeless;
     private $db;
     private $PersonID = Null;
     private $needs = [];
@@ -38,6 +41,11 @@ class Beneficiary extends Person
         $this->initializeNeeds();
     }
 
+    // getting the iterator
+    public function getIterator(): NeedIterator
+    {
+        return new AllocationStatusIterator($this->needs);
+    }
 
     private function initializeNeeds()
     {
@@ -78,6 +86,7 @@ class Beneficiary extends Person
 
     public function RequestNeed($need, $amount)
     {
+        $need = str_replace('needhistory', '', $need);
 
         $need_obj = SimpleNeedFactory::createNeed($need);
         if ($need_obj) {
@@ -108,16 +117,6 @@ class Beneficiary extends Person
         $need_obj = SimpleNeedFactory::createNeed($needType);
         $need_obj->Support_Need_Template($this, $table, $beneficiaryId);
     }
-
-
-    public function getNeeds()
-    {
-        return $this->needs;
-    }
-
-
-
-
 
 
     // ------------------- Getter and Setter -------------------

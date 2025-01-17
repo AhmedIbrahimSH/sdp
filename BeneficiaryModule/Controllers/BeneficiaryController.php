@@ -17,7 +17,9 @@ class BeneficiaryController
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->admin->CreateBeneficiary($this->db, $_POST);
             // Redirect to the list page after the creation
-            BeneficiaryController::listBeneficiaries();
+            // BeneficiaryController::listBeneficiaries();
+            // redirect to list_beneficiaries
+            header('Location: index.php?action=list_beneficiaries');
         } else {
             // Show the form if not a POST request
             include 'Views/Create_Beneficiary.php';
@@ -31,10 +33,12 @@ class BeneficiaryController
 
         // If the form is submitted, update the beneficiary data
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Echo the POST data for debugging
+
             // Update beneficiary with the POST data
             $this->admin->UpdateBeneficiary($this->db, $id, $_POST);
             // Redirect to the list page after the update
-            BeneficiaryController::listBeneficiaries();
+            header('Location: index.php?action=list_beneficiaries');
         } else {
             // Use the view class to render the update form
             require_once 'Views/Beneficiary_Update_View.php';
@@ -47,16 +51,16 @@ class BeneficiaryController
     public function deleteBeneficiary()
     {
         $this->admin->DeleteBeneficiary($this->db, $_GET['id']);
-        BeneficiaryController::listBeneficiaries();
+        header('Location: index.php?action=list_beneficiaries');
     }
 
     public function listBeneficiaries()
     {
-        $beneficiaries = $this->admin->getBeneficiaries($this->db);
+        $beneficiariesIterator  = $this->admin->getIterator($this->db);
 
         include 'Views/Beneficiary_List_View.php';
         $view = new Beneficiary_List_View();
-        $view->showBeneficiaries($beneficiaries);
+        $view->showBeneficiaries($beneficiariesIterator);
     }
 
     public function show_Beneficiary_profile($id)
