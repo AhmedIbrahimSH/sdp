@@ -66,17 +66,18 @@ class DonationCartController
 
     }
 
-    public function AddDonationToCart($donations)
+    public function AddDonationToCart($donation)
     {
-        //$this->donationCart->addDonation($this->donation);
-        foreach ($donations as $donation) {
-            $this->donationCart->addDonation(
-                $donation['donationType'],
-                $donation['quantity'],
-                $donation['pricePerUnit']
-            );
-        }
+//        //$this->donationCart->addDonation($this->donation);
+//        foreach ($donations as $donation) {
+//            $this->donationCart->addDonation(
+//                $donation['donationType'],
+//                $donation['quantity'],
+//                $donation['pricePerUnit']
+//            );
+//        }
         //$_SESSION['donation_cart'] = serialize($this->donationCart);
+        $this->donationCart->addDonation($donation);
     }
     public function getCartItems()
     {

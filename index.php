@@ -191,33 +191,57 @@ if (isset($_GET['action'])) {
 
 
 
-        //Add donation to the cart
+
         case 'addToDonationCart':
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $donationType = $_POST['donationType'];
-                $quantity = $_POST['Data']; // Ensure this matches your form input name
+                $quantity = $_POST['Data'];
                 $pricePerUnit = $_POST['predefinedAmount'];
-                // Ensure the session array exists
+
                 if (!isset($_SESSION['donation_cart'])) {
                     $_SESSION['donation_cart'] = [];
                 }
 
-                // Store the donation as an associative array
                 $_SESSION['donation_cart'][] = [
                     'donationType' => $donationType,
                     'quantity' => $quantity,
                     'pricePerUnit' => $pricePerUnit,
-                    'totalAmount' => $pricePerUnit * $quantity // Automatically calculate total price
+                    'totalAmount' => $pricePerUnit * $quantity
+
+
                 ];
             }
 
-            $DonationCartController->AddDonationToCart($_SESSION['donation_cart']);
+            $donations=$_SESSION['donation_cart'];
+            foreach ($donations as $donation) {
+                $donationController->Modelsaver($donation['donationType'],
+                    $donation['quantity'],
+                    $donation['pricePerUnit']);
+
+                $DonationCartController->AddDonationToCart($donationController->ModelReturner());
+            }
+
+
+//            $latestDonation = end($_SESSION['donation_cart']);
+//            $donationController->Modelsaver($latestDonation['donationType'],
+//                $latestDonation['quantity'],
+//                $latestDonation['pricePerUnit']);
+//
+//
+//            $DonationCartController->AddDonationToCart($_SESSION['donation_cart']);
             echo "success";
             break;
 
         case 'showCart':
             $view = new \Views\DonationCartView();
-            $DonationCartController->AddDonationToCart($_SESSION['donation_cart']);
+            //$DonationCartController->AddDonationToCart($_SESSION['donation_cart']);
+            $donations=$_SESSION['donation_cart'];
+            foreach ($donations as $donation) {
+                $donationController->Modelsaver($donation['donationType'],
+                    $donation['quantity'],
+                    $donation['pricePerUnit']);
+                $DonationCartController->AddDonationToCart($donationController->ModelReturner());
+            }
             $view->render();
 
         case 'removeFromCart':
@@ -239,14 +263,20 @@ if (isset($_GET['action'])) {
                 exit;
             }
             break;
+
+
         case 'undoLastAction':
+          //  $donationController;
+            $DonationCartController->AddDonationToCart($_SESSION['donation_cart']);
+            $DonationCartController->setCommandfromView();
+            $DonationCartController->undoclicked();
 
 
 
         case 'redoLastAction':
-
-
-
+            $DonationCartController->AddDonationToCart($_SESSION['donation_cart']);
+            $DonationCartController->setCommandfromView();
+            $DonationCartController->redoclicked();
             break;
 
 
@@ -255,21 +285,18 @@ if (isset($_GET['action'])) {
             session_unset();
 
 
-
-
-
-
         case 'proceedToPayment':
             if (isset($_SESSION['strategy_type'])) {
                 $strategyType = $_SESSION['strategy_type'];
-                $donationController->SaveData($_POST);
+
+                foreach ($_SESSION['donation_cart'] as $donation) {
+                    $totalCartAmount += $donation['totalAmount'];
+                }
+                $donationController->SaveData($_POST,$totalCartAmount);
             } else {
                 echo "Strategy not set. Please choose a donation type.";
             }
             break;
-
-
-
 
 
         case 'choosePayment':
@@ -279,8 +306,6 @@ if (isset($_GET['action'])) {
             } else {
                 echo "No payment method selected.";
             }
-
-
 
 
         case 'saveDonation':
@@ -363,10 +388,12 @@ if (isset($_GET['action'])) {
 //            break;
         case 'showPaymentPage':
             // Retrieve the amount from the session
-            $amount = $_SESSION['cashDonationAmount'];
+            foreach ($_SESSION['donation_cart'] as $donation) {
+                $totalCartAmount += $donation['totalAmount'];
+            }
 
             // Render the payment page with the amount
-            echo "<h2>Payment for Donation Amount: $amount</h2>";
+            echo "<h2>Payment for Donation Amount: $totalCartAmount</h2>";
         // Render further payment details or a form
             break;
 

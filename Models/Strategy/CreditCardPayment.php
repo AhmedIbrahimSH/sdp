@@ -30,7 +30,7 @@ class CreditCardPayment implements IPay
     public function processPayment()
     {
         // Logic for processing credit card payment
-        echo "Processing credit card payment of {$this->amount} for card ending in " . substr($this->cardNumber, -4) . ".";
+        //echo "Processing credit card payment of {$this->amount} for card ending in " . substr($this->cardNumber, -4) . ".";
     }
 
     public function validatePaymentDetails()
@@ -39,7 +39,7 @@ class CreditCardPayment implements IPay
         if (empty($this->cardNumber) || empty($this->cardHolderName) || empty($this->expiryDate) || empty($this->cvv) || $this->amount <= 0) {
             throw new Exception("Invalid credit card details or amount.");
         }
-        echo "Credit card payment details validated.";
+        //echo "Credit card payment details validated.";
     }
 
     public function generateReceipt()

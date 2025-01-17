@@ -67,6 +67,6 @@ class PaymentController
     {
 
         $view = new PaymentStrategiesView();
-        $view->render();
+        //$view->render();
     }
 }

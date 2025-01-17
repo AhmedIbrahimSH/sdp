@@ -2,9 +2,10 @@
 
 namespace Models\Command;
 use Models\Donation;
+use MongoDB\Driver\Command;
 
 
-class DonationCartHandleCommand
+class DonationCartHandleCommand implements IDonationCommand
 {    private $cart;
     private $donation;
 

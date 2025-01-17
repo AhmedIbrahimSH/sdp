@@ -16,6 +16,9 @@ class DonationCartManager
     {
 
         $this->currentCommand=$command;
+        $this->currentCommand->execute();
+        $this->undoStack[] = $this->currentCommand; // Add to undo stack
+        $this->redoStack = []; // Clear redo stack after a new command
 
     }
     public function getCommand()
@@ -30,7 +33,7 @@ class DonationCartManager
             $this->redoStack[] = $this->currentCommand; // Push to redo stack
         }
         else {
-            echo "Nothing to undo.";
+            //echo "Nothing to undo.";
         }
     }
     public function redoButtonPressed()
@@ -40,7 +43,7 @@ class DonationCartManager
             $this->currentCommand->execute(); // Redo (execute again)
             $this->undoStack[] =  $this->currentCommand; // Push back to undo stack
         } else {
-            echo "Nothing to redo." . PHP_EOL;
+           // echo "Nothing to redo." . PHP_EOL;
         }
 
     }

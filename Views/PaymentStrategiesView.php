@@ -4,15 +4,15 @@ namespace Views;
 
 class PaymentStrategiesView
 {
-    public function render($quantity, $amount, $totalAmount)
+    public function render($totalCartAmount)
     {
         echo "
         <div style='width: 50%; margin: 50px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); font-family: Arial, sans-serif;'>
             <h2 style='text-align: center; color: #333; font-weight: bold;'>Payment Summary</h2>
             <div style='font-size: 16px; color: #555; margin-bottom: 20px;'>
-                <p><strong>Quantity:</strong> $quantity</p>
-                <p><strong>Price per item:</strong> $$amount</p>
-                <p><strong>Total Amount:</strong> $$totalAmount</p>
+                <!--<p><strong>Quantity:</strong> </p>-->
+               <!-- <p><strong>Price per item:</strong> $</p>-->
+                <p><strong>Total Amount without fees or VAT :</strong> $$totalCartAmount</p>
             </div>
             <form method='POST' action='?action=choosePayment' style='display: flex; flex-direction: column; gap: 15px;'>
     <label for='paymentMethod' style='font-size: 16px; color: #555;'>Select Payment Method:</label>

@@ -65,6 +65,16 @@ class DonationController
 //        }
 
     }
+    public function Modelsaver($DonationType,$quantity,$predefinedAmount)
+    {
+        $this->donationModel->setType($DonationType);
+        $this->donationModel->setQuantity($quantity);
+        $this->donationModel->setAmount($predefinedAmount);
+    }
+    public function ModelReturner()
+    {
+        return $this->donationModel;
+    }
 
 
     //Navigate to the Donation types screen
@@ -108,11 +118,9 @@ class DonationController
         $_SESSION['strategy'] = serialize($strategy); // Serialize to store the object in session
         $this->donationModel->setstrategy($strategy);
         $this->setStrategy($strategy);
-
-
     }
 
-    public function SaveData($PassedData)
+    public function SaveData($PassedData,$totalCartAmount)
     {
         // Retrieve the strategy from the session if not already set
         if (!$this->strategy && isset($_SESSION['strategy'])) {
@@ -129,7 +137,7 @@ class DonationController
 
         $donationDetails = $this->strategy->getDonationDetails();
         $view = new PaymentStrategiesView();
-        $view->render($donationDetails['quantity'], $donationDetails['amount'], $donationDetails['totalAmount']);
+        $view->render($totalCartAmount, $donationDetails['amount'], $donationDetails['totalAmount']);
     }
 
 

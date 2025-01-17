@@ -17,6 +17,7 @@ class Donation
 
     private $data;
     protected $totalAmmount;
+    protected $type;
     private $db;
 
     /**
@@ -69,12 +70,6 @@ class Donation
         return $this->strategy->getDonationDetails();
     }
 
-
-    public function getAmount()
-    {
-        return $this->amount;
-    }
-
     public function getDescription()
     {
         return "Base Donation";
@@ -85,6 +80,35 @@ class Donation
         $this->strategy->processDonation($id, $data, $quantity);
 
     }
+
+
+
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+
+    }
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+    }
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+    public function setType($type)
+    {
+        $this->type=$type;
+    }
+    public function getType()
+    {
+        return $this->type;
+    }
+
 
 
     /**
