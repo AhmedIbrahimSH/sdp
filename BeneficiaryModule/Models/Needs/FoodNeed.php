@@ -4,8 +4,6 @@ require_once 'NeedTemplateMethod.php';
 // Concrete class: FoodNeed
 class FoodNeed extends NeedTemplateMethod
 {
-
-
     function checkEligibility($beneficiary)
     {
         return $beneficiary->getIncome() < self::getIncomeThreshold();
@@ -54,7 +52,8 @@ class FoodNeed extends NeedTemplateMethod
                 return true; // Return true on success
             } else {
                 // Handle execution errors
-                error_log("Error executing query: " . implode(", ", $stmt->errorInfo()));
+                // error_log("Error executing query: " . implode(", ", $stmt->errorInfo()));
+                return false;
             }
 
             return false;

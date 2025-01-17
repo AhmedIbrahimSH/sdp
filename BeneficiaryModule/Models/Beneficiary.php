@@ -1,7 +1,7 @@
 <?php
 
 require_once 'Person.php';
-require_once 'Needs/NeedFactory.php';
+require_once 'Needs/SimpleNeedFactory.php';
 // Beneficiary Class
 class Beneficiary extends Person
 {
@@ -34,24 +34,52 @@ class Beneficiary extends Person
         $this->isHomeless = $beneficiary->isHomeless;
         $this->PersonID = $beneficiary->PersonID;
 
-        $needs = [];
-        $needTables = ['cashneedhistory', 'foodneedhistory', 'clothingneedhistory', 'drugneedhistory', 'medicalneedhistory', 'shelterneedhistory']; // Add other need tables as necessary
+        // Fetch and initialize needs
+        $this->initializeNeeds();
+    }
 
-        foreach ($needTables as $table) {
+
+    private function initializeNeeds()
+    {
+        $needTables = [
+            'cashneedhistory' => 'cash',
+            'foodneedhistory' => 'food',
+            'clothingneedhistory' => 'clothing',
+            'drugneedhistory' => 'drug',
+            'medicalneedhistory' => 'medical',
+            'shelterneedhistory' => 'shelter'
+        ];
+
+        foreach ($needTables as $table => $needType) {
             $query = "SELECT *, '$table' as table_name FROM $table WHERE BeneficiaryID = :beneficiaryID";
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(':beneficiaryID', $this->PersonID, PDO::PARAM_INT);
             $stmt->execute();
-            $needs = array_merge($needs, $stmt->fetchAll(PDO::FETCH_ASSOC));
-        }
-        $this->needs = $needs;
-    }
+            $needsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+            foreach ($needsData as $needData) {
+                // Map database fields to constructor parameters
+                $initParams = [
+                    'allocationID' => $needData['AllocationID'] ?? null,
+                    'BeneficiaryID' => $needData['BeneficiaryID'] ?? null,
+                    'Amount' => $needData['Amount'] ?? null,
+                    'isAllocated' => $needData['Allocated'] ?? null,
+                    'isAccepted' => $needData['Accepted'] ?? null,
+                    'RegisterDate' => $needData['RegisterDate'] ?? null,
+                    'purpose' => $needData['purpose'] ?? null
+                ];
+
+                // Use the SimpleNeedFactory to create the appropriate Need object
+                $needObject = SimpleNeedFactory::CreateNeed($needType, $initParams);
+                $this->needs[] = $needObject;
+            }
+        }
+    }
 
     public function RequestNeed($need, $amount)
     {
 
-        $need_obj = NeedFactory::createNeed($need);
+        $need_obj = SimpleNeedFactory::createNeed($need);
         if ($need_obj) {
             if ($need_obj->Register_Need_Template($this, $this->PersonID, $amount)) {
 
@@ -77,7 +105,7 @@ class Beneficiary extends Person
     public function SupportNeed($table, $beneficiaryId)
     {
         $needType = explode('needhistory', $table)[0];
-        $need_obj = NeedFactory::createNeed($needType);
+        $need_obj = SimpleNeedFactory::createNeed($needType);
         $need_obj->Support_Need_Template($this, $table, $beneficiaryId);
     }
 
@@ -86,13 +114,6 @@ class Beneficiary extends Person
     {
         return $this->needs;
     }
-
-    // get need row by 
-
-
-
-
-
 
 
 

@@ -165,16 +165,35 @@ class BeneficiaryAdmin extends Person
     }
 
 
+    // public function getBeneficiaries($db)
+    // {
+    //     $query = "SELECT p.PersonID, p.FirstName,p.MiddleName,p.LastName ,p.Phone, p.AddressID,b.income, b.hasChronicDisease, b.hasDisability,b.isHomeless 
+    //               FROM person p 
+    //               JOIN beneficiary b ON p.PersonID = b.PersonID";
+    //     $stmt = $db->prepare($query);
+    //     $stmt->execute();
+    //     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    //     return $result;
+    // }
+
     public function getBeneficiaries($db)
     {
-        $query = "SELECT p.PersonID, p.FirstName,p.MiddleName,p.LastName ,p.Phone, p.AddressID,b.income, b.hasChronicDisease, b.hasDisability,b.isHomeless 
-                  FROM person p 
-                  JOIN beneficiary b ON p.PersonID = b.PersonID";
+        $query = "SELECT p.PersonID 
+              FROM person p 
+              JOIN beneficiary b ON p.PersonID = b.PersonID";
         $stmt = $db->prepare($query);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        return $result;
+        // Create an array of Beneficiary objects
+        $beneficiaries = [];
+        foreach ($result as $row) {
+            $beneficiary = new Beneficiary($db, $row['PersonID']);
+            $beneficiaries[] = $beneficiary;
+        }
+
+        return $beneficiaries;
     }
 
 
