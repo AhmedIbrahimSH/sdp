@@ -15,6 +15,8 @@ use Models\Strategy\Payment;
 
 session_start();
 
+require_once '../EventModule/Model/database_connection.php';
+
 require_once 'Models/Database.php';
 require_once 'Models/Donor.php';
 require_once 'Models/Donation.php';
@@ -50,7 +52,7 @@ require_once 'Views/PayPalPaymentView.php';
 require_once 'Views/BankTransferPaymentView.php';
 
 
-$pdo = Database::getInstance();
+$pdo = myDatabase::get_instance();
 
 $donorModel = new Donor($pdo);
 $donationModel = new Donation($pdo);
@@ -69,18 +71,15 @@ $donationController = new DonationController($donationModel);
 $InvoiceController = new InvoiceController();
 $PaymentController = new PaymentController($PaymentModel);
 
-// Check the action parameter to determine the requested action
 if (isset($_GET['action'])) {
     switch ($_GET['action']) {
         case 'showDonor':
-            // Show a single donor
             if (isset($_GET['id'])) {
                 $donorController->show($_GET['id']);
             } else {
                 echo "Donor ID not provided.";
             }
             break;
-        // Show all donors
         case 'showAllDonors':
             $donorController->showAll();
             break;
@@ -95,7 +94,6 @@ if (isset($_GET['action'])) {
             break;
 
         case 'editDonor':
-            // Load donor edit form
             if (isset($_GET['id'])) {
                 try {
                     $donorController->edit($_GET['id']);
@@ -110,7 +108,6 @@ if (isset($_GET['action'])) {
 
         case 'updateDonor':
 
-            // Update donor details
             if (isset($_GET['id']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
                 try {
                     $donorController->update($_GET['id'], $_POST);
@@ -122,7 +119,6 @@ if (isset($_GET['action'])) {
             }
             break;
         case 'deleteDonor':
-            // Delete a donor
             if (isset($_GET['id'])) {
                 $donorController->delete($_GET['id']);
             } else {

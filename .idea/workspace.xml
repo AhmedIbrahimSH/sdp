@@ -5,22 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d27aeacb-ffe8-428a-a7ab-ab7085c5319f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/sdp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sdp.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7261f8f0-2c9a-4ea8-943c-f87fbf6e203d.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/7261f8f0-2c9a-4ea8-943c-f87fbf6e203d.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeneficiaryModule/Models/Database.php" beforeDir="false" afterPath="$PROJECT_DIR$/BeneficiaryModule/Models/Database.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeneficiaryModule/Models/Beneficiary.php" beforeDir="false" afterPath="$PROJECT_DIR$/BeneficiaryModule/Models/Beneficiary.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeneficiaryModule/Models/BeneficiaryAdmin.php" beforeDir="false" afterPath="$PROJECT_DIR$/BeneficiaryModule/Models/BeneficiaryAdmin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeneficiaryModule/Models/Needs/NeedTemplateMethod.php" beforeDir="false" afterPath="$PROJECT_DIR$/BeneficiaryModule/Models/Needs/NeedTemplateMethod.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeneficiaryModule/Server Documents/Ahmed_Hassan_CashNeed_1.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/BeneficiaryModule/Server Documents/Ahmed_Hassan_CashNeed_1.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeneficiaryModule/Server Documents/Ahmed_Hassan_FoodNeed_1.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/BeneficiaryModule/Server Documents/Ahmed_Hassan_FoodNeed_1.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BeneficiaryModule/Server Documents/Sara_Mohamed_FoodNeed_2.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/BeneficiaryModule/Server Documents/Sara_Mohamed_FoodNeed_2.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BeneficiaryModule/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/BeneficiaryModule/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EventModule/Controller/add_event.php" beforeDir="false" afterPath="$PROJECT_DIR$/EventModule/Controller/add_event.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EventModule/Controller/event.js" beforeDir="false" afterPath="$PROJECT_DIR$/EventModule/Controller/event.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EventModule/Model/load_events.php" beforeDir="false" afterPath="$PROJECT_DIR$/EventModule/Model/load_events.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EventModule/View/events_history_view.php" beforeDir="false" afterPath="$PROJECT_DIR$/EventModule/View/events_history_view.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginModule/controller/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/LoginModule/controller/LoginController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NotificationsModule/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationsModule/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NotificationsModule/old/publisher.php" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationsModule/old/publisher.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NotificationsModule/old/subject.php" beforeDir="false" afterPath="$PROJECT_DIR$/NotificationsModule/old/subject.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DonationModule/Controllers/DonationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/DonationModule/Controllers/DonationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DonationModule/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/DonationModule/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LoginModule/controller/SignUpController.php" beforeDir="false" afterPath="$PROJECT_DIR$/LoginModule/controller/SignUpController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LoginModule/view/signup.php" beforeDir="false" afterPath="$PROJECT_DIR$/LoginModule/view/signup.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin_interface_module/view/admin_homepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin_interface_module/view/admin_homepage.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input_data.log" beforeDir="false" afterPath="$PROJECT_DIR$/input_data.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notifications.log" beforeDir="false" afterPath="$PROJECT_DIR$/notifications.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user_interface_module/view/user_homepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/user_interface_module/view/user_homepage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/volunteer_module/models/Database.php" beforeDir="false" afterPath="$PROJECT_DIR$/volunteer_module/models/Database.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +96,7 @@
       <updated>1737076372447</updated>
       <workItem from="1737076373495" duration="767000" />
       <workItem from="1737127152968" duration="84000" />
-      <workItem from="1737127243711" duration="10196000" />
+      <workItem from="1737127243711" duration="15707000" />
     </task>
     <servers />
   </component>

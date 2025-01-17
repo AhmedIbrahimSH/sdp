@@ -95,11 +95,8 @@ class DonationController
             default:
                 throw new Exception("Invalid donation type");
         }
-        // Store the strategy in the session
-        $_SESSION['strategy'] = serialize($strategy); // Serialize to store the object in session
+        $_SESSION['strategy'] = serialize($strategy);
         $this->donationModel->setstrategy($strategy);
-
-
     }
 
     public function SaveData($PassedData)

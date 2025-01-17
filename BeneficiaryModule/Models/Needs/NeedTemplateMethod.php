@@ -1,6 +1,6 @@
 <?php
 
-use models\Database;
+//use models\Database;
 
 require_once 'Models\Database.php';
 
