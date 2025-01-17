@@ -2,7 +2,6 @@
 
 namespace controllers;
 
-use models\VolunteerCertificate;
 use models\VolunteerTasks;
 
 require_once  __DIR__  . '/../models/VolunteerTasks.php';
@@ -10,12 +9,10 @@ require_once  __DIR__  . '/../models/VolunteerTasks.php';
 class VolunteerTasksController
 {
     private $volunteerTasksModel;
-    private $volunteerCertificatesModel;
 
     public function __construct()
     {
         $this->volunteerTasksModel = new VolunteerTasks();
-        $this->volunteerCertificatesModel = new VolunteerCertificate();
     }
 
     // Display all tasks for a specific volunteer
