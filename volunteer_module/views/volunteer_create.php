@@ -1,3 +1,7 @@
+<?php
+// app/views/volunteer_create.php
+?>
+
 <form action="index.php?action=create_volunteer" method="POST">
     <label for="first_name">First Name:</label>
     <input type="text" name="first_name" id="first_name" required><br>
@@ -9,7 +13,14 @@
     <input type="text" name="middle_name" id="middle_name"><br>
 
     <label for="nationality">Nationality:</label>
-    <input type="text" name="nationality" id="nationality" required><br>
+    <select name="nationality" id="nationality" required>
+        <option value="">Select Nationality</option>
+        <?php foreach ($nationalities as $nationality): ?>
+            <option value="<?php echo htmlspecialchars($nationality); ?>">
+                <?php echo htmlspecialchars($nationality); ?>
+            </option>
+        <?php endforeach; ?>
+    </select><br>
 
     <label for="gender">Gender:</label>
     <select name="gender" id="gender" required>
@@ -22,10 +33,9 @@
 
     <label for="email">Email:</label>
     <input type="email" name="email" id="email" required><br>
+
     <label for="address_id">Address ID:</label>
     <input type="text" name="address_id" id="address_id" required><br>
-
-
 
     <label for="status">Status:</label>
     <select name="status" id="status" required>

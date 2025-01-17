@@ -3,13 +3,21 @@ require_once 'Volunteer.php';
 require_once 'VolunteerSkills.php';
 require_once 'VolunteerTasks.php';
 require_once 'VolunteerSchedule.php';
-
+require_once 'CountryProxy.php';
 class VolunteerController {
     private $volunteerModel;
     private $volunteerSkillsModel;
     private $volunteerTasksModel;
     private $volunteerScheduleModel;
+    public function showCreateForm()
+    {
+        // Use the CountryProxy to fetch nationalities
+        $countryProxy = new CountryProxy();
+        $nationalities = $countryProxy->getAllCountries();
 
+        // Pass the nationalities to the view
+        require_once 'volunteer_create.php';
+    }
     public function __construct() {
         $this->volunteerModel = new Volunteer();
         $this->volunteerSkillsModel = new VolunteerSkills();
@@ -34,6 +42,10 @@ class VolunteerController {
 
     // Add a new volunteer
     public function create() {
+            // Use the CountryProxy to fetch nationalities
+            $countryProxy = new CountryProxy();
+            $nationalities = $countryProxy->getAllCountries();
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
                 'firstName' => $_POST['first_name'],

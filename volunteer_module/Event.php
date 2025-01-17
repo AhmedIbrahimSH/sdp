@@ -2,7 +2,7 @@
 require_once 'Database.php';
 require_once 'VolunteerObserver.php';
 require_once 'EventSubject.php';
-class events implements EventSubject {
+class Event implements EventSubject {
     private $db;
     private $observers = []; // List of volunteers (observers)
     public function __construct() {

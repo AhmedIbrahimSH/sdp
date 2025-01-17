@@ -6,7 +6,7 @@ require_once '../Controller/event_history.php';
 class EventHistoryView{
     public $event_object;
     public function __construct(){
-        $this->event_object = new Events();
+        $this->event_object = new Event();
         $this->index = 0;
     }
 

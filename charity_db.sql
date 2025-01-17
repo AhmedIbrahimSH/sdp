@@ -34,23 +34,69 @@ CREATE TABLE IF NOT EXISTS  Account (
                                     FOREIGN KEY (PersonID) REFERENCES Person(PersonID) ON DELETE CASCADE
 );
 
-
-
-CREATE TABLE IF NOT EXISTS Donor (
-                             PersonID INT PRIMARY KEY,
-                             IsDonorDeleted TINYINT(1) DEFAULT 0,
-                             FOREIGN KEY (PersonID) REFERENCES Account(PersonID) ON DELETE CASCADE
-);
-
 CREATE TABLE IF NOT EXISTS Volunteer (
     PersonID INT PRIMARY KEY,
     IsVolunteerDeleted TINYINT(1) DEFAULT 0,
     FOREIGN KEY (PersonID) REFERENCES Account(PersonID) ON DELETE CASCADE
 );
+CREATE TABLE IF NOT EXISTS Donor (
+                                     PersonID INT PRIMARY KEY,
+                                     IsDonorDeleted TINYINT(1) DEFAULT 0,
+    FOREIGN KEY (PersonID) REFERENCES Account(PersonID) ON DELETE CASCADE
+    );
+-- Event Module Begin
+CREATE TABLE IF NOT EXISTS events (
+                                      EventID INT AUTO_INCREMENT PRIMARY KEY,
+                                      Title VARCHAR(50) NOT NULL UNIQUE,
+    Location VARCHAR(50) NOT NULL,
+    Date DATE NOT NULL,
+    Price DECIMAL(10, 2) NOT NULL,
+    Type VARCHAR(20) NOT NULL,
+    RegisteredAttendees INT DEFAULT 0
+    );
+-- Event Module END
+
+
+-- Volunteer Module Begin
+CREATE TABLE  Skill (
+                        id INT AUTO_INCREMENT PRIMARY KEY,      -- Foreign key to volunteers table
+                        skill VARCHAR(255) NOT NULL
+);
+
+-- Create the volunteer_skills table to store skills associated with each volunteer
+CREATE TABLE  Volunteer_Skills (
+                                   id INT AUTO_INCREMENT PRIMARY KEY,
+                                   PersonID INT,                            -- Foreign key to volunteers table
+                                   skill_id INT,
+                                   FOREIGN KEY (PersonID) REFERENCES Volunteer(PersonID) ON DELETE CASCADE,
+                                   FOREIGN KEY (skill_id) REFERENCES Skill(id) ON DELETE CASCADE
+);
+
+
+
+
+-- Create the volunteer_tasks table to store tasks associated with each volunteer
+CREATE TABLE  Tasks (
+                        id INT AUTO_INCREMENT PRIMARY KEY,
+                        PersonID INT,                            -- Foreign key to volunteers table
+                        task_name VARCHAR(255) NOT NULL,
+                        description TEXT,
+                        due_date DATE,
+                        FOREIGN KEY (PersonID) REFERENCES Volunteer(PersonID) ON DELETE CASCADE
+);
+-- Create the volunteer_schedule table to store schedule information for each volunteer
+CREATE TABLE  schedule (
+                           id INT AUTO_INCREMENT PRIMARY KEY,
+                           PersonID INT,                            -- Foreign key to Volunteer table
+                           schedule_date DATE NOT NULL,
+                           hours INT NOT NULL,
+                           FOREIGN KEY (PersonID) REFERENCES Volunteer(PersonID) ON DELETE CASCADE
+);
+
 
 -- Beneficiary Module Begin
 
-
+/*
 -- Create Beneficiary table
 CREATE TABLE IF NOT EXISTS Beneficiary (
     PersonID INT PRIMARY KEY,
@@ -232,20 +278,7 @@ CREATE TABLE IF NOT EXISTS Donation (
  );
 -- Donation Module END
 
-
-
--- Event Module Begin
-CREATE TABLE IF NOT EXISTS events (
-    EventID INT AUTO_INCREMENT PRIMARY KEY,
-    Title VARCHAR(50) NOT NULL UNIQUE,
-    Location VARCHAR(50) NOT NULL,
-    Date DATE NOT NULL,
-    Price DECIMAL(10, 2) NOT NULL,
-    Type VARCHAR(20) NOT NULL,
-    RegisteredAttendees INT DEFAULT 0
-);
--- Event Module END
-
+*/
 -- Notification Module Begin
 
 CREATE TABLE EmailLogs (
@@ -261,41 +294,7 @@ CREATE TABLE EmailLogs (
 
 -- Notification Module Begin
 
--- Volunteer Module Begin
-CREATE TABLE  Skill (
-    id INT AUTO_INCREMENT PRIMARY KEY,      -- Foreign key to volunteers table
-    skill VARCHAR(255) NOT NULL
-    );
 
--- Create the volunteer_skills table to store skills associated with each volunteer
-CREATE TABLE  Volunteer_Skills (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    PersonID INT,                            -- Foreign key to volunteers table
-    skill_id INT,
-    FOREIGN KEY (PersonID) REFERENCES Volunteer(PersonID) ON DELETE CASCADE,
-    FOREIGN KEY (skill_id) REFERENCES Skill(id) ON DELETE CASCADE
-);
-
-
-
-
--- Create the volunteer_tasks table to store tasks associated with each volunteer
-CREATE TABLE  Tasks (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    PersonID INT,                            -- Foreign key to volunteers table
-    task_name VARCHAR(255) NOT NULL,
-    description TEXT,
-    due_date DATE,
-    FOREIGN KEY (PersonID) REFERENCES Volunteer(PersonID) ON DELETE CASCADE
-);
--- Create the volunteer_schedule table to store schedule information for each volunteer
-CREATE TABLE  schedule (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    PersonID INT,                            -- Foreign key to Volunteer table
-    schedule_date DATE NOT NULL,
-    hours INT NOT NULL,
-    FOREIGN KEY (PersonID) REFERENCES Volunteer(PersonID) ON DELETE CASCADE
-);
 
 
 -- Volunteer Module END
@@ -320,7 +319,7 @@ CREATE TABLE  schedule (
      ('5th Avenue', 4),  -- Street, Parent is 'New York' (AddressID 4)
      ('Oxford Street', 5), -- Street, Parent is 'London' (AddressID 5)
      ('Yonge Street', 6); -- Street, Parent is 'Toronto' (AddressID 6)
-
+/*
 -- Insert Beneficiary Admin: Omar Diab
 INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, Phone, AddressID)
 VALUES ('Omar', 'Diab', 'Mosaad', 'Egyptian', 'Male', '01076543210', 2);
@@ -441,3 +440,4 @@ INSERT INTO Account (PersonID, Email, PasswordHashed,  IsAccountDeleted,Type)
 VALUES (@last_PersonID, 'alextaylor@example.com', 'hashed_password_789', 0,'D');
 INSERT INTO Donor (PersonID, IsDonorDeleted)
 VALUES (@last_PersonID, 0);
+*/
