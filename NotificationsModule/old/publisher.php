@@ -30,12 +30,11 @@ class publisher implements  subject
         }
     }
 
-    public function notify($event_name, $type)
+    public function notify($event_name, $event_date , $type)
     {
         foreach (self::$subscribers as $subscriber) {
             if($type == $subscriber->getEventType()) {
-
-//                smsSender::send_sms($event_name, "2024-10-04");
+//                smsSender::send_sms($event_name, $event_date);
             }
         }
     }

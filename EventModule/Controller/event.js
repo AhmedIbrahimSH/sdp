@@ -66,11 +66,11 @@ function addEventFunction(event) {
         body: JSON.stringify(eventData)
     })
         .then(response => {
-            console.log("Response status:", response.status); // Log the HTTP status code
-            return response.text(); // Use text() to inspect raw response first
+            console.log("Response status:", response.status);
+            return response.text();
         })
         .then(data => {
-            console.log("Raw response data:", data); // Log the raw response
+            console.log("Raw response data:", data);
         })
         .catch(error => console.error('Error:', error));
 

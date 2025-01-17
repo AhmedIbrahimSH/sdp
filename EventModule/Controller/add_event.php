@@ -3,11 +3,11 @@ require_once '../Model/database_connection.php';
 require_once '../../NotificationsModule/old/subscriber.php';
 require_once '../../NotificationsModule/old/publisher.php';
 require_once '../View/events_history_view.php';
-header('Content-Type: application/json'); // Ensure JSON response
+header('Content-Type: application/json');
 
 echo 'i am in add event php';
-error_reporting(E_ALL); // Enable error reporting
-ini_set('display_errors', 1); // Display errors
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 file_put_contents("../../debug.log", "Script started\n", FILE_APPEND);
 
@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $date = isset($input['Date']) ? $input['Date'] : null;
     $price = isset($input['Price']) ? $input['Price'] : null;
     $type = isset($input['Type']) ? $input['Type'] : null;
+
     $message = "Event Details:\\n" .
         "Title: $title\\n" .
         "Location: $location\\n" .
@@ -28,8 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     file_put_contents("../../debug.log", $message, FILE_APPEND);
 
-
-
     $logMessage = "[" . date("Y-m-d H:i:s") . "] Extracted values: " . PHP_EOL;
     $logMessage .= "Title: $title" . PHP_EOL;
     $logMessage .= "Location: $location" . PHP_EOL;
@@ -38,17 +37,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $logMessage .= "Type: $type" . PHP_EOL;
     file_put_contents("../../input_data.log", $logMessage, FILE_APPEND);
 
-    // Database connection
-    $conn = Database::get_instance();
+    $conn = myDatabase::get_instance();
 
-    // Log a notification message
     $message = "[" . date("Y-m-d H:i:s") . "] Notification: User visited donation types page.";
     file_put_contents("../../notifications.log", $message . PHP_EOL, FILE_APPEND);
 
-    // Prepare and execute the SQL query
     $query = "INSERT INTO events (Title, Location, Date, Price, Type) VALUES (:title, :location, :date, :price, :type)";
     $stmt = $conn->prepare($query);
-    $stmt->bindParam(':title', $title); // Ensure placeholder names match
+    $stmt->bindParam(':title', $title);
     $stmt->bindParam(':location', $location);
     $stmt->bindParam(':date', $date);
     $stmt->bindParam(':price', $price);
@@ -65,6 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $first_subscriber = new subscriber("ahmed", "fundraiser");
     $second_subscriber = new subscriber("omar", "workshop");
 
-    $publisher->notify($title, $type);
+    $publisher->notify($title, $date , $type);
 }
 ?>

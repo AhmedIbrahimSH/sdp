@@ -24,7 +24,6 @@ require_once './NotificationsModule/config.php';
 
 $db = Database::getInstance();
 $EmailModel= new EmailModel($db);
-// Router Logic
 if ($_SERVER['REQUEST_URI'] === '/email/form') {
     
     $controller = new EmailController($EmailModel);

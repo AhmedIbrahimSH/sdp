@@ -45,7 +45,7 @@ class LoginController
         if($type == "EA"){
             header('Location:  /sdp/admin_interface_module/view/admin_homepage.html');
         }else if($type == "BA"){
-            header('Location: /sdp/');
+            header('Location: /sdp/BeneficiaryModule/index.php');
         }else if($type == "US"){
             header('Location: /sdp/user_interface_module/view/user_homepage.html');
         }

@@ -13,7 +13,6 @@ class Events {
     public $events_list;
     private $index = 0;
 
-
     public function load_events_from_db() {
         global $conn;
         $query = "SELECT EventID, Title , Location, Date, Price , Type FROM events";
