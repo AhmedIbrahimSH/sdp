@@ -54,7 +54,7 @@ class Track_Distribution_View
         echo '<th>Resource Type</th>';
         echo '<th>Total Amount</th>';
         echo '<th>Spendings</th>';
-        echo '<th>Donations</th>';
+        // echo '<th>Donations</th>';
         echo '<th>Affected Beneficiers</th>';
         echo '</tr>';
         echo '</thead>';
@@ -65,7 +65,7 @@ class Track_Distribution_View
             echo '<td>' . htmlspecialchars($resource['type']) . '</td>';
             echo '<td>' . htmlspecialchars($resource['Amount']) . '</td>';
             echo '<td>' . htmlspecialchars($resource['Spendings']) . '</td>';
-            echo '<td>' . htmlspecialchars($resource['Donations']) . '</td>';
+            // echo '<td>' . htmlspecialchars($resource['Donations']) . '</td>';
             echo '<td>' . htmlspecialchars($resource['AffectedPeople']) . '</td>';
             echo '</tr>';
         }
