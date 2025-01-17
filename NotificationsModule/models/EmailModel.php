@@ -1,15 +1,21 @@
 <?php
 namespace Models;
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
+// use PHPMailer\PHPMailer\PHPMailer;
+// use PHPMailer\PHPMailer\SMTP;
+// use PHPMailer\PHPMailer\Exception;
 
-require_once './Database.php';
-require_once './NotificationsModule/config.php' ;
-require_once './vendor/phpmailer/phpmailer/src/PHPMailer.php';
-require_once './vendor/phpmailer/phpmailer/src/SMTP.php' ;
-require_once './vendor/phpmailer/phpmailer/src/Exception.php';
+// require_once './Database.php';
+// require_once './NotificationsModule/config.php' ;
+// require_once './vendor/phpmailer/phpmailer/src/PHPMailer.php';
+// require_once './vendor/phpmailer/phpmailer/src/SMTP.php' ;
+// require_once './vendor/phpmailer/phpmailer/src/Exception.php';
+
+require_once __DIR__ .'/../models/Database.php';
+require_once __DIR__ .'/../config.php';
+require_once __DIR__ .'/../../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require_once __DIR__ .'/../../vendor/phpmailer/phpmailer/src/SMTP.php';
+require_once __DIR__ .'/../../vendor/phpmailer/phpmailer/src/Exception.php';
 
 class EmailModel
 {

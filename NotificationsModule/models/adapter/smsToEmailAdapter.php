@@ -1,10 +1,15 @@
 <?php
 
-use services\EmailFacade;
+use Models\EmailFacade;
+use Models\Isms;
 
-require_once './EmailFacade.php';
-require_once './IEmail.php';
-require_once './Isms.php';
+// require_once './EmailFacade.php';
+// require_once './IEmail.php';
+// require_once './Isms.php';
+
+require_once __DIR__.'/../EmailFacade.php';
+require_once __DIR__.'/../adapter/IEmail.php';
+require_once __DIR__.'/../adapter/Isms.php';
 
 class smsToEmailAdapter implements Isms {
 

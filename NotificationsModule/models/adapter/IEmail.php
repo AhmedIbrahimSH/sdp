@@ -1,5 +1,5 @@
 <?php
-namespace services;
+namespace Models;
 interface IEmail {
     public function sendEmail($recipient, $subject, $body);
 }

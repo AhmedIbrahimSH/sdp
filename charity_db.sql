@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS  Account (
                                     Email VARCHAR(100) UNIQUE NOT NULL,
                                     PasswordHashed  VARCHAR(255) NOT NULL,
                                     IsAccountDeleted TINYINT(1) DEFAULT 0,
-                                    Account_Type VARCHAR(15),
+                                    Type VARCHAR(15),
                                     FOREIGN KEY (PersonID) REFERENCES Person(PersonID) ON DELETE CASCADE
 );
 

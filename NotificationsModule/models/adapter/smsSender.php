@@ -1,8 +1,9 @@
 <?php
-
+use Models\Isms;
 // require_once '/../vendor/autoload.php';
-require_once './Isms.php';
+// require_once './Isms.php';
 
+require_once __DIR__ .'/../adapter/Isms.php';
 class smsSender implements Isms{
 
     public function send_sms($event_name,$event_date){
@@ -17,7 +18,7 @@ class smsSender implements Isms{
     // Simulate SMS sending
     echo "SMS sent to {$to_number}: {$message_body}" . PHP_EOL;
 
-
+}}
 //    try {
 //        $client = new \Twilio\Rest\Client($sid, $token);
 //
@@ -34,4 +35,3 @@ class smsSender implements Isms{
 //    }
 //    }
 
-}}

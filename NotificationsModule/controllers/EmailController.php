@@ -2,11 +2,13 @@
 namespace Controllers;
 
 
-use services\EmailFacade;
+use Models\EmailFacade;
 // use Models\EmailModel;
 
-require_once './EmailModel.php';
-require_once './EmailFacade.php';
+require_once __DIR__ . '/../models/EmailModel.php';
+require_once __DIR__ . '/../models/EmailFacade.php';
+// require_once __DIR__ .'models/EmailModel.php';
+// require_once __DIR__. 'models/EmailFacade.php';
 
 class EmailController
 {
@@ -18,8 +20,10 @@ class EmailController
     }
 
     public function showForm()
-    {
-        require_once './NotificationsModule/views/EmailForm.php';
+    {   
+        echo "Loading EmailForm.php...";
+        // require_once './NotificationsModule/views/EmailForm.php';
+        require_once __DIR__. '/../views/EmailForm.php';
     }
 
     public function sendEmail()
