@@ -5,19 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d27aeacb-ffe8-428a-a7ab-ab7085c5319f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sdp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sdp.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EventModule/Controller/event.js" beforeDir="false" afterPath="$PROJECT_DIR$/EventModule/Controller/event.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EventModule/View/new_event_view.html" beforeDir="false" afterPath="$PROJECT_DIR$/EventModule/View/new_event_view.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin_interface_module/controller/admincontroller.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin_interface_module/controller/user_options.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin_interface_module/view/admin_homepage.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/admin_interface_module/view/tree.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LoginModule/controller/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/LoginModule/controller/LoginController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoginModule/model/get_user_creds.php" beforeDir="false" afterPath="$PROJECT_DIR$/LoginModule/model/get_user_creds.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/debug.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_event/attend_event.php" beforeDir="false" afterPath="$PROJECT_DIR$/user_event/attend_event.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_event/controller/attending_controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/user_event/controller/attending_controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_event/controller/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/user_event/controller/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_interface_module/controller/controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/user_interface_module/controller/controller.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user_interface_module/controller/user_options.js" beforeDir="false" afterPath="$PROJECT_DIR$/user_interface_module/controller/user_options.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_interface_module/view/user_homepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/user_interface_module/view/user_homepage.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +45,7 @@
     "PHP Script.database_connection.php.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "user",
-    "last_opened_file_path": "//wsl.localhost/Ubuntu-22.04/home/ahmed/repos/sdp",
+    "last_opened_file_path": "A:/Ahmed_SH/Uni/sdp/admin_interface_module",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -64,6 +59,11 @@
     ]
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="A:\Ahmed_SH\Uni\sdp\admin_interface_module" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -82,7 +82,7 @@
       <updated>1737076372447</updated>
       <workItem from="1737076373495" duration="767000" />
       <workItem from="1737127152968" duration="84000" />
-      <workItem from="1737127243711" duration="3186000" />
+      <workItem from="1737127243711" duration="7064000" />
     </task>
     <servers />
   </component>

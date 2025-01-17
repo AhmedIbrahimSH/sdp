@@ -43,9 +43,9 @@ class LoginController
     private function redirect_user($type){
         $baseUrl = 'sdp/';
         if($type == "EA"){
-            header('Location:' . $baseUrl . '../../EventModule/View/new_event_view.html');
+            header('Location:  /sdp/admin_interface_module/view/admin_homepage.html');
         }else if($type == "BA"){
-            header('Location: /fundraiser');
+            header('Location: /sdp/');
         }else if($type == "US"){
             header('Location: /sdp/user_interface_module/view/user_homepage.html');
         }
