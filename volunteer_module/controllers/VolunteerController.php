@@ -1,16 +1,29 @@
 <?php
-require_once 'Volunteer.php';
-require_once 'VolunteerSkills.php';
-require_once 'VolunteerTasks.php';
-require_once 'VolunteerSchedule.php';
-require_once 'CountryProxy.php';
-require_once 'VolunteerCertificateController.php';
-class VolunteerController {
+
+
+namespace controllers;
+
+use models\CountryProxy;
+use models\Volunteer;
+use models\VolunteerCertificate;
+use models\VolunteerSchedule;
+use models\VolunteerSkills;
+use models\VolunteerTasks;
+
+require_once __DIR__  . '/../models/VolunteerSkills.php';
+require_once  __DIR__  . '/../models/VolunteerTasks.php';
+require_once  __DIR__  . '/../models/VolunteerSchedule.php';
+require_once  __DIR__  . '/../models/CountryProxy.php';
+require_once  __DIR__  . '/VolunteerCertificateController.php';
+
+class VolunteerController
+{
     private $volunteerModel;
     private $volunteerSkillsModel;
     private $volunteerTasksModel;
     private $volunteerScheduleModel;
     private $volunteerCertificatesModel;
+
     public function showCreateForm()
     {
         // Use the CountryProxy to fetch nationalities
@@ -18,9 +31,11 @@ class VolunteerController {
         $nationalities = $countryProxy->getAllCountries();
 
         // Pass the nationalities to the view
-        require_once 'volunteer_create.php';
+        require_once __DIR__  . '/../views/volunteer_create.php';
     }
-    public function __construct() {
+
+    public function __construct()
+    {
         $this->volunteerModel = new Volunteer();
         $this->volunteerSkillsModel = new VolunteerSkills();
         $this->volunteerTasksModel = new VolunteerTasks();
@@ -29,23 +44,26 @@ class VolunteerController {
     }
 
     // Display all volunteers
-    public function index() {
+    public function index()
+    {
         $volunteers = $this->volunteerModel->getAllVolunteers();
-        include 'views/volunteer_list.php';
+        include  __DIR__  . '/../views/volunteer_list.php';
     }
 
     // Show details for a specific volunteer
-    public function show($personId) {
+    public function show($personId)
+    {
         $volunteer = $this->volunteerModel->getVolunteerById($personId);
         $skills = $this->volunteerSkillsModel->getSkillsByVolunteer($personId);
         $tasks = $this->volunteerTasksModel->getTasksByVolunteer($personId);
         $schedule = $this->volunteerScheduleModel->getScheduleByVolunteer($personId);
         $certificates = $this->volunteerCertificatesModel->getCertificatesByVolunteer($personId);
-        include 'views/volunteer_detail.php';
+        include  __DIR__  . '/../views/volunteer_detail.php';
     }
 
     // Add a new volunteer
-    public function create() {
+    public function create()
+    {
         // Use the CountryProxy to fetch nationalities
         $countryProxy = new CountryProxy();
         $nationalities = $countryProxy->getAllCountries();
@@ -81,10 +99,12 @@ class VolunteerController {
             }
         } else {
             // Display the volunteer creation form
-            include 'views/volunteer_create.php';
+            include  __DIR__  . '/../views/volunteer_create.php';
         }
     }
-    public function manageSubscriptions() {
+
+    public function manageSubscriptions()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $personId = $_POST['person_id'];
             $subscriptions = $_POST['subscriptions'] ?? [];
@@ -109,12 +129,13 @@ class VolunteerController {
             $stmt->execute(['person_id' => $personId]);
             $currentSubscriptions = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-            include 'views/volunteer_subscriptions.php';
+            include  __DIR__  . '/../views/volunteer_subscriptions.php';
         }
     }
 
     // Edit an existing volunteer
-    public function edit($personId) {
+    public function edit($personId)
+    {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
@@ -134,17 +155,20 @@ class VolunteerController {
             exit;
         } else {
             $volunteer = $this->volunteerModel->getVolunteerById($personId);
-            include 'views/volunteer_edit.php';
+            include  __DIR__  . '/../views/volunteer_edit.php';
         }
     }
 
     // Delete a volunteer
-    public function delete($personId) {
+    public function delete($personId)
+    {
         $this->volunteerModel->deleteVolunteer($personId);
         header("Location: index.php?action=index");
         exit;
     }
-    public function subscribeToEvent($eventId) {
+
+    public function subscribeToEvent($eventId)
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $personId = $_POST['person_id']; // The volunteer's ID
             $eventType = $_POST['event_type']; // The event type they are subscribing to
@@ -156,8 +180,9 @@ class VolunteerController {
             exit;
         } else {
             $volunteers = $this->volunteerModel->getAllVolunteers(); // Fetch all volunteers
-            include 'views/volunteer_subscribe_to_event.php';
+            include  __DIR__  . '/../views/volunteer_subscribe_to_event.php';
         }
     }
 }
+
 ?>

@@ -1,4 +1,7 @@
 <?php
+
+
+namespace models;
 require_once 'VolunteerSkills.php';
 require_once 'VolunteerSchedule.php';
 require_once 'VolunteerTasks.php';

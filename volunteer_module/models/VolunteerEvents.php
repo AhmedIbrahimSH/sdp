@@ -1,15 +1,21 @@
 <?php
+
+namespace models;
+
 require_once 'Database.php';
 
-class VolunteerEvents {
+class VolunteerEvents
+{
     private $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = Database::getInstance()->getConnection();
     }
 
     // Add a new event for a volunteer
-    public function addEvent($personId, $eventName, $eventDate, $description) {
+    public function addEvent($personId, $eventName, $eventDate, $description)
+    {
         $stmt = $this->db->prepare("
             INSERT INTO volunteer_events (person_id, event_name, event_date, description)
             VALUES (:person_id, :event_name, :event_date, :description)
@@ -23,7 +29,8 @@ class VolunteerEvents {
     }
 
     // Retrieve all events for a specific volunteer
-    public function getEventsByPersonId($personId) {
+    public function getEventsByPersonId($personId)
+    {
         $stmt = $this->db->prepare("
             SELECT event_name, event_date, description
             FROM volunteer_events
@@ -34,4 +41,5 @@ class VolunteerEvents {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
+
 ?>

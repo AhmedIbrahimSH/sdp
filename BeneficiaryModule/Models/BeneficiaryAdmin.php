@@ -1,4 +1,7 @@
 <?php
+
+use models\Person;
+
 require_once 'Person.php';
 
 class BeneficiaryAdmin extends Person

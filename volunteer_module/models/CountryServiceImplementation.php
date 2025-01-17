@@ -1,6 +1,8 @@
 <?php
 // app/proxies/CountryServiceImplementation.php
 
+namespace models;
+
 require_once 'CountryService.php';
 
 class   CountryServiceImplementation implements CountryService
@@ -80,4 +82,5 @@ class   CountryServiceImplementation implements CountryService
         }
     }
 }
+
 ?>

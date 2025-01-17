@@ -1,15 +1,20 @@
 <?php
+namespace models;
+use PDO;
 require_once 'Database.php';
 
-class VolunteerSchedule {
+class VolunteerSchedule
+{
     private $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = Database::getInstance()->getConnection();
     }
 
     // Add a schedule item for a volunteer
-    public function addScheduleItem($personId, $scheduleDate, $hours) {
+    public function addScheduleItem($personId, $scheduleDate, $hours)
+    {
         $stmt = $this->db->prepare("
             INSERT INTO Schedule (PersonID, schedule_date, hours)
             VALUES (:personId, :scheduleDate, :hours)
@@ -22,7 +27,8 @@ class VolunteerSchedule {
     }
 
     // Get all schedule items for a specific volunteer
-    public function getScheduleByVolunteer($personId) {
+    public function getScheduleByVolunteer($personId)
+    {
         $stmt = $this->db->prepare("
             SELECT id AS schedule_id, schedule_date, hours
             FROM Schedule
@@ -34,7 +40,8 @@ class VolunteerSchedule {
     }
 
     // Update a schedule item
-    public function updateScheduleItem($scheduleId, $scheduleDate, $hours) {
+    public function updateScheduleItem($scheduleId, $scheduleDate, $hours)
+    {
         $stmt = $this->db->prepare("
             UPDATE Schedule
             SET schedule_date = :scheduleDate, hours = :hours
@@ -48,7 +55,8 @@ class VolunteerSchedule {
     }
 
     // Remove a schedule item
-    public function removeScheduleItem($scheduleId) {
+    public function removeScheduleItem($scheduleId)
+    {
         $stmt = $this->db->prepare("
             DELETE FROM Schedule
             WHERE id = :scheduleId
@@ -56,4 +64,5 @@ class VolunteerSchedule {
         $stmt->execute(['scheduleId' => $scheduleId]);
     }
 }
+
 ?>

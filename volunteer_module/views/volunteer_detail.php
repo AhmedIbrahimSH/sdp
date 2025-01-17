@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -147,16 +149,16 @@
         <?php if (!empty($certificates) && is_array($certificates)): ?>
             <?php foreach ($certificates as $certificate): ?>
                 <li>
-                    <?= htmlspecialchars($certificate['certificate_name']); ?> (Issued: <?= htmlspecialchars($certificate['issue_date']); ?>)
+                    <?= htmlspecialchars($certificate['certificate_name']); ?> (Issued: <?= htmlspecialchars($certificate['date_awarded']); ?>)
                 </li>
             <?php endforeach; ?>
         <?php else: ?>
         <?php endif; ?>
     </ul>
-
     <div class="actions">
         <a href="index.php?action=add_certificate&person_id=<?= htmlspecialchars($volunteer['PersonID']); ?>">Add Certificate</a>
     </div>
+
 
     <!-- Back to List Link -->
     <a href="index.php?action=index" class="back-link">Back to List</a>

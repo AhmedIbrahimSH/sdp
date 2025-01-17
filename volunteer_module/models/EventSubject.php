@@ -1,6 +1,9 @@
 <?php
 
-interface EventSubject {
+namespace models;
+
+interface EventSubject
+{
     /**
      * Attach an observer to the subject.
      *
@@ -23,4 +26,5 @@ interface EventSubject {
      */
     public function notify($eventType, $eventDetails);
 }
+
 ?>

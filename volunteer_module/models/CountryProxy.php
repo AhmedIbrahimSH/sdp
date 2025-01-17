@@ -1,6 +1,8 @@
 <?php
 // app/proxies/CountryProxy.php
 
+namespace models;
+
 require_once 'CountryService.php';
 require_once 'CountryServiceImplementation.php';
 
@@ -82,4 +84,5 @@ class CountryProxy implements CountryService
         file_put_contents($this->cacheFile, json_encode($nationalities));
     }
 }
+
 ?>

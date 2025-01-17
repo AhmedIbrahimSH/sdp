@@ -1,15 +1,20 @@
 <?php
+namespace models;
+use PDO;
 require_once 'Database.php';
 
-class VolunteerSkills {
+class VolunteerSkills
+{
     private $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = Database::getInstance()->getConnection();
     }
 
     // Add a skill for a volunteer
-    public function addSkill($personId, $skillId) {
+    public function addSkill($personId, $skillId)
+    {
         $stmt = $this->db->prepare("
             INSERT INTO Volunteer_Skills (PersonID, skill_id)
             VALUES (:personId, :skillId)
@@ -21,7 +26,8 @@ class VolunteerSkills {
     }
 
     // Get all skills for a specific volunteer
-    public function getSkillsByVolunteer($personId) {
+    public function getSkillsByVolunteer($personId)
+    {
         $stmt = $this->db->prepare("
             SELECT s.id AS skill_id, s.skill
             FROM Volunteer_Skills vs
@@ -33,7 +39,8 @@ class VolunteerSkills {
     }
 
     // Remove a skill for a specific volunteer (soft delete)
-    public function removeSkill($personId, $skillId) {
+    public function removeSkill($personId, $skillId)
+    {
         $stmt = $this->db->prepare("
             UPDATE Volunteer_Skills
             SET IsVolunteerSkillDeleted = 1
@@ -46,7 +53,8 @@ class VolunteerSkills {
     }
 
     // Get all available skills from the Skill table
-    public function getAllSkills() {
+    public function getAllSkills()
+    {
         $stmt = $this->db->prepare("
             SELECT id, skill
             FROM Skill
@@ -56,4 +64,5 @@ class VolunteerSkills {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
+
 ?>

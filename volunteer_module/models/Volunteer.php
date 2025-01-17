@@ -1,23 +1,31 @@
 <?php
+
+namespace models;
+
+use models\VolunteerTracker;
+use PDO;
+
 require_once 'Database.php';
 require_once 'Person.php';
 require_once 'Account.php';
-require_once 'VolunteerTracker.php'; // Include the VolunteerTracker class
 require_once 'VolunteerObserver.php';
-class  Volunteer extends Account implements VolunteerObserver {
+require_once 'VolunteerTracker.php';
+class  Volunteer extends Account implements VolunteerObserver
+{
 
     private $tracker; // Aggregation: VolunteerTracker instance
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = Database::getInstance()->getConnection();
         $this->tracker = new VolunteerTracker($this->personId); // Initialize the tracker
     }
 
 
-
     // Database CRUD operations for Volunteer and Person
 
-    public function getAllVolunteers() {
+    public function getAllVolunteers()
+    {
         $stmt = $this->db->prepare("
         SELECT 
             v.PersonID AS PersonID, 
@@ -35,7 +43,8 @@ class  Volunteer extends Account implements VolunteerObserver {
     }
 
 
-    public function createVolunteer($data) {
+    public function createVolunteer($data)
+    {
         try {
             // Start transaction
             $this->db->beginTransaction();
@@ -87,7 +96,8 @@ class  Volunteer extends Account implements VolunteerObserver {
     }
 
 
-    public function getVolunteerById($id) {
+    public function getVolunteerById($id)
+    {
         $stmt = $this->db->prepare("
             SELECT v.PersonID, p.FirstName, p.LastName, a.Email, p.Phone, p.AddressID, p.MiddleName, p.Nationality, p.Gender, p.Phone
             FROM volunteer v
@@ -101,8 +111,8 @@ class  Volunteer extends Account implements VolunteerObserver {
     }
 
 
-
-    public function updateVolunteer($id, $data) {
+    public function updateVolunteer($id, $data)
+    {
         // Update Person table
         $stmt = $this->db->prepare("
         UPDATE Person 
@@ -154,7 +164,8 @@ class  Volunteer extends Account implements VolunteerObserver {
     }
 
 
-    public function deleteVolunteer($id) {
+    public function deleteVolunteer($id)
+    {
         $stmt = $this->db->prepare("
             UPDATE Volunteer 
             SET IsVolunteerDeleted = 1
@@ -164,7 +175,8 @@ class  Volunteer extends Account implements VolunteerObserver {
         return $stmt->execute();
     }
 
-    public function update($eventType, $eventDetails, $PersonID) {
+    public function update($eventType, $eventDetails, $PersonID)
+    {
         if ($this->personId === $PersonID) { // Notify only the intended volunteer
             $logMessage = "Notification for Volunteer (Person ID: {$this->personId}): ";
             $logMessage .= "A new {$eventType} has been created: {$eventDetails['EventName']} on {$eventDetails['EventDate']}.\n";
@@ -174,7 +186,8 @@ class  Volunteer extends Account implements VolunteerObserver {
         }
     }
 
-    public function subscribeToEvent($personId, $eventType) {
+    public function subscribeToEvent($personId, $eventType)
+    {
         $stmt = $this->db->prepare("
             INSERT INTO Volunteer_Subscriptions (PersonID, event_type)
             VALUES (:PersonID, :event_type)
@@ -186,4 +199,5 @@ class  Volunteer extends Account implements VolunteerObserver {
         ]);
     }
 }
+
 ?>

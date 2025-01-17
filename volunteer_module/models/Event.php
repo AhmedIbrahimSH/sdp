@@ -1,16 +1,24 @@
 <?php
+
+namespace models;
+
 require_once 'Database.php';
 require_once 'VolunteerObserver.php';
 require_once 'EventSubject.php';
-class Event implements EventSubject {
+
+class Event implements EventSubject
+{
     private $db;
     private $observers = []; // List of volunteers (observers)
-    public function __construct() {
+
+    public function __construct()
+    {
         $this->db = Database::getInstance()->getConnection();
     }
 
     // Create a new event
-    public function createEvent($eventName, $eventDate, $Location) {
+    public function createEvent($eventName, $eventDate, $Location)
+    {
         $stmt = $this->db->prepare("
             INSERT INTO events (Title, Date, Location)
             VALUES (:eventName, :eventDate, :Location)
@@ -24,7 +32,8 @@ class Event implements EventSubject {
     }
 
     // Retrieve an event by ID
-    public function getEventById($eventId) {
+    public function getEventById($eventId)
+    {
         $stmt = $this->db->prepare("
             SELECT e.Title, e.Date FROM events as e
             WHERE EventID = :eventId
@@ -32,7 +41,9 @@ class Event implements EventSubject {
         $stmt->execute(['eventId' => $eventId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    public function getVolunteersByEventId($eventId) {
+
+    public function getVolunteersByEventId($eventId)
+    {
         $stmt = $this->db->prepare("
         SELECT 
             v.person_id, 
@@ -49,7 +60,8 @@ class Event implements EventSubject {
     }
 
     // Retrieve all events
-    public function getAllEvents() {
+    public function getAllEvents()
+    {
         $stmt = $this->db->prepare("
             SELECT * FROM events
             ORDER BY Date ASC
@@ -59,7 +71,8 @@ class Event implements EventSubject {
     }
 
     // Update an existing event
-    public function updateEvent($eventId, $eventName, $eventDate, $Location) {
+    public function updateEvent($eventId, $eventName, $eventDate, $Location)
+    {
         $stmt = $this->db->prepare("
             UPDATE events
             SET Title = :eventName, Date = :eventDate, Location = :Location
@@ -72,7 +85,9 @@ class Event implements EventSubject {
             'eventId' => $eventId
         ]);
     }
-    public function assignVolunteerToEvent($personId, $eventId) {
+
+    public function assignVolunteerToEvent($personId, $eventId)
+    {
         $stmt = $this->db->prepare("
             INSERT INTO Volunteer_Events (person_id, event_id)
             VALUES (:personId, :eventId)
@@ -85,7 +100,8 @@ class Event implements EventSubject {
 
 
     // Delete an event
-    public function deleteEvent($eventId) {
+    public function deleteEvent($eventId)
+    {
         $stmt = $this->db->prepare("
             DELETE FROM events
             WHERE EventID = :eventId
@@ -97,7 +113,8 @@ class Event implements EventSubject {
 
 
     // Retrieve all events associated with a volunteer
-    public function getEventsByVolunteer($personId) {
+    public function getEventsByVolunteer($personId)
+    {
         $stmt = $this->db->prepare("
             SELECT e.Title, e.Date, e.Location
             FROM Volunteer_Events ve
@@ -109,7 +126,8 @@ class Event implements EventSubject {
     }
 
     // Attach an observer (Volunteer) to the events
-    public function attach(VolunteerObserver $observer) {
+    public function attach(VolunteerObserver $observer)
+    {
         $this->observers[] = $observer;
     }
 
@@ -118,7 +136,8 @@ class Event implements EventSubject {
      *
      * @param VolunteerObserver $observer The observer to detach.
      */
-    public function detach(VolunteerObserver $observer) {
+    public function detach(VolunteerObserver $observer)
+    {
         foreach ($this->observers as $key => $subscribedObserver) {
             if ($subscribedObserver === $observer) {
                 unset($this->observers[$key]);
@@ -132,10 +151,12 @@ class Event implements EventSubject {
      * @param string $eventType The type of event.
      * @param array $eventDetails Details about the event.
      */
-    public function notify($eventType, $eventDetails) {
+    public function notify($eventType, $eventDetails)
+    {
         foreach ($this->observers as $observer) {
             $observer->update($eventType, $eventDetails, null); // Notify all observers
         }
     }
 }
+
 ?>

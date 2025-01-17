@@ -1,7 +1,11 @@
 <?php
+
+namespace models;
+
 require_once 'Database.php';
 
-class Person {
+class Person
+{
     protected $db;
     protected $personId;
     protected $firstName;
@@ -12,12 +16,14 @@ class Person {
     protected $personPhone;
     protected $addressId;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = Database::getInstance()->getConnection();
     }
 
     // Create a new person
-    public function createPerson($data) {
+    public function createPerson($data)
+    {
         $stmt = $this->db->prepare("
             INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, PersonPhone, AddressID)
             VALUES (:firstName, :lastName, :middleName, :nationality, :gender, :personPhone, :addressId)
@@ -36,7 +42,8 @@ class Person {
     }
 
     // Retrieve a person by ID
-    public function getPersonById($personId) {
+    public function getPersonById($personId)
+    {
         $stmt = $this->db->prepare("
             SELECT * FROM Person WHERE PersonID = :personId
         ");
@@ -51,7 +58,8 @@ class Person {
     }
 
     // Update person details
-    public function updatePerson($personId, $data) {
+    public function updatePerson($personId, $data)
+    {
         $stmt = $this->db->prepare("
             UPDATE Person
             SET FirstName = :firstName, LastName = :lastName, MiddleName = :middleName,
@@ -71,18 +79,22 @@ class Person {
     }
 
     // Delete (soft delete) a person
-    public function deletePerson($personId) {
+    public function deletePerson($personId)
+    {
         $stmt = $this->db->prepare("
             UPDATE Person SET isPersonDeleted = 1 WHERE PersonID = :personId
         ");
         $stmt->execute(['personId' => $personId]);
     }
-    public function getPersonId() {
+
+    public function getPersonId()
+    {
         return $this->personId;
     }
 
     // Hydrate object properties
-    protected function hydrate($data) {
+    protected function hydrate($data)
+    {
         $this->personId = $data['PersonID'];
         $this->firstName = $data['FirstName'];
         $this->lastName = $data['LastName'];
@@ -94,33 +106,40 @@ class Person {
     }
 
 
-
-    public function getFirstName() {
+    public function getFirstName()
+    {
         return $this->firstName;
     }
 
-    public function getLastName() {
+    public function getLastName()
+    {
         return $this->lastName;
     }
 
-    public function getMiddleName() {
+    public function getMiddleName()
+    {
         return $this->middleName;
     }
 
-    public function getNationality() {
+    public function getNationality()
+    {
         return $this->nationality;
     }
 
-    public function getGender() {
+    public function getGender()
+    {
         return $this->gender;
     }
 
-    public function getPersonPhone() {
+    public function getPersonPhone()
+    {
         return $this->personPhone;
     }
 
-    public function getAddressId() {
+    public function getAddressId()
+    {
         return $this->addressId;
     }
 }
+
 ?>

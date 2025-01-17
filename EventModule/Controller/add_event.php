@@ -1,4 +1,7 @@
 <?php
+
+use models\Database;
+
 require_once '../Model/database_connection.php';
 require_once '../../NotificationsModule/subscriber.php';
 require_once '../../NotificationsModule/publisher.php';

@@ -1,17 +1,22 @@
 <?php
+namespace models;
+use PDO;
 require_once 'Database.php';
 
-class VolunteerTasks {
+class VolunteerTasks
+{
     private $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = Database::getInstance()->getConnection();
     }
 
     // Add a task for a volunteer
-    public function addTask($personId, $taskName, $description, $dueDate) {
+    public function addTask($personId, $taskName, $description, $dueDate)
+    {
         $stmt = $this->db->prepare("
-            INSERT INTO Volunteer_Tasks (person_id, task_name, description, due_date)
+            INSERT INTO Tasks (PersonID, task_name, description, due_date)
             VALUES (:personId, :taskName, :description, :dueDate)
         ");
         $stmt->execute([
@@ -23,7 +28,8 @@ class VolunteerTasks {
     }
 
     // Get all tasks for a specific volunteer
-    public function getTasksByVolunteer($personId) {
+    public function getTasksByVolunteer($personId)
+    {
         $stmt = $this->db->prepare("
             SELECT id AS task_id, task_name, description, due_date
             FROM Tasks
@@ -35,7 +41,8 @@ class VolunteerTasks {
     }
 
     // Update a task for a volunteer
-    public function updateTask($taskId, $taskName, $description, $dueDate) {
+    public function updateTask($taskId, $taskName, $description, $dueDate)
+    {
         $stmt = $this->db->prepare("
             UPDATE Tasks
             SET task_name = :taskName, description = :description, due_date = :dueDate
@@ -50,12 +57,14 @@ class VolunteerTasks {
     }
 
     // Remove a task for a volunteer
-    public function removeTask($taskId) {
+    public function removeTask($taskId)
+    {
         $stmt = $this->db->prepare("
-            DELETE FROM Volunteer_Tasks
+            DELETE FROM Tasks
             WHERE id = :taskId
         ");
         $stmt->execute(['taskId' => $taskId]);
     }
 }
+
 ?>

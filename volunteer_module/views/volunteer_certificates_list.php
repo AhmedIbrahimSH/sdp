@@ -9,8 +9,8 @@
 <ul>
     <?php foreach ($certificates as $certificate): ?>
         <li>
-            <?= htmlspecialchars($certificate['task_name']); ?>: <?= htmlspecialchars($certificate['certificate_name']); ?>
-            (Awarded: <?= htmlspecialchars($certificate['date_awarded']); ?>)
+             <?= htmlspecialchars($certificate['certificate_name']); ?>
+            (Awarded on: <?= htmlspecialchars($certificate['date_awarded']); ?>)
         </li>
     <?php endforeach; ?>
 </ul>

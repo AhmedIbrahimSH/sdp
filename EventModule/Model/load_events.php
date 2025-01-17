@@ -1,6 +1,8 @@
 
 <?php
 
+use models\Database;
+
 require_once 'database_connection.php';
 
 $conn = Database::get_instance();
