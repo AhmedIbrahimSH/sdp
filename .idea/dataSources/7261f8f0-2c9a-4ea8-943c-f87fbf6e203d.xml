@@ -1239,7 +1239,7 @@ test\\_%|schema||&apos;&apos;||UPDATE|G</Grants>
       <Charset>utf8mb4</Charset>
     </collation>
     <schema id="324" parent="1" name="charity_db">
-      <LastIntrospectionLocalTimestamp>2025-01-17.15:36:17</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2025-01-17.23:23:57</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_general_ci</CollationName>
     </schema>
     <schema id="325" parent="1" name="event_management">
@@ -2476,6 +2476,7 @@ test\\_%|schema||&apos;&apos;||UPDATE|G</Grants>
       <CollationName>utf8_bin</CollationName>
     </table>
     <column id="551" parent="337" name="PersonID">
+      <AutoIncrement>13</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int(11)|0s</StoredType>
@@ -2502,7 +2503,6 @@ test\\_%|schema||&apos;&apos;||UPDATE|G</Grants>
     </column>
     <foreign-key id="556" parent="337" name="account_ibfk_1">
       <ColNames>PersonID</ColNames>
-      <OnDelete>cascade</OnDelete>
       <RefColNames>PersonID</RefColNames>
       <RefTableName>person</RefTableName>
     </foreign-key>
@@ -2679,7 +2679,7 @@ test\\_%|schema||&apos;&apos;||UPDATE|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="592" parent="343" name="AllocationID">
-      <AutoIncrement>3</AutoIncrement>
+      <AutoIncrement>4</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int(11)|0s</StoredType>
@@ -3043,7 +3043,7 @@ test\\_%|schema||&apos;&apos;||UPDATE|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="666" parent="352" name="EventID">
-      <AutoIncrement>4</AutoIncrement>
+      <AutoIncrement>8</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int(11)|0s</StoredType>
@@ -3387,7 +3387,7 @@ test\\_%|schema||&apos;&apos;||UPDATE|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="738" parent="360" name="PersonID">
-      <AutoIncrement>14</AutoIncrement>
+      <AutoIncrement>15</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int(11)|0s</StoredType>

@@ -14,7 +14,7 @@
             <div class="error"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
 
-        <form action="../LoginModule/controller/SignUpController.php" method="POST">
+        <form action="/sdp/LoginModule/controller/SignUpController.php" method="POST">
 
             <label for="firstname">First Name</label>
             <input type="text" id="firstname" name="firstname" placeholder="First Name" required>
