@@ -1,5 +1,8 @@
 <?php
-
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 use Controllers\DonationController;
 use Controllers\DonorController;
 use Controllers\InvoiceController;
@@ -21,39 +24,40 @@ session_start();
 //}
 
 // Include model, controller, and view classes
-require_once 'Models/Database.php';
-require_once 'Models/Donor.php';
-require_once 'Models/Donation.php';
-require_once 'Models/CashDonation.php';
-require_once 'Models/FoodDonation.php';
-require_once 'Models/DrugsDonation.php';
-require_once 'Models/ClothesDonation.php';
-require_once 'Models/Strategy/Payment.php';
-require_once 'Models/Strategy/IPay.php';
+require_once 'DonationModule/Models/Database.php';
+require_once 'DonationModule/Models/Donor.php';
+require_once 'DonationModule/Models/Donation.php';
+require_once 'DonationModule/Models/CashDonation.php';
+require_once 'DonationModule/Models/FoodDonation.php';
+require_once 'DonationModule/Models/DrugsDonation.php';
+require_once 'DonationModule/Models/ClothesDonation.php';
+require_once 'DonationModule/Models/Strategy/Payment.php';
+require_once 'DonationModule/Models/Strategy/IPay.php';
 
 
-require_once 'Controllers/DonorController.php';
-require_once 'Controllers/DonationController.php';
 
-require_once 'controllers/InvoiceController.php';
-require_once 'Controllers/PaymentController.php';
+require_once 'DonationModule/Controllers/DonorController.php';
+require_once 'DonationModule/Controllers/DonationController.php';
+
+require_once 'DonationModule/controllers/InvoiceController.php';
+require_once 'DonationModule/Controllers/PaymentController.php';
 
 
-require_once 'Views/donorView.php';
-require_once 'Views/DonorsListView.php';
-require_once 'Views/UpdateDonorView.php';
+require_once 'DonationModule/Views/donorView.php';
+require_once 'DonationModule/Views/DonorsListView.php';
+require_once 'DonationModule/Views/UpdateDonorView.php';
 
-require_once 'Views/DonationsView.php'; // Add Donations View
+require_once 'DonationModule/Views/DonationsView.php'; // Add Donations View
 
-require_once 'Views/AddCashDonationView.php';
-require_once 'Views/AddFoodDonationView.php';
-require_once 'Views/AddDrugsDonationView.php';
-require_once 'Views/AddClothesDonationView.php';
+require_once 'DonationModule/Views/AddCashDonationView.php';
+require_once 'DonationModule/Views/AddFoodDonationView.php';
+require_once 'DonationModule/Views/AddDrugsDonationView.php';
+require_once 'DonationModule/Views/AddClothesDonationView.php';
 
-require_once 'Views/PaymentStrategiesView.php';
-require_once 'Views/CreditCardPaymentView.php';
-require_once 'Views/PayPalPaymentView.php';
-require_once 'Views/BankTransferPaymentView.php';
+require_once 'DonationModule/Views/PaymentStrategiesView.php';
+require_once 'DonationModule/Views/CreditCardPaymentView.php';
+require_once 'DonationModule/Views/PayPalPaymentView.php';
+require_once 'DonationModule/Views/BankTransferPaymentView.php';
 
 
 
@@ -97,7 +101,7 @@ if (isset($_GET['action'])) {
 
         // Add donor
         case 'addDonor':
-            include 'views/AddDonorView.php';
+            include 'DonationModule/views/AddDonorView.php';
             break;
 
         case 'saveDonor':
@@ -200,11 +204,6 @@ if (isset($_GET['action'])) {
 
 
 
-
-
-
-
-
         case 'saveDonation':
             // Save a new donation
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -253,8 +252,6 @@ if (isset($_GET['action'])) {
                 echo "Donation ID not provided.";
             }
             break;
-
-
 
 
 //

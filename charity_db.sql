@@ -1,6 +1,6 @@
- #DROP DATABASE charity_db;
+DROP DATABASE charity_db;
 
- CREATE DATABASE IF NOT EXISTS charity_db;
+create DATABASE IF NOT EXISTS charity_db;
  USE charity_db;
 
 

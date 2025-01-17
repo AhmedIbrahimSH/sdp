@@ -34,13 +34,13 @@ class Donation
 
     public function __sleep()
     {
-        // Exclude the PDO object and return serializable properties
+        // Exclude the \PDO object and return serializable properties
         return array_keys(get_object_vars($this)); // Remove `$db` from the serialized data
     }
 
     public function __wakeup()
     {
-        // Reinitialize the PDO object or any other non-serializable properties
+        // Reinitialize the \PDO object or any other non-serializable properties
         $this->db = Database::getInstance(); // Reinitialize the database connection
     }
 
@@ -102,14 +102,14 @@ class Donation
 
             $stmt = $this->db->prepare($query);
 
-            $stmt->bindParam(':type', $type, PDO::PARAM_STR);
-            $stmt->bindParam(':date', $date, PDO::PARAM_STR);
-            $stmt->bindParam(':paymentMethod', $paymentMethod, PDO::PARAM_STR);
-            $stmt->bindParam(':totalAmount', $totalAmount, PDO::PARAM_STR);
-            $stmt->bindParam(':personID', $personID, PDO::PARAM_INT);
+            $stmt->bindParam(':type', $type, \PDO::PARAM_STR);
+            $stmt->bindParam(':date', $date, \PDO::PARAM_STR);
+            $stmt->bindParam(':paymentMethod', $paymentMethod, \PDO::PARAM_STR);
+            $stmt->bindParam(':totalAmount', $totalAmount, \PDO::PARAM_STR);
+            $stmt->bindParam(':personID', $personID, \PDO::PARAM_INT);
 
             $stmt->execute();
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             // Handle the exception, log it, or rethrow it as needed
             throw new Exception("Error adding donation: " . $e->getMessage());
         }
@@ -127,7 +127,7 @@ class Donation
 
         try {
             $stmt = $this->db->query("SELECT * FROM Donation"); // SQL query to get all donations
-            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch all rows as an associative array
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC); // Fetch all rows as an associative array
         } catch (Exception $e) {
             throw new Exception("Error fetching donations: " . $e->getMessage());
         }
@@ -139,10 +139,10 @@ class Donation
         try {
             $query = "SELECT * FROM Donation WHERE DonationID = :donationID";
             $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':donationID', $donationID, PDO::PARAM_INT);
+            $stmt->bindParam(':donationID', $donationID, \PDO::PARAM_INT);
             $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
+            return $stmt->fetch(\PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
             throw new Exception("Error retrieving donation: " . $e->getMessage());
         }
     }
@@ -161,15 +161,15 @@ class Donation
 
             $stmt = $this->db->prepare($query);
 
-            $stmt->bindParam(':type', $type, PDO::PARAM_STR);
-            $stmt->bindParam(':date', $date, PDO::PARAM_STR);
-            $stmt->bindParam(':paymentMethod', $paymentMethod, PDO::PARAM_STR);
-            $stmt->bindParam(':totalAmount', $totalAmount, PDO::PARAM_STR);
-            $stmt->bindParam(':personID', $personID, PDO::PARAM_INT);
-            $stmt->bindParam(':donationID', $donationID, PDO::PARAM_INT);
+            $stmt->bindParam(':type', $type, \PDO::PARAM_STR);
+            $stmt->bindParam(':date', $date, \PDO::PARAM_STR);
+            $stmt->bindParam(':paymentMethod', $paymentMethod, \PDO::PARAM_STR);
+            $stmt->bindParam(':totalAmount', $totalAmount, \PDO::PARAM_STR);
+            $stmt->bindParam(':personID', $personID, \PDO::PARAM_INT);
+            $stmt->bindParam(':donationID', $donationID, \PDO::PARAM_INT);
 
             $stmt->execute();
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             throw new Exception("Error updating donation: " . $e->getMessage());
         }
     }
@@ -182,9 +182,9 @@ class Donation
         try {
             $query = "DELETE FROM Donation WHERE DonationID = :donationID";
             $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':donationID', $donationID, PDO::PARAM_INT);
+            $stmt->bindParam(':donationID', $donationID, \PDO::PARAM_INT);
             $stmt->execute();
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             throw new Exception("Error deleting donation: " . $e->getMessage());
         }
     }

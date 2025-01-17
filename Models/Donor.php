@@ -42,7 +42,7 @@ class Donor
         WHERE p.PersonID = ?
     ");
         $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
 
@@ -75,7 +75,7 @@ class Donor
         LEFT JOIN Address addr_country ON addr_city.ParentID = addr_country.AddressID
     ");
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
 
@@ -232,7 +232,7 @@ class Donor
             ]);
 
             return true; // Return true if update is successful
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             // Handle errors gracefully
             error_log("Update failed: " . $e->getMessage());
             return false; // Return false if update fails
@@ -256,6 +256,6 @@ class Donor
             WHERE DonorID = ?
         ");
         $stmt->execute([$donorID]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 }
