@@ -1,7 +1,7 @@
 <?php
 
-require_once '../View/login.html';
-require_once '../Model/get_user_creds.php';
+require_once '../view/login.html';
+require_once '../model/get_user_creds.php';
 class LoginController
 {
     public function handleLogin()
@@ -35,7 +35,7 @@ class LoginController
         }else if($type == "BA"){
             header('Location: /fundraiser');
         }else if($type == "US"){
-            header('Location: /workshop');
+            header('Location: /sdp/user_interface_module/view/user_homepage.html');
         }
     }
 

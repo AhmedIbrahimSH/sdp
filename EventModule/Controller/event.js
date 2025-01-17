@@ -1,6 +1,4 @@
 
-    let calendar;
-
     document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
@@ -11,7 +9,7 @@
     right: 'dayGridMonth'
 },
     events: function(fetchInfo, successCallback, failureCallback) {
-        fetch('../Model/events_json_retrieval.php')
+        fetch('../../Model/events_json_retrieval.php')
             .then(response => response.json())
             .then(data => successCallback(data))
             .catch(error => failureCallback(error));
@@ -58,7 +56,7 @@
     alert('Event added to the calendar!');
 
         // console.log(eventData);
-        fetch('../Controller/add_event.php', {
+        fetch('../../Controller/add_event.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -67,13 +65,13 @@
     })
         .then(response => response.text())  // Use text() to inspect raw response first
         .then(data => {
-            console.log("Raw data:", data);  // Log the raw response to check for issues
-            const jsonData = JSON.parse(data);
-            if (jsonData.success) {
-                alert("Event added successfully!");
-            } else {
-                alert("Failed to add event: " + jsonData.message);
-            }
+            // console.log("Raw data:", data);  // Log the raw response to check for issues
+            // const jsonData = JSON.parse(data);
+            // if (jsonData.success) {
+            //     alert("Event added successfully!");
+            // } else {
+            //     alert("Failed to add event: " + jsonData.message);
+            // }
         })
         .catch(error => console.error('Error:', error));
 

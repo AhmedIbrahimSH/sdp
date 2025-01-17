@@ -15,7 +15,7 @@ class Database {
                     (new self)->username, (new self)->password);
                 self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
-
+            echo "retunred";
             return self::$conn;
 
             } catch(PDOException $e) {
@@ -24,4 +24,6 @@ class Database {
 
     }
 }
+
+Database::get_instance();
 

@@ -2,7 +2,7 @@
 
 
 require 'subject.php';
-
+require '../../sms_module/send_sms.php';
 class publisher implements  subject
 {
     public static $subscribers = array();
@@ -34,7 +34,7 @@ class publisher implements  subject
     {
         foreach (self::$subscribers as $subscriber) {
             if($type == $subscriber->getEventType()) {
-                $subscriber->sendMsg($event_name, "Hey " . $subscriber->getObserverName() . " , a new event $event_name has been added!");
+                smsSender::send_sms($event_name, "2024-10-04");
             }
         }
     }

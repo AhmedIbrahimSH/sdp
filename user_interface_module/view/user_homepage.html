@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branching Interactive Nodes</title>
+    <link rel="stylesheet" href="tree.css">
+</head>
+<body>
+
+
+<div class="tree">
+    <div class="branch">
+        <div class="node" data-action="Donate">Donate</div>
+        <div class="node" data-action="Attend Event">Attend Event</div>
+        <div class="node" data-action="Pay">Pay</div>
+    </div>
+</div>
+
+
+<div id="response"></div>
+
+
+    <script>
+        const urls = {
+        'Donate': '/sdp/EventModule/View/new_event_view.html',
+        'Attend Event': '/path/to/attend-event-page.html',
+        'Pay': '/path/to/pay-page.html',
+    };
+
+        document.querySelectorAll('.node').forEach(node => {
+            node.addEventListener('click', async function () {
+                const action = this.getAttribute('data-action');
+                const url = urls[action];
+                console.log(url);
+                if (url) {
+                    const response = await fetch('/sdp/user_interface_module/controller/controller.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `action=${encodeURIComponent(action)}`,
+                    });
+
+                    if (response.ok) {
+                        const data = await response.text();
+                        console.log(data);
+                        window.open(url);
+                    } else {
+                        console.error('Failed to execute PHP request');
+                    }
+                } else {
+                    console.error('Unknown action:', action);
+                }
+            });
+        });
+
+
+        // document.querySelectorAll('.node').forEach(node => {
+    //     node.addEventListener('click', () => {
+    //         const action = node.getAttribute('data-name');
+    //         fetch('/sdp/user_interface_module/controller/controller.php', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/x-www-form-urlencoded',
+    //             },
+    //             body: `action=${encodeURIComponent(action)}`
+    //         })
+    //             .then(response => response.text())
+    //             .then(data => {
+    //                 document.getElementById('response').innerHTML = `<p>${data}</p>`;
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error:', error);
+    //             });
+    //     });
+    // });
+</script>
+</body>
+</html>
