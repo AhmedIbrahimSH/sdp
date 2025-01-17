@@ -193,55 +193,61 @@ if (isset($_GET['action'])) {
 
         //Add donation to the cart
         case 'addToDonationCart':
-//            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//                $donationQuantity = $_POST['Data']; // Get donation data
-//
-//                // Retrieve cart from session or create a new one
-//                if (!isset($_SESSION['donation_cart'])) {
-//                    $_SESSION['donation_cart'] = [];
-//                }
-//
-//                // Add donation to the session cart
-//                //$_SESSION['donation_cart'][] = $donationQuantity;
-//                $Donation=$donationController->getStrategy();
-//                $DonationCartController = new DonationCartController($Donation);
-//
-//                $DonationCartController->AddDonationToCart();
-//
-//
-//                echo "Donation added to cart!";
-//            }
-//            break;
-            echo "lol";
-            $donationStrategy = $donationController->getStrategy();
-            //$DonationCartController->AddDonationToCart();
-            var_dump($donationStrategy); // Prints detailed structure of the strategy model
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Retrieve the donation strategy
+                $donationType = $_POST['donationType'];
+                $quantity = $_POST['Data']; // Ensure this matches your form input name
+                $pricePerUnit = $_POST['predefinedAmount'];
+                // Ensure the session array exists
+                if (!isset($_SESSION['donation_cart'])) {
+                    $_SESSION['donation_cart'] = [];
+                }
 
-                echo "success"; // Response for AJAX
+                // Store the donation as an associative array
+                $_SESSION['donation_cart'][] = [
+                    'donationType' => $donationType,
+                    'quantity' => $quantity,
+                    'pricePerUnit' => $pricePerUnit,
+                    'totalAmount' => $pricePerUnit * $quantity // Automatically calculate total price
+                ];
             }
+
+            $DonationCartController->AddDonationToCart($_SESSION['donation_cart']);
+            echo "success";
             break;
-
-
-
-
-
-
-
-
 
         case 'showCart':
             $view = new \Views\DonationCartView();
+            $DonationCartController->AddDonationToCart($_SESSION['donation_cart']);
             $view->render();
 
-            var_dump($_SESSION['donation_cart']);
+        case 'removeFromCart':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Check if the session and the index exist
+                session_start(); // Ensure session is started
+                if (isset($_SESSION['donation_cart']) && isset($_POST['index'])) {
+                    $index = (int)$_POST['index']; // Get the index to remove
+
+                    // Remove the item at the specified index
+                    if (isset($_SESSION['donation_cart'][$index])) {
+                        unset($_SESSION['donation_cart'][$index]); // Remove the donation
+                        $_SESSION['donation_cart'] = array_values($_SESSION['donation_cart']); // Re-index the array
+                    }
+                }
+
+                // Redirect to the cart page or respond with success
+                header('Location: index.php?action=showCart');
+                exit;
+            }
             break;
+        case 'undoLastAction':
 
 
 
+        case 'redoLastAction':
 
 
+
+            break;
 
 
 

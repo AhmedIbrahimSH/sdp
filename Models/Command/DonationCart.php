@@ -8,9 +8,20 @@ class DonationCart
     private $totalCartAmount;
 
     public function __construct(){}
-    public function addDonation($donationType,Donation $donation) {
+    public function addDonation($donationType, $quantity, $pricePerUnit)
+    {
+        // Ensure donations array exists
+        if (!isset($this->donations)) {
+            $this->donations = [];
+        }
 
-        //return "Added donation: " . json_encode($donation) ;
+        // Store donation as an associative array
+        $this->donations[] = [
+            'donationType' => $donationType,
+            'quantity' => $quantity,
+            'pricePerUnit' => $pricePerUnit,
+            'totalAmount' => $pricePerUnit * $quantity
+        ];
     }
 
     public function removeDonation($donation) {

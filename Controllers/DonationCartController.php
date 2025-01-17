@@ -66,14 +66,25 @@ class DonationCartController
 
     }
 
-    public function AddDonationToCart($donationType, $donationStrategy)
+    public function AddDonationToCart($donations)
     {
         //$this->donationCart->addDonation($this->donation);
-       $this->donationCart->addDonation($donationType,$donationStrategy);
+        foreach ($donations as $donation) {
+            $this->donationCart->addDonation(
+                $donation['donationType'],
+                $donation['quantity'],
+                $donation['pricePerUnit']
+            );
+        }
         //$_SESSION['donation_cart'] = serialize($this->donationCart);
     }
     public function getCartItems()
     {
-        return isset($_SESSION['donation_cart']) ? $_SESSION['donation_cart']->getItems() : [];
+        // Retrieve stored cart items
+        if (isset($_SESSION['donation_cart'])) {
+            return unserialize($_SESSION['donation_cart']);
+        }
+        return [];
+        //return isset($_SESSION['donation_cart']) ? $_SESSION['donation_cart']->getItems() : [];
     }
 }
