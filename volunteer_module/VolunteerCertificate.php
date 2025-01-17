@@ -37,8 +37,8 @@ class VolunteerCertificate {
         $stmt = $this->db->prepare("
             SELECT vc.id AS certificate_id, vc.certificate_name, vc.date_awarded, vt.task_name
             FROM Volunteer_Certificates vc
-            JOIN Volunteer_Tasks vt ON vc.task_id = vt.id
-            WHERE vt.person_id = :personId
+            JOIN Tasks vt ON vc.task_id = vt.id
+            WHERE vt.PersonID = :personId
         ");
         $stmt->execute(['personId' => $personId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

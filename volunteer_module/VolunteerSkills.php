@@ -11,7 +11,7 @@ class VolunteerSkills {
     // Add a skill for a volunteer
     public function addSkill($personId, $skillId) {
         $stmt = $this->db->prepare("
-            INSERT INTO Volunteer_Skills (person_id, skill_id)
+            INSERT INTO Volunteer_Skills (PersonID, skill_id)
             VALUES (:personId, :skillId)
         ");
         $stmt->execute([
@@ -37,7 +37,7 @@ class VolunteerSkills {
         $stmt = $this->db->prepare("
             UPDATE Volunteer_Skills
             SET IsVolunteerSkillDeleted = 1
-            WHERE person_id = :personId AND skill_id = :skillId
+            WHERE PersonID = :personId AND skill_id = :skillId
         ");
         $stmt->execute([
             'personId' => $personId,

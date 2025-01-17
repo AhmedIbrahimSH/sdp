@@ -4,11 +4,13 @@ require_once 'VolunteerSkills.php';
 require_once 'VolunteerTasks.php';
 require_once 'VolunteerSchedule.php';
 require_once 'CountryProxy.php';
+require_once 'VolunteerCertificateController.php';
 class VolunteerController {
     private $volunteerModel;
     private $volunteerSkillsModel;
     private $volunteerTasksModel;
     private $volunteerScheduleModel;
+    private $volunteerCertificatesModel;
     public function showCreateForm()
     {
         // Use the CountryProxy to fetch nationalities
@@ -23,6 +25,7 @@ class VolunteerController {
         $this->volunteerSkillsModel = new VolunteerSkills();
         $this->volunteerTasksModel = new VolunteerTasks();
         $this->volunteerScheduleModel = new VolunteerSchedule();
+        $this->volunteerCertificatesModel = new VolunteerCertificate();
     }
 
     // Display all volunteers
@@ -37,6 +40,7 @@ class VolunteerController {
         $skills = $this->volunteerSkillsModel->getSkillsByVolunteer($personId);
         $tasks = $this->volunteerTasksModel->getTasksByVolunteer($personId);
         $schedule = $this->volunteerScheduleModel->getScheduleByVolunteer($personId);
+        $certificates = $this->volunteerCertificatesModel->getCertificatesByVolunteer($personId);
         include 'views/volunteer_detail.php';
     }
 

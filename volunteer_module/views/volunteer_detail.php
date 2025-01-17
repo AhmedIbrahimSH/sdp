@@ -58,19 +58,40 @@
             border-left: 4px solid #007bff;
         }
 
-        a {
-            display: inline-block;
+        .actions {
             margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .actions a {
             padding: 10px 20px;
             background-color: #007bff;
             color: #fff;
             text-decoration: none;
             border-radius: 4px;
             text-align: center;
+            transition: background-color 0.3s;
         }
 
-        a:hover {
+        .actions a:hover {
             background-color: #0056b3;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #6c757d;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .back-link:hover {
+            background-color: #5a6268;
         }
     </style>
 </head>
@@ -90,6 +111,9 @@
             <li><?= htmlspecialchars($skill['skill']); ?></li>
         <?php endforeach; ?>
     </ul>
+    <div class="actions">
+        <a href="index.php?action=add_skill&person_id=<?= htmlspecialchars($volunteer['PersonID']); ?>">Add Skill</a>
+    </div>
 
     <!-- Tasks Section -->
     <h2>Tasks</h2>
@@ -100,6 +124,9 @@
             </li>
         <?php endforeach; ?>
     </ul>
+    <div class="actions">
+        <a href="index.php?action=add_task&person_id=<?= htmlspecialchars($volunteer['PersonID']); ?>">Add Task</a>
+    </div>
 
     <!-- Schedule Section -->
     <h2>Schedule</h2>
@@ -110,9 +137,29 @@
             </li>
         <?php endforeach; ?>
     </ul>
+    <div class="actions">
+        <a href="index.php?action=add_schedule&person_id=<?= htmlspecialchars($volunteer['PersonID']); ?>">Add Schedule</a>
+    </div>
+
+    <!-- Certificates Section -->
+    <h2>Certificates</h2>
+    <ul>
+        <?php if (!empty($certificates) && is_array($certificates)): ?>
+            <?php foreach ($certificates as $certificate): ?>
+                <li>
+                    <?= htmlspecialchars($certificate['certificate_name']); ?> (Issued: <?= htmlspecialchars($certificate['issue_date']); ?>)
+                </li>
+            <?php endforeach; ?>
+        <?php else: ?>
+        <?php endif; ?>
+    </ul>
+
+    <div class="actions">
+        <a href="index.php?action=add_certificate&person_id=<?= htmlspecialchars($volunteer['PersonID']); ?>">Add Certificate</a>
+    </div>
 
     <!-- Back to List Link -->
-    <a href="index.php?action=index">Back to List</a>
+    <a href="index.php?action=index" class="back-link">Back to List</a>
 </div>
 </body>
 </html>

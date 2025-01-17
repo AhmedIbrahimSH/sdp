@@ -93,6 +93,28 @@ CREATE TABLE  schedule (
                            FOREIGN KEY (PersonID) REFERENCES Volunteer(PersonID) ON DELETE CASCADE
 );
 
+CREATE TABLE Volunteer_Certificates (
+                                        id INT AUTO_INCREMENT PRIMARY KEY,
+                                        task_id INT NOT NULL,
+                                        PersonID INT,
+                                        certificate_name VARCHAR(255) NOT NULL,
+                                        date_awarded DATE NOT NULL,
+                                        FOREIGN KEY (task_id) REFERENCES Tasks(id) ON DELETE CASCADE,
+                                        FOREIGN KEY (PersonID) REFERENCES Volunteer(PersonID) ON DELETE CASCADE
+                                    );
+-- Insert sample rows into the Skill table
+INSERT INTO Skill (skill)
+VALUES
+    ('Leadership'),
+    ('Communication'),
+    ('Project Management'),
+    ('Technical Writing'),
+    ('Team Collaboration'),
+    ('Problem Solving'),
+    ('Time Management'),
+    ('Critical Thinking'),
+    ('Public Speaking'),
+    ('Creativity');
 
 -- Beneficiary Module Begin
 

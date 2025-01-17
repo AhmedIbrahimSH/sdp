@@ -17,6 +17,8 @@ class VolunteerCertificateController {
     // Display all certificates for a specific volunteer
     public function indexByVolunteer($personId) {
         $certificates = $this->volunteerCertificateModel->getCertificatesByVolunteer($personId);
+
+        include 'views/volunteer_detail.php';
         include 'views/volunteer_certificates_list.php'; // Pass data to the view
     }
 
