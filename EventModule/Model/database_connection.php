@@ -1,6 +1,6 @@
 <?php
 
-class Database {
+class myDatabase {
     private $host = 'localhost';
     private $db_name = 'charity_db';
     private $username = 'root';
@@ -26,5 +26,5 @@ class Database {
     }
 }
 
-Database::get_instance();
+myDatabase::get_instance();
 

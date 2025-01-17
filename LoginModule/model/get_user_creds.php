@@ -8,7 +8,7 @@ class UserCredModel{
     private $password;
 
     public function __construct(){
-        $this->conn = Database::get_instance();
+        $this->conn = myDatabase::get_instance();
     }
     public function get_user_creds($Email, $password)
     {

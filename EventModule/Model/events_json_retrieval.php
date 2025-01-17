@@ -2,7 +2,7 @@
 
 require_once 'database_connection.php';
 
-$conn = Database::get_instance();
+$conn = myDatabase::get_instance();
 
 if (!$conn) {
     die("Connection failed");
