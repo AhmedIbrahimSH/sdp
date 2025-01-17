@@ -1,5 +1,4 @@
 <?php
-
 class Beneficiary_Profile_View
 {
     public function showBeneficiary($beneficiary)
@@ -35,45 +34,49 @@ class Beneficiary_Profile_View
             echo '<h3 class="section-heading">Registered Needs</h3>';
             foreach ($beneficiary->getNeeds() as $need) {
                 echo '<div class="need-card">';
-                $needType = explode('needhistory', $need['table_name'])[0];
-                echo '<p><strong>' . htmlspecialchars(strtoupper($needType)) . '</strong></p>';
-                echo '<p><strong>Amount:</strong> ' . htmlspecialchars($need['Amount']) . '</p>';
-                echo '<p><strong>Register Date:</strong> ' . htmlspecialchars($need['RegisterDate']) . '</p>';
-                echo '<p><strong>Purpose:</strong> ' . htmlspecialchars($need['purpose']) . '</p>';
+                // echo just the need
+                $needType = strtolower((new ReflectionClass($need))->getShortName()); // Get the class name (e.g., "CashNeed" -> "cash")
+                $needType = preg_replace('/need$/i', '', $needType); // Remove the "need" suffix
+                echo '<p><strong>' . htmlspecialchars(ucfirst($needType)) . '</strong></p>';
+                $needType = strtolower($needType);
+                $needType .= 'needhistory';
 
 
-                if (!$need['Allocated']) {
-                    if (!$need['Accepted']) {
+                echo '<p><strong>Amount:</strong> ' . htmlspecialchars($need->getAmount()) . '</p>';
+                echo '<p><strong>Register Date:</strong> ' . htmlspecialchars($need->getRegisterDate()) . '</p>';
+                echo '<p><strong>Purpose:</strong> ' . htmlspecialchars($need->getPurpose()) . '</p>';
+
+                if (!$need->isAllocated()) {
+                    if (!$need->isAccepted()) {
                         echo '<div class="need-card" style="border: 2px solid red;">';
                         echo '<p><strong>Status:</strong> Beneficier need Rejected ❌</p>';
-
                         echo '</div>'; // Close card
 
                         echo '<form method="POST" action="index.php?action=register_need" class="action-form">';
                         echo '<input type="hidden" name="need_type" value="' . htmlspecialchars($needType) . '">';
                         echo '<input type="hidden" name="beneficiary_id" value="' . htmlspecialchars($beneficiary->getPersonID()) . '">';
-                        echo '<input type="hidden" name="amount" value="' . htmlspecialchars($need['Amount']) . '">';
+                        echo '<input type="hidden" name="amount" value="' . htmlspecialchars($need->getAmount()) . '">';
                         echo '<button type="submit" class="btn-secondary">Reapply</button>';
                         echo '</form>';
                     } else {
-                        echo '<div class="need-card" >';
+                        echo '<div class="need-card" style="border: 1px solid gold;">';
                         echo '<p><strong>Status:</strong> Beneficier need Approved Pending Support... </p>';
                         echo '</div>'; // Close card
 
                         echo '<form method="POST" action="index.php?action=allocate_resources" class="action-form">';
-                        echo '<input type="hidden" name="need_type" value="' . htmlspecialchars($need['table_name']) . '">';
+                        echo '<input type="hidden" name="need_type" value="' . htmlspecialchars($needType) . '">';
                         echo '<input type="hidden" name="beneficiary_id" value="' . htmlspecialchars($beneficiary->getPersonID()) . '">';
                         echo '<button type="submit" class="btn-secondary">Allocate Resources</button>';
                         echo '</form>';
                     }
                     echo '<form method="POST" action="index.php?action=remove_need" class="action-form">';
-                    echo '<input type="hidden" name="need_type" value="' . htmlspecialchars($need['table_name']) . '">';
+                    echo '<input type="hidden" name="need_type" value="' . htmlspecialchars($needType) . '">';
                     echo '<input type="hidden" name="beneficiary_id" value="' . htmlspecialchars($beneficiary->getPersonID()) . '">';
-                    echo '<input type="hidden" name="AllocationID" value="' . htmlspecialchars($need['AllocationID']) . '">';
+                    echo '<input type="hidden" name="AllocationID" value="' . htmlspecialchars($need->getAllocationID()) . '">';
                     echo '<button type="submit" class="btn-danger">Remove Need</button>';
                     echo '</form>';
                 } else {
-                    echo '<div class="need-card" >';
+                    echo '<div class="need-card" style="border: 1px solid green;">';
                     echo '<p><strong>Status:</strong> Allocated✅</p>';
                     echo '</div>'; // Close card
                 }

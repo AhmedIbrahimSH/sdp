@@ -45,7 +45,7 @@ class Beneficiary_List_View
             echo '<td>' . ($beneficiary['hasChronicDisease'] ? 'Yes' : 'No') . '</td>';
             // Actions column (Update and Delete buttons)
             echo '<td class="action-buttons">';
-            echo '<a href="index.php?action=update_beneficiary&id=' . urlencode($beneficiary['PersonID']) . '" class="btn btn-warning">Update</a>';
+            echo '<a href="index.php?action=update_beneficiary&id=' . urlencode($beneficiary['PersonID']) . '" class="btn btn-warning">Edit Profile</a>';
             echo ' <a href="index.php?action=delete_beneficiary&id=' . urlencode($beneficiary['PersonID']) . '" class="btn btn-danger"onclick="return confirm(\'Are you sure you want to delete this Beneficier?\');">Delete</a>';
             echo '</td>';
             echo '</tr>';

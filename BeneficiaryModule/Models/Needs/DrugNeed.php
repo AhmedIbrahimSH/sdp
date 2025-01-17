@@ -2,7 +2,7 @@
 // code for drugs need
 require_once 'NeedTemplateMethod.php';
 
-class DrugsNeed extends NeedTemplateMethod
+class DrugNeed extends NeedTemplateMethod
 {
     function checkEligibility($beneficiary)
     {
