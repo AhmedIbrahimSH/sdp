@@ -8,7 +8,7 @@ class UserCredModel{
     private $password;
 
     public function __construct(){
-        $this->conn = Database::get_instance();
+        $this->conn = myDatabase::get_instance();
     }
     public function get_user_creds($Email, $password)
     {
@@ -26,5 +26,18 @@ class UserCredModel{
         }
         return false;
     }
+
+    public function get_user_id($Email, $password)
+    {
+        $user = $this->get_user_creds($Email, $password);
+
+        if ($user) {
+//            file_put_contents("../../debug.log", $user['PersonID'] , FILE_APPEND);
+            return $user['PersonID'];
+        }
+
+        return false;
+    }
+
 
 }

@@ -1,17 +1,29 @@
 <?php
 
-require_once '../View/login.html';
-require_once '../Model/get_user_creds.php';
+require_once '../view/login.html';
+require_once '../model/get_user_creds.php';
 class LoginController
 {
+
+
     public function handleLogin()
     {
         session_start();
-
+        $usermodel = new UserCredModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
+            $user_id = $usermodel->get_user_id($username, $password);
 
+            $_SESSION['user_mail'] = $username;
+            $_SESSION['user_id'] = $user_id;
+
+            if (isset($_SESSION['user'])) {
+                file_put_contents("../../debug.log", $_SESSION['user_id'] , FILE_APPEND);
+
+            } else {
+                file_put_contents("../../debug.log", "FOKAK", FILE_APPEND);
+            }
             if (empty($username) || empty($password)) {
                 $this->redirectWithError("Username or Password cannot be empty.");
                 return;
@@ -31,11 +43,11 @@ class LoginController
     private function redirect_user($type){
         $baseUrl = 'sdp/';
         if($type == "EA"){
-            header('Location:' . $baseUrl . '../../EventModule/View/new_event_view.html');
+            header('Location:  /sdp/admin_interface_module/view/admin_homepage.html');
         }else if($type == "BA"){
-            header('Location: /fundraiser');
+            header('Location: /sdp/');
         }else if($type == "US"){
-            header('Location: /workshop');
+            header('Location: /sdp/user_interface_module/view/user_homepage.html');
         }
     }
 

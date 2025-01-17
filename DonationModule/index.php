@@ -14,13 +14,7 @@ use Models\FoodDonation;
 use Models\Strategy\Payment;
 
 session_start();
-//if (!isset($_SESSION['test'])) {
-//    $_SESSION['test'] = "Session is working!";
-//} else {
-//    echo $_SESSION['test'];
-//}
 
-// Include model, controller, and view classes
 require_once 'Models/Database.php';
 require_once 'Models/Donor.php';
 require_once 'Models/Donation.php';
@@ -35,7 +29,7 @@ require_once 'Models/Strategy/IPay.php';
 require_once 'Controllers/DonorController.php';
 require_once 'Controllers/DonationController.php';
 
-require_once 'controllers/InvoiceController.php';
+require_once 'Controllers/InvoiceController.php';
 require_once 'Controllers/PaymentController.php';
 
 
@@ -56,13 +50,10 @@ require_once 'Views/PayPalPaymentView.php';
 require_once 'Views/BankTransferPaymentView.php';
 
 
-
-// Initialize database connection
 $pdo = Database::getInstance();
 
-// Initialize models
-$donorModel = new Donor($pdo);  // Assuming `Donor.php` is the Donor model
-$donationModel = new Donation($pdo); // Initialize Donation model
+$donorModel = new Donor($pdo);
+$donationModel = new Donation($pdo);
 $CashDonationModel=new CashDonation($pdo);
 $DrugsDonationModel =new DrugsDonation($pdo);
 $ClothesDonationModel=new ClothesDonation($pdo);
@@ -70,7 +61,6 @@ $FoodDonationModel =new FoodDonation($pdo);
 $PaymentModel=new Payment($pdo);
 
 
-// Initialize controllers
 $donorController = new DonorController($donorModel);
 
 
@@ -158,25 +148,20 @@ if (isset($_GET['action'])) {
 
             break;
 
-
         case 'foodDonation':
             $_SESSION['strategy_type'] = $_GET['action'];
             $donationController->ProcessStrategy($_GET['action']);
             break;
-
 
         case 'drugsDonation':
             $_SESSION['strategy_type'] = $_GET['action'];
             $donationController->ProcessStrategy($_GET['action']);
             break;
 
-
-
         case 'clothesDonation':
             $_SESSION['strategy_type'] = $_GET['action'];
             $donationController->ProcessStrategy($_GET['action']);
             break;
-
 
 
         case 'proceedToPayment':
@@ -196,13 +181,6 @@ if (isset($_GET['action'])) {
             } else {
                 echo "No payment method selected.";
             }
-
-
-
-
-
-
-
 
 
         case 'saveDonation':
