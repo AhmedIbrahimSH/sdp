@@ -1,5 +1,6 @@
 <?php
 
+session_start(); // Should be called at the very start
 
 require_once '../EventModule/Model/database_connection.php';
 
@@ -14,8 +15,11 @@ $stmt = $conn->prepare($query);
 $stmt->execute();
 $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$user_id = 7;
-
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+} else {
+    $user_id = 1;
+}
 function isUserRegistered($user_id, $event_id) {
     global $conn;
     $query = "SELECT * FROM user_attendees WHERE user_id = ? AND event_id = ?";

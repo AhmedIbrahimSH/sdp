@@ -27,4 +27,17 @@ class UserCredModel{
         return false;
     }
 
+    public function get_user_id($Email, $password)
+    {
+        $user = $this->get_user_creds($Email, $password);
+
+        if ($user) {
+//            file_put_contents("../../debug.log", $user['PersonID'] , FILE_APPEND);
+            return $user['PersonID'];
+        }
+
+        return false;
+    }
+
+
 }

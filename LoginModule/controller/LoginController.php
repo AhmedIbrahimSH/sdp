@@ -4,21 +4,25 @@ require_once '../view/login.html';
 require_once '../model/get_user_creds.php';
 class LoginController
 {
+
+
     public function handleLogin()
     {
         session_start();
-
+        $usermodel = new UserCredModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = $_POST['username'] ?? '';
             $password = $_POST['password'] ?? '';
-            $_SESSION['user'] = $username;
-            // Check if 'user' is set in the session
+            $user_id = $usermodel->get_user_id($username, $password);
+
+            $_SESSION['user_mail'] = $username;
+            $_SESSION['user_id'] = $user_id;
+
             if (isset($_SESSION['user'])) {
-                // Echo the session value for testing
-                echo 'User session: ' . $_SESSION['user'];
+                file_put_contents("../../debug.log", $_SESSION['user_id'] , FILE_APPEND);
+
             } else {
-                // If session 'user' is not set, echo a message
-                echo 'No user session found.';
+                file_put_contents("../../debug.log", "FOKAK", FILE_APPEND);
             }
             if (empty($username) || empty($password)) {
                 $this->redirectWithError("Username or Password cannot be empty.");

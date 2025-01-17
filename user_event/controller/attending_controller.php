@@ -7,21 +7,20 @@ $conn = myDatabase::get_instance();
 if (!$conn) {
     die("Connection failed");
 }
-// Handle preflight request for CORS
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     header("Access-Control-Allow-Origin: *");
     header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
     header("Access-Control-Allow-Headers: Content-Type");
-    exit; // No need to process further, just respond to preflight
+    exit;
 }
+file_put_contents("../../debug.log", "okokok started\n", FILE_APPEND);
 
-// Handle normal POST requests
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Access-Control-Allow-Origin: *");
     header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
     header("Access-Control-Allow-Headers: Content-Type");
 
-    // Your database and logic code here
     require_once '../../EventModule/Model/database_connection.php';
     $conn = myDatabase::get_instance();
 

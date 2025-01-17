@@ -1,11 +1,6 @@
 <?php
-// Start the session
 session_start();
+header('Content-Type: application/json');
 
-$_SESSION['user_id'] = 123;
+echo json_encode(['user_id' => $_SESSION['user_id'] ?? 'No User ID']);
 
-$_SESSION['username'] = 'JohnDoe';
-
-echo "User ID: " . $_SESSION['user_id'] . "<br>";
-echo "Username: " . $_SESSION['username'] . "<br>";
-?>
