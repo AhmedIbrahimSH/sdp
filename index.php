@@ -4,20 +4,19 @@
 //ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
 
-use Controllers\DonationCartController;
-use Controllers\DonationController;
-use Controllers\DonorController;
-use Controllers\InvoiceController;
-use Controllers\PaymentController;
-use Models\CashDonation;
-use Models\ClothesDonation;
-use Models\Command\DonationCart;
-use Models\Database;
-use Models\Donation;
-use Models\Donor;
-use Models\DrugsDonation;
-use Models\FoodDonation;
-use Models\Strategy\Payment;
+use DonationModule\Controllers\DonationCartController;
+use DonationModule\Controllers\DonationController;
+use DonationModule\Controllers\DonorController;
+use DonationModule\Controllers\InvoiceController;
+use DonationModule\Controllers\PaymentController;
+use DonationModule\Models\CashDonation;
+use DonationModule\Models\ClothesDonation;
+use DonationModule\Models\Database;
+use DonationModule\Models\Donation;
+use DonationModule\Models\Donor;
+use DonationModule\Models\DrugsDonation;
+use DonationModule\Models\FoodDonation;
+use DonationModule\Models\Strategy\Payment;
 
 session_start();
 //if (!isset($_SESSION['test'])) {
@@ -27,42 +26,42 @@ session_start();
 //}
 
 // Include model, controller, and view classes
-require_once 'Models/Database.php';
-require_once 'Models/Donor.php';
-require_once 'Models/Donation.php';
-require_once 'Models/CashDonation.php';
-require_once 'Models/FoodDonation.php';
-require_once 'Models/DrugsDonation.php';
-require_once 'Models/ClothesDonation.php';
-require_once 'Models/Strategy/Payment.php';
-require_once 'Models/Strategy/IPay.php';
+require_once 'DonationModule/Models/Database.php';
+require_once 'DonationModule/Models/Donor.php';
+require_once 'DonationModule/Models/Donation.php';
+require_once 'DonationModule/Models/CashDonation.php';
+require_once 'DonationModule/Models/FoodDonation.php';
+require_once 'DonationModule/Models/DrugsDonation.php';
+require_once 'DonationModule/Models/ClothesDonation.php';
+require_once 'DonationModule/Models/Strategy/Payment.php';
+require_once 'DonationModule/Models/Strategy/IPay.php';
 
 
 
-require_once 'Controllers/DonorController.php';
-require_once 'Controllers/DonationController.php';
+require_once 'DonationModule/Controllers/DonorController.php';
+require_once 'DonationModule/Controllers/DonationController.php';
 
-require_once 'controllers/InvoiceController.php';
-require_once 'Controllers/PaymentController.php';
-require_once 'Controllers/DonationCartController.php';
+require_once 'DonationModule/controllers/InvoiceController.php';
+require_once 'DonationModule/Controllers/PaymentController.php';
+require_once 'DonationModule/Controllers/DonationCartController.php';
 
 
-require_once './Views/donorView.php';
-require_once './Views/DonorsListView.php';
-require_once './Views/UpdateDonorView.php';
+require_once 'DonationModule/Views/donorView.php';
+require_once 'DonationModule/Views/DonorsListView.php';
+require_once 'DonationModule/Views/UpdateDonorView.php';
 
-require_once './Views/DonationsView.php'; // Add Donations View
+require_once 'DonationModule/Views/DonationsView.php'; // Add Donations View
 
-require_once './Views/AddCashDonationView.php';
-require_once './Views/AddFoodDonationView.php';
-require_once './Views/AddDrugsDonationView.php';
-require_once './Views/AddClothesDonationView.php';
+require_once 'DonationModule/Views/AddCashDonationView.php';
+require_once 'DonationModule/Views/AddFoodDonationView.php';
+require_once 'DonationModule/Views/AddDrugsDonationView.php';
+require_once 'DonationModule/Views/AddClothesDonationView.php';
 
-require_once './Views/PaymentStrategiesView.php';
-require_once './Views/CreditCardPaymentView.php';
-require_once './Views/PayPalPaymentView.php';
-require_once './Views/BankTransferPaymentView.php';
-require_once './Views/DonationCartView.php';
+require_once 'DonationModule/Views/PaymentStrategiesView.php';
+require_once 'DonationModule/Views/CreditCardPaymentView.php';
+require_once 'DonationModule/Views/PayPalPaymentView.php';
+require_once 'DonationModule/Views/BankTransferPaymentView.php';
+require_once 'DonationModule/Views/DonationCartView.php';
 
 
 // Initialize database connection
@@ -233,7 +232,7 @@ if (isset($_GET['action'])) {
             break;
 
         case 'showCart':
-            $view = new \Views\DonationCartView();
+            $view = new \DonationModule\Views\DonationCartView();
             //$DonationCartController->AddDonationToCart($_SESSION['donation_cart']);
             $donations=$_SESSION['donation_cart'];
             foreach ($donations as $donation) {

@@ -152,7 +152,7 @@ create DATABASE IF NOT EXISTS charity_db;
  -- Beneficiary Module END
 
 
--- Models\Donation Module Begin
+-- DonationModule\Models\Donation Module Begin
  CREATE TABLE IF NOT EXISTS Donation (
                                          DonationID INT AUTO_INCREMENT PRIMARY KEY,
                                          DonationType VARCHAR(50),
@@ -237,7 +237,7 @@ create DATABASE IF NOT EXISTS charity_db;
                                                 FOREIGN KEY (InvoiceID) REFERENCES Invoice(InvoiceID),
                                                 FOREIGN KEY (DonationID) REFERENCES Donation(DonationID)
  );
- -- Models\Donation Module END
+ -- DonationModule\Models\Donation Module END
 
 
 

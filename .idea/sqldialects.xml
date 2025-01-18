@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/Models/Decorator/Invoice.php" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/Models/Decorator/InvoiceDetails.php" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/Models/Donor.php" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/Models/FoodDonation.php" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/DonationModule/Models/Decorator/Invoice.php" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/DonationModule/Models/Decorator/InvoiceDetails.php" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/DonationModule/Models/Donor.php" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/DonationModule/Models/FoodDonation.php" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/charity_db.sql" dialect="MySQL" />
   </component>
 </project>
