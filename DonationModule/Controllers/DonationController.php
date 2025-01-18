@@ -102,13 +102,13 @@ class DonationController
             case 'drugsDonation':
                 $strategy = new DrugsDonation($this->donationModel);
                 $view = new AddDrugsDonationView();
-                $view->render($strategy->getPREDEFINEDAMOUNTPERITEM());
+                $view->render("drugsDonation",$strategy->getPREDEFINEDAMOUNTPERITEM());
                 break;
 
             case 'clothesDonation':
                 $strategy = new ClothesDonation($this->donationModel);
                 $view = new AddClothesDonationView();
-                $view->render($strategy->getPREDEFINEDAMOUNTPERITEM());
+                $view->render("clothesDonation",$strategy->getPREDEFINEDAMOUNTPERITEM());
                 break;
 
             default:

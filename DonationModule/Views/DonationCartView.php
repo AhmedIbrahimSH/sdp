@@ -17,13 +17,14 @@ class DonationCartView
             echo "<ul style='list-style-type: none; padding: 0;'>";
 
             foreach ($_SESSION['donation_cart'] as $index => $donation) {
-                // Check if donation is serialized and deserialize it
+
                 if (is_string($donation)) {
                     $donation = unserialize($donation);
                 }
 
-                // Ensure donation is an array before accessing keys
+
                 if (is_array($donation)) {
+
                     echo "<li style='padding: 15px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center;'>
                             <div>
                                 <strong style='color: #333;'>Donation Type:</strong> {$donation['donationType']} <br>

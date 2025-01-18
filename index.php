@@ -107,7 +107,7 @@ if (isset($_GET['action'])) {
 
         // Add donor
         case 'addDonor':
-            include './views/AddDonorView.php';
+            include 'DonationModule/views/AddDonorView.php';
             break;
 
         case 'saveDonor':

@@ -62,7 +62,7 @@ class DonorController
     {
         try {
             $this->model->updateDonor($id, $data);
-            header("Location: index.php?action=showAllDonors"); // Redirect to donor list
+            header("Location: index.php?action=showAllDonors");
         } catch (Exception $e) {
             throw new Exception("Failed to update donor: " . $e->getMessage());
         }
@@ -72,7 +72,7 @@ class DonorController
     public function saveDonor($data)
     {
         $this->model->addDonor($data);
-        header('Location: index.php?action=showAllDonors'); // Redirect back to donor list
+        header('Location: index.php?action=showAllDonors');
     }
 
     // Delete a donor

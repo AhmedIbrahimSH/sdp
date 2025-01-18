@@ -1,7 +1,7 @@
 <?php
 
 namespace DonationModule\Models\Decorator;
-use Models\Decorator\Exception;
+use DoModels\Decorator\Exception;
 
 require_once("DonationModule/Models/Database.php");
 

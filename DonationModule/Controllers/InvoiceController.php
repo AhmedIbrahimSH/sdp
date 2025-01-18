@@ -17,24 +17,22 @@ class InvoiceController
 
     public function showInvoice($invoiceID)
     {
-// Example Line Total
-        $lineTotal = 500; // Replace this with data from your database or logic
+        $lineTotal = 500;
 
-        // Create Base Invoice
+
         $baseInvoice = new InvoiceDetails($lineTotal);
 
-        // Apply VAT Decorator
-        $vatRate = 10; // 10% VAT
+        $vatRate = 10;
         $invoiceWithVAT = new VATDecorator($baseInvoice, $vatRate);
-        // Apply Transaction Fees Decorator
-        $transactionFee = 15; // Fixed fee
+
+        $transactionFee = 15;
         $finalInvoice = new TransactionFeesDecorator($invoiceWithVAT, $transactionFee);
 
-        // Generate Final Invoice String
+
         $generatedInvoice = $finalInvoice->generate();
 
 
-        // Render the View
+
         $invoiceView = new InvoiceView();
         $invoiceView->render($generatedInvoice);
 
