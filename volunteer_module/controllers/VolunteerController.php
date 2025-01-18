@@ -11,11 +11,12 @@ use models\VolunteerSkills;
 use models\VolunteerTasks;
 use Exception;
 use PDO;
-
+use models\CountryService;
 require_once __DIR__  . '/../models/VolunteerSkills.php';
 require_once  __DIR__  . '/../models/VolunteerTasks.php';
 require_once  __DIR__  . '/../models/VolunteerSchedule.php';
 require_once  __DIR__  . '/../models/CountryProxy.php';
+require_once  __DIR__  . '/../models/CountryService.php';
 require_once  __DIR__  . '/VolunteerCertificateController.php';
 
 class VolunteerController
@@ -25,12 +26,12 @@ class VolunteerController
     private $volunteerTasksModel;
     private $volunteerScheduleModel;
     private $volunteerCertificatesModel;
-
+    private $countryService;
     public function showCreateForm()
     {
+
         // Use the CountryProxy to fetch nationalities
-        $countryProxy = new CountryProxy();
-        $nationalities = $countryProxy->getAllCountries();
+        $nationalities = $this->countryService->getAllCountries();
 
         // Pass the nationalities to the view
         require_once __DIR__  . '/../views/volunteer_create.php';
@@ -43,6 +44,7 @@ class VolunteerController
         $this->volunteerTasksModel = new VolunteerTasks();
         $this->volunteerScheduleModel = new VolunteerSchedule();
         $this->volunteerCertificatesModel = new VolunteerCertificate();
+        $this->countryService = new CountryProxy();
     }
 
     // Display all volunteers
