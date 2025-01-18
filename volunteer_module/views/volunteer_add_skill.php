@@ -1,11 +1,9 @@
 <?php
-// Retrieve person_id from GET request
 $personId = isset($_GET['person_id']) && is_numeric($_GET['person_id']) ? intval($_GET['person_id']) : null;
 
-// Check if person_id is valid
 if (!$personId) {
     echo "<h1>Error: Invalid or missing person ID.</h1>";
-    exit; // Stop script execution if person_id is not valid
+    exit;
 }
 ?>
 <!DOCTYPE html>

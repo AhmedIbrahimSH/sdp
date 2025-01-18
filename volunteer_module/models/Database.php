@@ -12,7 +12,6 @@ class Database
     private $conn;
     private static $instance = null;
 
-    // Private constructor to prevent creating multiple instances
     private function __construct()
     {
         try {
@@ -23,7 +22,6 @@ class Database
         }
     }
 
-    // Static method to get the single instance of Database
     public static function getInstance()
     {
         if (self::$instance === null) {
@@ -32,7 +30,6 @@ class Database
         return self::$instance;
     }
 
-    // Method to get the database connection
     public function getConnection()
     {
         return $this->conn;

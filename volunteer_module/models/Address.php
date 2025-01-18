@@ -23,10 +23,9 @@ class Address
             'name' => $data['name'],
             'parent_id' => $data['parent_id'] ?? null
         ]);
-        return $this->db->lastInsertId(); // Return the new AddressID
+        return $this->db->lastInsertId();
     }
 
-    // Retrieve an address by ID
     public function getAddressById($addressId)
     {
         $stmt = $this->db->prepare("
@@ -36,7 +35,6 @@ class Address
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Retrieve all child addresses for a parent ID
     public function getChildAddresses($parentId)
     {
         $stmt = $this->db->prepare("
@@ -46,7 +44,6 @@ class Address
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Update an address
     public function updateAddress($addressId, $data)
     {
         $stmt = $this->db->prepare("
@@ -61,7 +58,6 @@ class Address
         ]);
     }
 
-    // Delete an address
     public function deleteAddress($addressId)
     {
         $stmt = $this->db->prepare("

@@ -13,16 +13,14 @@ require_once 'VolunteerTracker.php';
 class  Volunteer extends Account implements VolunteerObserver
 {
 
-    private $tracker; // Aggregation: VolunteerTracker instance
+    private $tracker;
 
     public function __construct()
     {
         $this->db = Database::getInstance()->getConnection();
-        $this->tracker = new VolunteerTracker($this->personId); // Initialize the tracker
+        $this->tracker = new VolunteerTracker($this->personId);
     }
 
-
-    // Database CRUD operations for Volunteer and Person
 
     public function getAllVolunteers()
     {
@@ -49,7 +47,6 @@ class  Volunteer extends Account implements VolunteerObserver
             // Start transaction
             $this->db->beginTransaction();
 
-            // Step 1: Create Person
             $stmt = $this->db->prepare("
             INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, Phone, AddressID)
             VALUES (:firstName, :lastName, :middleName, :nationality, :gender, :phone, :addressId)
@@ -65,7 +62,6 @@ class  Volunteer extends Account implements VolunteerObserver
             ]);
             $personId = $this->db->lastInsertId(); // Get the newly created PersonID
 
-            // Step 2: Create Account
             $stmt = $this->db->prepare("
             INSERT INTO Account (PersonID, Email, PasswordHashed, Account_Type)
             VALUES (:personId, :email, :passwordHashed, :Account_Type)
@@ -73,23 +69,20 @@ class  Volunteer extends Account implements VolunteerObserver
             $stmt->execute([
                 'personId' => $personId,
                 'email' => $data['email'],
-                'passwordHashed' => $data['passwordHashed'], // Use the hashed password
-                'Account_Type' => 'Volunteer' // Default to 'Volunteer' if not provided
+                'passwordHashed' => $data['passwordHashed'],
+                'Account_Type' => 'Volunteer'
             ]);
 
-            // Step 3: Create Volunteer
             $stmt = $this->db->prepare("
             INSERT INTO Volunteer (PersonID)
             VALUES (:personId)
         ");
             $stmt->execute(['personId' => $personId]);
 
-            // Commit transaction
             $this->db->commit();
 
             return $personId;
         } catch (Exception $e) {
-            // Rollback on failure
             $this->db->rollBack();
             throw $e;
         }
@@ -137,7 +130,6 @@ class  Volunteer extends Account implements VolunteerObserver
             'id' => $id
         ]);
 
-        // Update Account table
         $stmt = $this->db->prepare("
         UPDATE Account 
         SET 
@@ -149,7 +141,6 @@ class  Volunteer extends Account implements VolunteerObserver
             'id' => $id
         ]);
 
-        // Update Volunteer table (if necessary)
         if (isset($data['isVolunteerDeleted'])) {
             $stmt = $this->db->prepare("
             UPDATE Volunteer 

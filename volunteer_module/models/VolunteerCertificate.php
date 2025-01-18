@@ -12,7 +12,6 @@ class VolunteerCertificate
         $this->db = Database::getInstance()->getConnection();
     }
 
-    // Add a certificate for a task
     public function addCertificate($personId, $certificateName, $dateAwarded)
     {
         $stmt = $this->db->prepare("
@@ -26,7 +25,6 @@ class VolunteerCertificate
         ]);
     }
 
-    // Get certificates for a specific task
     public function getCertificatesByTask($taskId)
     {
         $stmt = $this->db->prepare("
@@ -38,7 +36,6 @@ class VolunteerCertificate
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Get certificates for a specific volunteer
     public function getCertificatesByVolunteer($personId)
     {
         $stmt = $this->db->prepare("
@@ -50,7 +47,6 @@ class VolunteerCertificate
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Remove a certificate by its ID
     public function removeCertificate($certificateId)
     {
         $stmt = $this->db->prepare("

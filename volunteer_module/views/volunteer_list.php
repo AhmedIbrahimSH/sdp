@@ -68,7 +68,6 @@
 <ul>
     <?php foreach ($volunteers as $volunteer): ?>
         <?php
-        // Ensure the required keys exist in the $volunteer array
         $firstName = htmlspecialchars($volunteer['FirstName'] ?? 'Unknown');
         $lastName = htmlspecialchars($volunteer['LastName'] ?? 'Unknown');
         $personId = htmlspecialchars($volunteer['PersonID'] ?? '');

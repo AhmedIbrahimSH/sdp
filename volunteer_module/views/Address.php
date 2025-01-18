@@ -10,7 +10,6 @@ class Address
         $this->db = $db;
     }
 
-    // Fetch the hierarchical address data
     public function getAddressHierarchy($parentId = null)
     {
         $stmt = $this->db->prepare("
@@ -30,7 +29,6 @@ class Address
         return $addresses;
     }
 
-    // Fetch a single address by ID
     public function getAddressById($addressId)
     {
         $stmt = $this->db->prepare("

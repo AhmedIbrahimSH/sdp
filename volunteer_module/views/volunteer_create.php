@@ -1,5 +1,4 @@
 <?php
-// app/views/volunteer_create.php
 ?>
 
 <!DOCTYPE html>
@@ -84,17 +83,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script>
         function hashPassword() {
-            // Get the password input
             const passwordInput = document.getElementById('password');
             const password = passwordInput.value;
 
-            // Hash the password using SHA-256
             const hashedPassword = CryptoJS.SHA256(password).toString();
 
-            // Set the hashed password in a hidden input field
             document.getElementById('hashed_password').value = hashedPassword;
 
-            // Clear the original password field (optional)
             passwordInput.value = '';
         }
     </script>

@@ -15,14 +15,12 @@ class VolunteerTasksController
         $this->volunteerTasksModel = new VolunteerTasks();
     }
 
-    // Display all tasks for a specific volunteer
     public function index($personId)
     {
         $tasks = $this->volunteerTasksModel->getTasksByVolunteer($personId);
-        include __DIR__  . '/../views/volunteer_tasks_list.php'; // Pass data to the view
+        include __DIR__  . '/../views/volunteer_tasks_list.php';
     }
 
-    // Add a new task for a volunteer
     public function addTask($personId)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -38,7 +36,6 @@ class VolunteerTasksController
         }
     }
 
-    // Edit an existing task for a volunteer
     public function editTask($taskId)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -56,7 +53,6 @@ class VolunteerTasksController
         }
     }
 
-    // Remove a task from a volunteer
     public function removeTask($taskId, $personId)
     {
         $this->volunteerTasksModel->removeTask($taskId);

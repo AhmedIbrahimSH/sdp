@@ -13,7 +13,6 @@ class VolunteerEvents
         $this->db = Database::getInstance()->getConnection();
     }
 
-    // Add a new event for a volunteer
     public function addEvent($personId, $eventName, $eventDate, $description)
     {
         $stmt = $this->db->prepare("
@@ -28,7 +27,6 @@ class VolunteerEvents
         ]);
     }
 
-    // Retrieve all events for a specific volunteer
     public function getEventsByPersonId($personId)
     {
         $stmt = $this->db->prepare("

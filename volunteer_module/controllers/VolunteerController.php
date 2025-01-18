@@ -30,10 +30,8 @@ class VolunteerController
     public function showCreateForm()
     {
 
-        // Use the CountryProxy to fetch nationalities
         $nationalities = $this->countryService->getAllCountries();
 
-        // Pass the nationalities to the view
         require_once __DIR__  . '/../views/volunteer_create.php';
     }
 
@@ -47,14 +45,12 @@ class VolunteerController
         $this->countryService = new CountryProxy();
     }
 
-    // Display all volunteers
     public function index()
     {
         $volunteers = $this->volunteerModel->getAllVolunteers();
         include  __DIR__  . '/../views/volunteer_list.php';
     }
 
-    // Show details for a specific volunteer
     public function show($personId)
     {
         $volunteer = $this->volunteerModel->getVolunteerById($personId);
@@ -65,15 +61,12 @@ class VolunteerController
         include  __DIR__  . '/../views/volunteer_detail.php';
     }
 
-    // Add a new volunteer
     public function create()
     {
-        // Use the CountryProxy to fetch nationalities
         $countryProxy = new CountryProxy();
         $nationalities = $countryProxy->getAllCountries();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Collect form data
             $data = [
                 'firstName' => $_POST['first_name'],
                 'lastName' => $_POST['last_name'],
@@ -82,27 +75,22 @@ class VolunteerController
                 'gender' => $_POST['gender'],
                 'phone' => $_POST['phone'],
                 'email' => $_POST['email'],
-                'passwordHashed' => $_POST['hashed_password'], // Use the hashed password
-                'type' => $_POST['type'] ?? 'Volunteer', // Add type field (default to 'Volunteer')
+                'passwordHashed' => $_POST['hashed_password'],
+                'type' => $_POST['type'] ?? 'Volunteer',
                 'addressId' => $_POST['address_id'],
                 'status' => $_POST['status']
             ];
 
             try {
-                // Create the volunteer
                 $personId = $this->volunteerModel->createVolunteer($data);
 
-                // Redirect to the volunteer's profile page
                 header("Location: index.php?action=show_volunteer&person_id=$personId");
                 exit;
             } catch (Exception $e) {
-                // Handle errors (e.g., display an error message)
                 $error = "Error creating volunteer: " . $e->getMessage();
                 echo $e;
-                //include 'views/error.php';
             }
         } else {
-            // Display the volunteer creation form
             include  __DIR__  . '/../views/volunteer_create.php';
         }
     }
@@ -113,11 +101,9 @@ class VolunteerController
             $personId = $_POST['person_id'];
             $subscriptions = $_POST['subscriptions'] ?? [];
 
-            // Remove all current subscriptions
             $stmt = $this->db->prepare("DELETE FROM Volunteer_Subscriptions WHERE person_id = :person_id");
             $stmt->execute(['person_id' => $personId]);
 
-            // Add new subscriptions
             foreach ($subscriptions as $type) {
                 $stmt = $this->db->prepare("
                     INSERT INTO Volunteer_Subscriptions (person_id, event_type)
@@ -137,7 +123,6 @@ class VolunteerController
         }
     }
 
-    // Edit an existing volunteer
     public function edit($personId)
     {
 
@@ -163,7 +148,6 @@ class VolunteerController
         }
     }
 
-    // Delete a volunteer
     public function delete($personId)
     {
         $this->volunteerModel->deleteVolunteer($personId);
@@ -174,16 +158,15 @@ class VolunteerController
     public function subscribeToEvent($eventId)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $personId = $_POST['person_id']; // The volunteer's ID
-            $eventType = $_POST['event_type']; // The event type they are subscribing to
+            $personId = $_POST['person_id'];
+            $eventType = $_POST['event_type'];
 
-            // Call the model to handle subscription
             $this->volunteerModel->subscribeToEvent($personId, $eventType);
 
             header("Location: index.php?action=show_event&id=$eventId");
             exit;
         } else {
-            $volunteers = $this->volunteerModel->getAllVolunteers(); // Fetch all volunteers
+            $volunteers = $this->volunteerModel->getAllVolunteers();
             include  __DIR__  . '/../views/volunteer_subscribe_to_event.php';
         }
     }

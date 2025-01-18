@@ -9,14 +9,13 @@ require_once 'EventSubject.php';
 class Event implements EventSubject
 {
     private $db;
-    private $observers = []; // List of volunteers (observers)
+    private $observers = [];
 
     public function __construct()
     {
         $this->db = Database::getInstance()->getConnection();
     }
 
-    // Create a new event
     public function createEvent($eventName, $eventDate, $Location)
     {
         $stmt = $this->db->prepare("
@@ -28,10 +27,9 @@ class Event implements EventSubject
             'eventDate' => $eventDate,
             'Location' => $Location
         ]);
-        return $this->db->lastInsertId(); // Return the newly created EventID
+        return $this->db->lastInsertId();
     }
 
-    // Retrieve an event by ID
     public function getEventById($eventId)
     {
         $stmt = $this->db->prepare("
@@ -58,8 +56,6 @@ class Event implements EventSubject
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    // Retrieve all events
     public function getAllEvents()
     {
         $stmt = $this->db->prepare("
@@ -69,8 +65,6 @@ class Event implements EventSubject
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    // Update an existing event
     public function updateEvent($eventId, $eventName, $eventDate, $Location)
     {
         $stmt = $this->db->prepare("
@@ -99,7 +93,6 @@ class Event implements EventSubject
     }
 
 
-    // Delete an event
     public function deleteEvent($eventId)
     {
         $stmt = $this->db->prepare("
@@ -109,10 +102,8 @@ class Event implements EventSubject
         $stmt->execute(['eventId' => $eventId]);
     }
 
-    // Associate a volunteer with an event
 
 
-    // Retrieve all events associated with a volunteer
     public function getEventsByVolunteer($personId)
     {
         $stmt = $this->db->prepare("
@@ -125,17 +116,10 @@ class Event implements EventSubject
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Attach an observer (Volunteer) to the events
     public function attach(VolunteerObserver $observer)
     {
         $this->observers[] = $observer;
     }
-
-    /**
-     * Detach an observer from the event.
-     *
-     * @param VolunteerObserver $observer The observer to detach.
-     */
     public function detach(VolunteerObserver $observer)
     {
         foreach ($this->observers as $key => $subscribedObserver) {
@@ -145,12 +129,6 @@ class Event implements EventSubject
         }
     }
 
-    /**
-     * Notify all observers about the event.
-     *
-     * @param string $eventType The type of event.
-     * @param array $eventDetails Details about the event.
-     */
     public function notify($eventType, $eventDetails)
     {
         foreach ($this->observers as $observer) {

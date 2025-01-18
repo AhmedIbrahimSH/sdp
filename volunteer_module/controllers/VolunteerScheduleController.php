@@ -15,14 +15,12 @@ class VolunteerScheduleController
         $this->volunteerScheduleModel = new VolunteerSchedule();
     }
 
-    // Display all schedule items for a specific volunteer
     public function index($personId)
     {
         $scheduleItems = $this->volunteerScheduleModel->getScheduleByVolunteer($personId);
-        include __DIR__  . '/../views/volunteer_schedule_list.php'; // Pass schedule data to the view
+        include __DIR__  . '/../views/volunteer_schedule_list.php';
     }
 
-    // Add a new schedule item for a volunteer
     public function addSchedule($personId)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -34,11 +32,10 @@ class VolunteerScheduleController
             header("Location: index.php?action=volunteer_schedule&person_id=$personId");
             exit;
         } else {
-            include __DIR__  . '/../views/volunteer_add_schedule.php'; // Show the schedule creation form
+            include __DIR__  . '/../views/volunteer_add_schedule.php';
         }
     }
 
-    // Edit an existing schedule item
     public function editSchedule($scheduleId)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -51,11 +48,10 @@ class VolunteerScheduleController
             exit;
         } else {
             $scheduleItem = $this->volunteerScheduleModel->getScheduleByVolunteer($_GET['person_id']);
-            include __DIR__  . '/../views/volunteer_edit_schedule.php'; // Show the schedule editing form
+            include __DIR__  . '/../views/volunteer_edit_schedule.php';
         }
     }
 
-    // Remove a schedule item for a volunteer
     public function removeSchedule($scheduleId, $personId)
     {
         $this->volunteerScheduleModel->removeScheduleItem($scheduleId);

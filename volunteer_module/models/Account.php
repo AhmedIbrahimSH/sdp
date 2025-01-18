@@ -14,11 +14,10 @@ class Account extends Person
 
     public function __construct()
     {
-        parent::__construct(); // Call the parent constructor
+        parent::__construct();
         $this->db = Database::getInstance()->getConnection();
     }
 
-    // Create a new account
     public function createAccount($data)
     {
         $this->email = $data['email'];
@@ -39,7 +38,7 @@ class Account extends Person
         ]);
     }
 
-    // Retrieve account by PersonID
+
     public function getAccountByPersonId($personId)
     {
         $stmt = $this->db->prepare("
@@ -59,7 +58,6 @@ class Account extends Person
         return $accountData;
     }
 
-    // Authenticate account by email and password
     public function authenticate($email, $password)
     {
         $stmt = $this->db->prepare("
@@ -74,13 +72,12 @@ class Account extends Person
             $this->status = $account['Status'];
             $this->isUser = $account['IsUser'];
             $this->isAccountDeleted = $account['IsAccountDeleted'];
-            return $account; // Authentication successful
+            return $account;
         }
 
-        return false; // Authentication failed
+        return false;
     }
 
-    // Update account status
     public function updateStatus($personId, $status)
     {
         $this->status = $status;
@@ -96,7 +93,6 @@ class Account extends Person
         ]);
     }
 
-    // Delete an account (soft delete)
     public function deleteAccount($personId)
     {
         $this->isAccountDeleted = 1;
@@ -109,7 +105,6 @@ class Account extends Person
         $stmt->execute(['person_id' => $personId]);
     }
 
-    // Getters for additional Account properties
     public function getEmail()
     {
         return $this->email;

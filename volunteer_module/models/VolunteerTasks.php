@@ -12,7 +12,6 @@ class VolunteerTasks
         $this->db = Database::getInstance()->getConnection();
     }
 
-    // Add a task for a volunteer
     public function addTask($personId, $taskName, $description, $dueDate)
     {
         $stmt = $this->db->prepare("
@@ -27,7 +26,6 @@ class VolunteerTasks
         ]);
     }
 
-    // Get all tasks for a specific volunteer
     public function getTasksByVolunteer($personId)
     {
         $stmt = $this->db->prepare("
@@ -40,7 +38,6 @@ class VolunteerTasks
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Update a task for a volunteer
     public function updateTask($taskId, $taskName, $description, $dueDate)
     {
         $stmt = $this->db->prepare("
@@ -56,7 +53,6 @@ class VolunteerTasks
         ]);
     }
 
-    // Remove a task for a volunteer
     public function removeTask($taskId)
     {
         $stmt = $this->db->prepare("

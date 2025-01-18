@@ -16,23 +16,19 @@ class EventsController
         $this->eventModel = new Event();
     }
 
-    // Display all events
     public function index()
     {
         $events = $this->eventModel->getAllEvents();
-        include __DIR__  . '/../views/events_list.php'; // Pass events to the view
+        include __DIR__  . '/../views/events_list.php';
     }
-
-    // Show a single event by ID
     public function show($eventId)
     {
         $event = $this->eventModel->getEventById($eventId);
         // Fetch assigned volunteers for the event
         $volunteers = $this->eventModel->getVolunteersByEventId($eventId);
-        include __DIR__  . '/../views/event_detail.php'; // Pass event to the view
+        include __DIR__  . '/../views/event_detail.php';
     }
 
-    // Create a new event
     public function create()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -42,14 +38,13 @@ class EventsController
 
             $this->eventModel->createEvent($eventName, $eventDate, $description);
 
-            header("Location: index.php?action=events"); // Redirect to events index
+            header("Location: index.php?action=events");
             exit;
         } else {
-            include __DIR__  . '/../views/event_create.php'; // Show the event creation form
+            include __DIR__  . '/../views/event_create.php';
         }
     }
 
-    // Edit an existing event
     public function edit($eventId)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -59,47 +54,42 @@ class EventsController
 
             $this->eventModel->updateEvent($eventId, $eventName, $eventDate, $description);
 
-            header("Location: index.php?action=events"); // Redirect to events index
+            header("Location: index.php?action=events");
             exit;
         } else {
             $event = $this->eventModel->getEventById($eventId);
-            include __DIR__  . '/../views/event_edit.php'; // Show the event edit form
+            include __DIR__  . '/../views/event_edit.php';
         }
     }
 
-    // Delete an event
     public function delete($eventId)
     {
         $this->eventModel->deleteEvent($eventId);
-        header("Location: index.php?action=events"); // Redirect to events index
+        header("Location: index.php?action=events");
         exit;
     }
 
-    // Assign a volunteer to an event
     public function assignVolunteer($eventId)
     {
-        $volunteerModel = new Volunteer(); // Instantiate Volunteer model to fetch volunteers
+        $volunteerModel = new Volunteer();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $personId = $_POST['person_id']; // The ID of the volunteer to assign
+            $personId = $_POST['person_id'];
             $this->eventModel->assignVolunteerToEvent($personId, $eventId);
 
-            header("Location: index.php?action=show_event&id=$eventId"); // Redirect to the event detail page
+            header("Location: index.php?action=show_event&id=$eventId");
             exit;
         } else {
-            // Fetch all volunteers
             $availableVolunteers = $volunteerModel->getAllVolunteers();
 
-            // Pass the event ID and available volunteers to the view
             include __DIR__  . '/../views/event_assign_volunteer.php';
         }
     }
 
 
-    // Show all events for a specific volunteer
     public function showVolunteerEvents($personId)
     {
         $events = $this->eventModel->getEventsByVolunteer($personId);
-        include __DIR__  . '/../views/volunteer_events.php'; // Pass events to the view
+        include __DIR__  . '/../views/volunteer_events.php';
     }
 }

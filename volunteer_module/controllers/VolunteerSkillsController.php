@@ -16,30 +16,27 @@ class VolunteerSkillsController
         $this->volunteerSkillsModel = new VolunteerSkills();
     }
 
-    // Display all skills for a specific volunteer
     public function index($personId)
     {
         $volunteerSkills = $this->volunteerSkillsModel->getSkillsByVolunteer($personId);
-        $allSkills = $this->volunteerSkillsModel->getAllSkills(); // All available skills for selection
-        include __DIR__  . '/../views/volunteer_skills_list.php'; // Pass data to the view
+        $allSkills = $this->volunteerSkillsModel->getAllSkills();
+        include __DIR__  . '/../views/volunteer_skills_list.php';
     }
 
-    // Add a new skill to a volunteer
     public function addSkill($personId)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $skillId = $_POST['skill_id']; // The skill to assign
+            $skillId = $_POST['skill_id'];
             $this->volunteerSkillsModel->addSkill($personId, $skillId);
 
             header("Location: index.php?action=volunteer_skills&person_id=$personId");
             exit;
         } else {
             $allSkills = $this->volunteerSkillsModel->getAllSkills();
-            include __DIR__  . '/../views/volunteer_add_skill.php'; // Show the skill assignment form
+            include __DIR__  . '/../views/volunteer_add_skill.php';
         }
     }
 
-    // Remove a skill from a volunteer
     public function removeSkill($personId, $skillId)
     {
         $this->volunteerSkillsModel->removeSkill($personId, $skillId);

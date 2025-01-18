@@ -12,7 +12,6 @@ class VolunteerSkills
         $this->db = Database::getInstance()->getConnection();
     }
 
-    // Add a skill for a volunteer
     public function addSkill($personId, $skillId)
     {
         $stmt = $this->db->prepare("
@@ -25,7 +24,6 @@ class VolunteerSkills
         ]);
     }
 
-    // Get all skills for a specific volunteer
     public function getSkillsByVolunteer($personId)
     {
         $stmt = $this->db->prepare("
@@ -38,7 +36,6 @@ class VolunteerSkills
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Remove a skill for a specific volunteer (soft delete)
     public function removeSkill($personId, $skillId)
     {
         $stmt = $this->db->prepare("
@@ -52,7 +49,6 @@ class VolunteerSkills
         ]);
     }
 
-    // Get all available skills from the Skill table
     public function getAllSkills()
     {
         $stmt = $this->db->prepare("

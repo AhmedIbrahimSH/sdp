@@ -21,7 +21,6 @@ class Person
         $this->db = Database::getInstance()->getConnection();
     }
 
-    // Create a new person
     public function createPerson($data)
     {
         $stmt = $this->db->prepare("
@@ -41,7 +40,6 @@ class Person
         return $this->personId;
     }
 
-    // Retrieve a person by ID
     public function getPersonById($personId)
     {
         $stmt = $this->db->prepare("
@@ -57,7 +55,6 @@ class Person
         return $data;
     }
 
-    // Update person details
     public function updatePerson($personId, $data)
     {
         $stmt = $this->db->prepare("
@@ -78,7 +75,7 @@ class Person
         ]);
     }
 
-    // Delete (soft delete) a person
+
     public function deletePerson($personId)
     {
         $stmt = $this->db->prepare("
@@ -92,7 +89,7 @@ class Person
         return $this->personId;
     }
 
-    // Hydrate object properties
+
     protected function hydrate($data)
     {
         $this->personId = $data['PersonID'];

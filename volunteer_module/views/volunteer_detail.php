@@ -101,12 +101,10 @@
 <div class="container">
     <h1>Volunteer Details</h1>
 
-    <!-- Volunteer Information -->
     <p><strong>Name:</strong> <?= htmlspecialchars($volunteer['FirstName'] . ' ' . $volunteer['LastName']); ?></p>
     <p><strong>Email:</strong> <?= htmlspecialchars($volunteer['Email']); ?></p>
     <p><strong>Phone:</strong> <?= htmlspecialchars($volunteer['Phone']); ?></p>
 
-    <!-- Skills Section -->
     <h2>Skills</h2>
     <ul>
         <?php foreach ($skills as $skill): ?>
@@ -117,7 +115,6 @@
         <a href="index.php?action=add_skill&person_id=<?= htmlspecialchars($volunteer['PersonID']); ?>">Add Skill</a>
     </div>
 
-    <!-- Tasks Section -->
     <h2>Tasks</h2>
     <ul>
         <?php foreach ($tasks as $task): ?>
@@ -130,7 +127,6 @@
         <a href="index.php?action=add_task&person_id=<?= htmlspecialchars($volunteer['PersonID']); ?>">Add Task</a>
     </div>
 
-    <!-- Schedule Section -->
     <h2>Schedule</h2>
     <ul>
         <?php foreach ($schedule as $item): ?>
@@ -143,7 +139,6 @@
         <a href="index.php?action=add_schedule&person_id=<?= htmlspecialchars($volunteer['PersonID']); ?>">Add Schedule</a>
     </div>
 
-    <!-- Certificates Section -->
     <h2>Certificates</h2>
     <ul>
         <?php if (!empty($certificates) && is_array($certificates)): ?>
@@ -160,7 +155,6 @@
     </div>
 
 
-    <!-- Back to List Link -->
     <a href="index.php?action=index" class="back-link">Back to List</a>
 </div>
 </body>

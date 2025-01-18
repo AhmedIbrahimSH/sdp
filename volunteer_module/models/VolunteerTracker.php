@@ -12,17 +12,15 @@ class VolunteerTracker {
     private $skills;
     private $schedule;
     private $tasks;
-    private $events; // Aggregated VolunteerEvents
+    private $events;
 
     public function __construct($personId) {
         $this->personId = $personId;
         $this->skills = new VolunteerSkills();
         $this->schedule = new VolunteerSchedule();
         $this->tasks = new VolunteerTasks();
-        $this->events = new VolunteerEvents(); // Initialize events
+        $this->events = new VolunteerEvents();
     }
-
-    // Methods to interact with VolunteerSkills
     public function addSkill($skill) {
         $this->skills->addSkill($this->personId, $skill);
     }
@@ -31,7 +29,6 @@ class VolunteerTracker {
         return $this->skills->getSkillsByPersonId($this->personId);
     }
 
-    // Methods to interact with VolunteerSchedule
     public function addScheduleItem($date, $hours) {
         $this->schedule->addScheduleItem($this->personId, $date, $hours);
     }
@@ -49,7 +46,6 @@ class VolunteerTracker {
         return $this->tasks->getTasksByPersonId($this->personId);
     }
 
-    // Methods to manage VolunteerEvents
     public function addEvent($eventName, $eventDate, $description) {
         $this->events->addEvent($this->personId, $eventName, $eventDate, $description);
     }

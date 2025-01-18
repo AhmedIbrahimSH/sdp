@@ -1,5 +1,4 @@
 <?php
-// Require all necessary controllers
 use controllers\EventsController;
 use controllers\VolunteerCertificateController;
 use controllers\VolunteerController;
@@ -14,7 +13,6 @@ require_once 'controllers/VolunteerSkillsController.php';
 require_once 'controllers/VolunteerCertificateController.php';
 require_once 'controllers/EventsController.php';
 
-// Instantiate all controllers
 $volunteerController = new VolunteerController();
 $tasksController = new VolunteerTasksController();
 $scheduleController = new VolunteerScheduleController();
@@ -22,95 +20,88 @@ $skillsController = new VolunteerSkillsController();
 $certificateController = new VolunteerCertificateController();
 $eventsController = new EventsController();
 
-// Determine the action from the query string
 $action = isset($_GET['action']) ? $_GET['action'] : 'index';
 
-// Determine the relevant IDs from the query string
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 $personId = isset($_GET['person_id']) ? $_GET['person_id'] : null;
 $taskId = isset($_GET['task_id']) ? $_GET['task_id'] : null;
 $certificateId = isset($_GET['certificate_id']) ? $_GET['certificate_id'] : null;
 $eventId = isset($_GET['event_id']) ? $_GET['event_id'] : null;
-// Routing logic
+
 switch ($action) {
-    // Volunteer-related actions
-    case 'index': // Show all volunteers
+    case 'index':
         $volunteerController->index();
         break;
-    case 'show_volunteer': // Show details for a specific volunteer
+    case 'show_volunteer':
         $volunteerController->show($personId);
         break;
-    case 'create_volunteer': // Add a new volunteer
+    case 'create_volunteer':
         $volunteerController->create();
         break;
-    case 'edit_volunteer': // Edit a volunteer's details
+    case 'edit_volunteer':
         $volunteerController->edit($personId);
         break;
-    case 'delete_volunteer': // Delete a volunteer
+    case 'delete_volunteer':
         $volunteerController->delete($personId);
         break;
 
-    // Task-related actions
-    case 'volunteer_tasks': // Show tasks for a specific volunteer
+    case 'volunteer_tasks':
         $tasksController->index($personId);
         break;
-    case 'add_task': // Add a task to a volunteer
+    case 'add_task':
         $tasksController->addTask($personId);
         break;
-    case 'edit_task': // Edit a task for a volunteer
+    case 'edit_task':
         $tasksController->editTask($taskId);
         break;
-    case 'remove_task': // Remove a task from a volunteer
+    case 'remove_task':
         $tasksController->removeTask($taskId, $personId);
         break;
 
-    // Schedule-related actions
-    case 'volunteer_schedule': // Show schedule for a specific volunteer
+    case 'volunteer_schedule':
         $scheduleController->index($personId);
         break;
-    case 'add_schedule': // Add a schedule item for a volunteer
+    case 'add_schedule':
         $scheduleController->addSchedule($personId);
         break;
-    case 'edit_schedule': // Edit a schedule item for a volunteer
+    case 'edit_schedule':
         $scheduleController->editSchedule($_GET['schedule_id']);
         break;
-    case 'remove_schedule': // Remove a schedule item for a volunteer
+    case 'remove_schedule':
         $scheduleController->removeSchedule($_GET['schedule_id'], $personId);
         break;
 
-    // Skill-related actions
-    case 'volunteer_skills': // Show skills for a specific volunteer
+    case 'volunteer_skills':
         $skillsController->index($personId);
         break;
-    case 'add_skill': // Add a skill to a volunteer
+    case 'add_skill':
         $skillsController->addSkill($personId);
         break;
-    case 'remove_skill': // Remove a skill from a volunteer
+    case 'remove_skill':
         $skillsController->removeSkill($_GET['skill_id'], $personId);
         break;
 
-    // Certificate-related actions
-    case 'task_certificates': // Show certificates for a specific task
+
+    case 'task_certificates':
         $certificateController->indexByTask($taskId);
         break;
-    case 'volunteer_certificates': // Show certificates for a specific volunteer
+    case 'volunteer_certificates':
         $certificateController->indexByVolunteer($personId);
         break;
-    case 'add_certificate': // Add a certificate to a task
+    case 'add_certificate':
         $certificateController->addCertificate($personId);
         break;
-    case 'remove_certificate': // Remove a certificate
+    case 'remove_certificate':
         $certificateController->removeCertificate($certificateId, $taskId);
         break;
 
-    // Event-related actions
-    case 'events': // Show all events
+    case 'events':
         $eventsController->index();
         break;
-    case 'show_event': // Show details for a specific event
+    case 'show_event':
         $eventsController->show($id);
         break;
-    case 'create_event': // Add a new event
+    case 'create_event':
         $eventsController->create();
         break;
     case 'subscribe_to_event':
@@ -119,16 +110,16 @@ switch ($action) {
     case 'volunteer_subscriptions':
         $volunteerController->manageSubscriptions();
         break;
-    case 'edit_event': // Edit an event
+    case 'edit_event':
         $eventsController->edit($id);
         break;
-    case 'delete_event': // Delete an event
+    case 'delete_event':
         $eventsController->delete($id);
         break;
-    case 'assign_volunteer': // Assign a volunteer to an event
+    case 'assign_volunteer':
         $eventsController->assignVolunteer($id);
         break;
-    case 'volunteer_events': // Show events for a specific volunteer
+    case 'volunteer_events':
         $eventsController->showVolunteerEvents($personId);
         break;
 

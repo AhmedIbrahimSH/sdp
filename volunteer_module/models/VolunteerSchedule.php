@@ -12,7 +12,6 @@ class VolunteerSchedule
         $this->db = Database::getInstance()->getConnection();
     }
 
-    // Add a schedule item for a volunteer
     public function addScheduleItem($personId, $scheduleDate, $hours)
     {
         $stmt = $this->db->prepare("
@@ -26,7 +25,6 @@ class VolunteerSchedule
         ]);
     }
 
-    // Get all schedule items for a specific volunteer
     public function getScheduleByVolunteer($personId)
     {
         $stmt = $this->db->prepare("
@@ -39,7 +37,6 @@ class VolunteerSchedule
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Update a schedule item
     public function updateScheduleItem($scheduleId, $scheduleDate, $hours)
     {
         $stmt = $this->db->prepare("
@@ -54,7 +51,6 @@ class VolunteerSchedule
         ]);
     }
 
-    // Remove a schedule item
     public function removeScheduleItem($scheduleId)
     {
         $stmt = $this->db->prepare("

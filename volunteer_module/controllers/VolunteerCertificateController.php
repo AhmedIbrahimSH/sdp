@@ -15,14 +15,12 @@ class VolunteerCertificateController
         $this->volunteerCertificateModel = new VolunteerCertificate();
     }
 
-    // Display all certificates for a specific task
     public function indexByTask($taskId)
     {
         $certificates = $this->volunteerCertificateModel->getCertificatesByTask($taskId);
         include __DIR__  . '/../views/task_certificates_list.php'; // Pass data to the view
     }
 
-    // Display all certificates for a specific volunteer
     public function indexByVolunteer($personId)
     {
         $certificates = $this->volunteerCertificateModel->getCertificatesByVolunteer($personId);
@@ -31,7 +29,6 @@ class VolunteerCertificateController
         include __DIR__  . '/../views/volunteer_certificates_list.php'; // Pass data to the view
     }
 
-    // Add a certificate to a task
     public function addCertificate($personId)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -47,7 +44,6 @@ class VolunteerCertificateController
         }
     }
 
-    // Remove a certificate
     public function removeCertificate($certificateId, $taskId)
     {
         $this->volunteerCertificateModel->removeCertificate($certificateId);

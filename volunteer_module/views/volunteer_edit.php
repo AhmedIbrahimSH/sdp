@@ -65,31 +65,28 @@
 <body>
 <h1>Edit Volunteer</h1>
 <form action="index.php?action=edit_volunteer&person_id=<?= htmlspecialchars($volunteer['PersonID']); ?>" method="POST">
-    <!-- First Name -->
+
     <div class="form-group">
         <label for="FirstName">First Name:</label>
         <input type="text" name="firstName" id="FirstName" value="<?= htmlspecialchars($volunteer['FirstName']); ?>" required>
     </div>
 
-    <!-- Last Name -->
     <div class="form-group">
         <label for="LastName">Last Name:</label>
         <input type="text" name="lastName" id="LastName" value="<?= htmlspecialchars($volunteer['LastName']); ?>" required>
     </div>
 
-    <!-- Middle Name -->
     <div class="form-group">
         <label for="MiddleName">Middle Name:</label>
         <input type="text" name="middleName" id="MiddleName" value="<?= htmlspecialchars($volunteer['MiddleName'] ?? ''); ?>">
     </div>
 
-    <!-- Nationality -->
     <div class="form-group">
         <label for="Nationality">Nationality:</label>
         <input type="text" name="nationality" id="Nationality" value="<?= htmlspecialchars($volunteer['Nationality']); ?>" required>
     </div>
 
-    <!-- Gender -->
+
     <div class="form-group">
         <label for="Gender">Gender:</label>
         <select name="gender" id="Gender" required>
@@ -98,13 +95,13 @@
         </select>
     </div>
 
-    <!-- Phone -->
+
     <div class="form-group">
         <label for="PersonPhone">Phone:</label>
         <input type="text" name="phone" id="PersonPhone" value="<?= htmlspecialchars($volunteer['Phone']); ?>" required>
     </div>
 
-    <!-- Email -->
+
     <div class="form-group">
         <label for="AccountEmail">Email:</label>
         <input type="email" name="email" id="AccountEmail" value="<?= htmlspecialchars($volunteer['Email']); ?>" required>
