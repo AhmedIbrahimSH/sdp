@@ -9,7 +9,8 @@ class SignupController
 
     public static function register()
     {
-        $conn = myDatabase::get_instance();
+        $conn = Database::getInstance();
+        $conn = $conn->getConnection();
         $password = $_POST['password'] ?? '';
         $email = $_POST['email'] ?? '';
         $phone = $_POST['phone'] ?? '';
@@ -22,8 +23,6 @@ class SignupController
         $stmt->bindParam(':password', $password);
 
         $stmt->execute();
-
-
     }
 
     public static function hash($password)

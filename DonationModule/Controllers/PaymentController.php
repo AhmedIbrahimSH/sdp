@@ -10,6 +10,7 @@ use Views\BankTransferPaymentView;
 use Views\CreditCardPaymentView;
 use Views\PaymentStrategiesView;
 use Views\PayPalPaymentView;
+use Exception;
 
 require_once 'Models/Donation.php';
 require_once 'Models/Strategy/Payment.php';
@@ -67,6 +68,6 @@ class PaymentController
     {
 
         $view = new PaymentStrategiesView();
-        $view->render();
+        //$view->render();
     }
 }

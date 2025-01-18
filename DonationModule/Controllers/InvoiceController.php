@@ -6,6 +6,7 @@ use Models\Decorator\InvoiceDetails;
 use Models\Decorator\TransactionFeesDecorator;
 use Models\Decorator\VATDecorator;
 use Views\InvoiceView;
+use Exception;
 
 require_once 'Models/Decorator/InvoiceDetails.php';
 require_once 'Models/Decorator/VATDecorator.php';
@@ -17,7 +18,7 @@ class InvoiceController
 
     public function showInvoice($invoiceID)
     {
-// Example Line Total
+        // Example Line Total
         $lineTotal = 500; // Replace this with data from your database or logic
 
         // Create Base Invoice
@@ -37,8 +38,5 @@ class InvoiceController
         // Render the View
         $invoiceView = new InvoiceView();
         $invoiceView->render($generatedInvoice);
-
     }
 }
-
-?>

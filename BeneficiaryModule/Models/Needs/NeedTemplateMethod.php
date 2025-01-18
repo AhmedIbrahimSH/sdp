@@ -75,13 +75,11 @@ abstract class NeedTemplateMethod
 
         // Step 1: Check eligibility again (subclass defines this)
         if (!$this->checkEligibility($beneficiary)) {
-            //echo "Not eligible for " . $this->getNeedType() . " need.\n";
             return "e1";
         }
 
         // step 2: Check if we have recources
         if (!$this->checkResources($table, $BeneficiaryID)) {
-            //echo "Not enough resources for " . $this->getNeedType() . " need.\n";
             return "e2";
         }
 
@@ -89,7 +87,6 @@ abstract class NeedTemplateMethod
         if (!$this->allocateResources($table, $BeneficiaryID)) {
             return "e3";
         }
-
 
         return "success";
     }

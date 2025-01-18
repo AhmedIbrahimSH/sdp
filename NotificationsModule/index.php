@@ -16,17 +16,24 @@ require_once 'controllers/EmailController.php';
 require_once 'config.php';
 
 $db = Database::getInstance();
-$EmailModel= new EmailModel($db);
-// Router Logic
-if ($_SERVER['REQUEST_URI'] === 'NotificationsModule/email/form') {
-    
-    $controller = new EmailController($EmailModel);
-    $controller->showForm();
+$EmailModel = new EmailModel($db);
+$controller = new EmailController($EmailModel);
 
-} elseif ($_SERVER['REQUEST_URI'] === 'NotificationsModule/email/sendEmail') {
 
-    $controller = new EmailController($EmailModel);
-    $controller->sendEmail();
-} else {
-    echo "404 Not Found";
+// Get the current action from $_SERVER['REQUEST_URI']
+$action = $_SERVER['REQUEST_URI'];
+
+// Define switch-case routing logic
+switch ($action) {
+    case '/NotificationsModule/email/form':
+        $controller->showForm();
+        break;
+
+    case '/NotificationsModule/email/sendEmail':
+        $controller->sendEmail();
+        break;
+
+    default:
+        echo "404 Not Found";
+        break;
 }

@@ -52,15 +52,15 @@ require_once 'Views/PayPalPaymentView.php';
 require_once 'Views/BankTransferPaymentView.php';
 
 
-$pdo = myDatabase::get_instance();
+$pdo = Database::getInstance();
 
 $donorModel = new Donor($pdo);
 $donationModel = new Donation($pdo);
-$CashDonationModel=new CashDonation($pdo);
-$DrugsDonationModel =new DrugsDonation($pdo);
-$ClothesDonationModel=new ClothesDonation($pdo);
-$FoodDonationModel =new FoodDonation($pdo);
-$PaymentModel=new Payment($pdo);
+$CashDonationModel = new CashDonation($pdo);
+$DrugsDonationModel = new DrugsDonation($pdo);
+$ClothesDonationModel = new ClothesDonation($pdo);
+$FoodDonationModel = new FoodDonation($pdo);
+$PaymentModel = new Payment($pdo);
 
 
 $donorController = new DonorController($donorModel);
@@ -84,7 +84,7 @@ if (isset($_GET['action'])) {
             $donorController->showAll();
             break;
 
-        // Add donor
+            // Add donor
         case 'addDonor':
             include 'views/AddDonorView.php';
             break;
@@ -97,9 +97,7 @@ if (isset($_GET['action'])) {
             if (isset($_GET['id'])) {
                 try {
                     $donorController->edit($_GET['id']);
-
                 } catch (Exception $e) {
-
                 }
             } else {
                 echo "Donor ID not provided.";
@@ -112,7 +110,6 @@ if (isset($_GET['action'])) {
                 try {
                     $donorController->update($_GET['id'], $_POST);
                 } catch (Exception $e) {
-
                 }
             } else {
                 echo "Invalid request.";
@@ -126,7 +123,7 @@ if (isset($_GET['action'])) {
             }
             break;
 
-        ##############DONATIONS
+            ##############DONATIONS
         case 'showAllDonations':
             // Show all donations
             $donationController->showAll();
@@ -139,6 +136,7 @@ if (isset($_GET['action'])) {
 
         case 'cashDonation':
             $_SESSION['strategy_type'] = $_GET['action'];
+            echo $_SESSION['strategy_type'];
             $donationController->ProcessStrategy($_GET['action']);
 
 
@@ -231,72 +229,72 @@ if (isset($_GET['action'])) {
 
 
 
-//
-//
-//        case  'addCashDonation':
-//            $cashStrategy = new CashDonation($pdo);
-//            $donationController->PerformDonation($cashStrategy);
-//
-//            header("Location: index.php?action=renderAddCashDonation");
-//            break;
-//
-//        case 'renderAddCashDonation':
-//            // Render the AddCashDonationView
-//            $view = new AddCashDonationView();
-//
-//            echo $view->render();
-//            break;
-//
-//
-//        case 'addCashDonationPayment':
-//            {
-//                // Save the entered amount in the session
-//                $_SESSION['cashDonationAmount'] = $_POST['Amount'];
-//
-//                // Redirect to the payment page
-//                header("Location: index.php?action=showPaymentPage");
-//
-//                exit;
-//            }
-//            break;
-//        case 'showPaymentPage':
-//            // Retrieve the amount from the session
-//            $amount = $_SESSION['cashDonationAmount'];
-//
-//            // Render the payment page with the amount
-//            echo "<h2>Payment for Donation Amount: $amount</h2>";
-//        // Render further payment details or a form
-//            break;
-//
-//
-//
-//        case 'cashDonation':
-//            $CashDonationController->showAll();
-//            break;
-//
-//        case 'addFoodDonation':
-//            $FoodDonationController->add();
-//
-//        case 'addFoodDonationSubmit':
-//            $FoodDonationController->save($_POST);
-//            $donationController->saveDonation($_POST);
-//
-//        case 'Payments':
-//            $PaymentController->ShowAll();
-//
-//
-//            break;
-//        case 'drugsDonation':
-//            $DrugsDonationController->showAll();
-//            break;
-//        case 'clothesDonation':
-//            $ClothesDonationController->showAll();
-//            break;
-//
-//        case 'invoice':
-//
-//            $InvoiceController->showInvoice(1); // Example: Show invoice with ID 1
-//            break;
+            //
+            //
+            //        case  'addCashDonation':
+            //            $cashStrategy = new CashDonation($pdo);
+            //            $donationController->PerformDonation($cashStrategy);
+            //
+            //            header("Location: index.php?action=renderAddCashDonation");
+            //            break;
+            //
+            //        case 'renderAddCashDonation':
+            //            // Render the AddCashDonationView
+            //            $view = new AddCashDonationView();
+            //
+            //            echo $view->render();
+            //            break;
+            //
+            //
+            //        case 'addCashDonationPayment':
+            //            {
+            //                // Save the entered amount in the session
+            //                $_SESSION['cashDonationAmount'] = $_POST['Amount'];
+            //
+            //                // Redirect to the payment page
+            //                header("Location: index.php?action=showPaymentPage");
+            //
+            //                exit;
+            //            }
+            //            break;
+            //        case 'showPaymentPage':
+            //            // Retrieve the amount from the session
+            //            $amount = $_SESSION['cashDonationAmount'];
+            //
+            //            // Render the payment page with the amount
+            //            echo "<h2>Payment for Donation Amount: $amount</h2>";
+            //        // Render further payment details or a form
+            //            break;
+            //
+            //
+            //
+            //        case 'cashDonation':
+            //            $CashDonationController->showAll();
+            //            break;
+            //
+            //        case 'addFoodDonation':
+            //            $FoodDonationController->add();
+            //
+            //        case 'addFoodDonationSubmit':
+            //            $FoodDonationController->save($_POST);
+            //            $donationController->saveDonation($_POST);
+            //
+            //        case 'Payments':
+            //            $PaymentController->ShowAll();
+            //
+            //
+            //            break;
+            //        case 'drugsDonation':
+            //            $DrugsDonationController->showAll();
+            //            break;
+            //        case 'clothesDonation':
+            //            $ClothesDonationController->showAll();
+            //            break;
+            //
+            //        case 'invoice':
+            //
+            //            $InvoiceController->showInvoice(1); // Example: Show invoice with ID 1
+            //            break;
 
         default:
             echo "Unknown action: " . htmlspecialchars($_GET['action']);

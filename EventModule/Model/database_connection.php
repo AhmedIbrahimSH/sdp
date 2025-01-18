@@ -1,30 +1,44 @@
 <?php
 
-class myDatabase {
+namespace models;
+
+use PDO;
+use PDOException;
+
+class Database
+{
+    public static $instance = null; // Hold the single instance
+    private $connection;
+
     private $host = 'localhost';
     private $db_name = 'charity_db';
     private $username = 'root';
     private $password = '';
 
-    private  $port = 3307;
-    private static $conn = null;
-
-    public static function get_instance() {
-
+    // Private constructor prevents direct instantiation
+    private function __construct()
+    {
         try {
-            if(!isset(self::$conn)) {
-                self::$conn = new PDO("mysql:host=" . (new self)->host . ";port=" . (new self)->port  . ";dbname=" . (new self)->db_name,
-                    (new self)->username, (new self)->password);
-                self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            }
-            return self::$conn;
-
-        } catch(PDOException $e) {
-            echo 'Connection Error: ' . $e->getMessage();
+            $this->connection = new PDO("mysql:host={$this->host};dbname={$this->db_name}", $this->username, $this->password);
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            echo "Connection error: " . $e->getMessage();
+            die();
         }
+    }
 
+    // Static method to get the single instance of the class
+    public static function getInstance()
+    {
+        if (self::$instance === null) {
+            self::$instance = new Database();
+        }
+        return self::$instance;
+    }
+
+    // Method to get the PDO connection
+    public function getConnection()
+    {
+        return $this->connection;
     }
 }
-
-myDatabase::get_instance();
-

@@ -1,4 +1,5 @@
 <?php
+
 namespace Controllers;
 
 
@@ -20,10 +21,10 @@ class EmailController
     }
 
     public function showForm()
-    {   
-        echo "Loading EmailForm.php...";
+    {
+        //echo "Loading EmailForm.php...";
         // require_once './NotificationsModule/views/EmailForm.php';
-        require_once __DIR__. '/../views/EmailForm.php';
+        require_once __DIR__ . '/../views/EmailForm.php';
     }
 
     public function sendEmail()
@@ -48,6 +49,12 @@ class EmailController
 
         $this->emailModel->logEmail('charitysdp5@gmail.com', $recipient, $subject, $body, $status, $errorMessage);
 
-        echo json_encode($result);
+        if ($result['status'] === 'success') {
+            echo "<script>alert('Email sent successfully!');</script>";
+        }
+
+        session_start();
+        header('Location: /../../BeneficiaryModule/index.php?action=list_beneficiaries&id=' . urlencode($_SESSION['beneficiary_id']));
+        exit();
     }
 }

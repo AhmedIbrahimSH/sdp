@@ -9,6 +9,8 @@ use models\VolunteerCertificate;
 use models\VolunteerSchedule;
 use models\VolunteerSkills;
 use models\VolunteerTasks;
+use Exception;
+use PDO;
 
 require_once __DIR__  . '/../models/VolunteerSkills.php';
 require_once  __DIR__  . '/../models/VolunteerTasks.php';
@@ -184,5 +186,3 @@ class VolunteerController
         }
     }
 }
-
-?>

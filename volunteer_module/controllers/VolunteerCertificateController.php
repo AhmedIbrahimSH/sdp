@@ -1,4 +1,5 @@
 <?php
+
 namespace controllers;
 
 use models\VolunteerCertificate;
@@ -55,5 +56,3 @@ class VolunteerCertificateController
         exit;
     }
 }
-
-?>

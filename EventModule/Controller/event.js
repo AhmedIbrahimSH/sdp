@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
             right: 'dayGridMonth'
         },
         events: function (fetchInfo, successCallback, failureCallback) {
-            fetch('/sdp/EventModule/Model/events_json_retrieval.php')
+            fetch('/EventModule/Model/events_json_retrieval.php')
                 .then(response => response.json())
                 .then(data => successCallback(data))
                 .catch(error => failureCallback(error));
@@ -58,7 +58,7 @@ function addEventFunction(event) {
     alert(JSON.stringify(eventData, null, 2));
     alert('Event added to the calendar!');
 
-    fetch('/sdp/EventModule/Controller/add_event.php', {
+    fetch('/EventModule/Controller/add_event.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

@@ -2,6 +2,9 @@
 
 namespace Models;
 
+use PDO;
+use Exception;
+
 require_once("Database.php");
 require_once("DonationStrategy.php");
 
@@ -126,5 +129,4 @@ class CashDonation implements DonationStrategy
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':donationID' => $donationID]);
     }
-
 }

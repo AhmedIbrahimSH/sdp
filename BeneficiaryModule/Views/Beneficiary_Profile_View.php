@@ -48,7 +48,7 @@ class Beneficiary_Profile_View
                 // Get the need type (e.g., "CashNeed" -> "cash")
                 $needType = strtolower((new ReflectionClass($need))->getShortName());
                 $needType = preg_replace('/need$/i', '', $needType); // Remove the "need" suffix
-                echo '<p><strong>' . htmlspecialchars(ucfirst($needType)) . '</strong></p>';
+                echo '<h2 style="color: green;">' . htmlspecialchars(ucfirst($needType)) . '</h2>';
 
                 // Append "needhistory" to the need type for form actions
                 $needType .= 'needhistory';

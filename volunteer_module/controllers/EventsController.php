@@ -3,6 +3,7 @@
 namespace controllers;
 
 use models\Event;
+use models\Volunteer;
 
 require_once  __DIR__  . '/../models/Event.php';
 
@@ -102,5 +103,3 @@ class EventsController
         include __DIR__  . '/../views/volunteer_events.php'; // Pass events to the view
     }
 }
-
-?>

@@ -4,11 +4,13 @@ use models\Event;
 
 require_once '../Model/load_events.php';
 require_once '../Controller/event_history.php';
-class EventHistoryView{
+class EventHistoryView
+{
     public $event_object;
-    public function __construct(){
+    public function __construct()
+    {
         $this->event_object = new Events();
-        $this->index = 0;
+        //$this->index = 0;
     }
 
     public function show_table_history()
@@ -44,7 +46,6 @@ class EventHistoryView{
             </form>
         </td>
       </tr>";
-
         }
 
         echo "</table>";
@@ -57,10 +58,5 @@ class EventHistoryView{
                 echo "Error: Title not set.";
             }
         }
-
-
     }
-
-
 }
-

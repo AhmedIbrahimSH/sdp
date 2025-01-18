@@ -6,7 +6,7 @@ function attendEvent(event_id, user_id) {
         user_id: user_id
     };
     alert(JSON.stringify(eventData));
-    fetch("/sdp/user_event/controller/attending_controller.php", {
+    fetch("/user_event/controller/attending_controller.php", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'

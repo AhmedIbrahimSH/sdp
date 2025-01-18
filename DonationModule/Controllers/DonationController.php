@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Exception;
 use Models\CashDonation;
 use Models\ClothesDonation;
 use Models\DrugsDonation;
@@ -50,10 +51,10 @@ class DonationController
     {
         $this->donationModel = $donationModel;
         // Retrieve strategy from session if it exists
-//        if (isset($_SESSION['strategy'])) {
-//            $this->strategy = unserialize($_SESSION['strategy']); // Unserialize the stored strategy
-//            $this->donationModel->setStrategy($this->strategy);
-//        }
+        //        if (isset($_SESSION['strategy'])) {
+        //            $this->strategy = unserialize($_SESSION['strategy']); // Unserialize the stored strategy
+        //            $this->donationModel->setStrategy($this->strategy);
+        //        }
 
 
     }
@@ -129,12 +130,12 @@ class DonationController
     }
 
 
-//    Public function PerformDonation($strategy)
-//    {
-//        $this->donationModel->SetStrategy($strategy);
-//
-//
-//    }
+    //    Public function PerformDonation($strategy)
+    //    {
+    //        $this->donationModel->SetStrategy($strategy);
+    //
+    //
+    //    }
 
     // Add a new donation (renders the add form)
 

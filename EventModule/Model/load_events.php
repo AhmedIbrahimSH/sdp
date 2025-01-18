@@ -5,17 +5,20 @@ use models\Database;
 
 require_once 'database_connection.php';
 
-$conn = myDatabase::get_instance();
+$conn = Database::getInstance();
+$conn = $conn->getConnection();
 
 if (!$conn) {
     die("Connection failed");
 }
 
-class Events {
+class Events
+{
     public $events_list;
     private $index = 0;
 
-    public function load_events_from_db() {
+    public function load_events_from_db()
+    {
         global $conn;
         $query = "SELECT EventID, Title , Location, Date, Price , Type FROM events";
         $stmt = $conn->prepare($query);
@@ -23,7 +26,8 @@ class Events {
         $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $events;
     }
-    public function getEvents() {
+    public function getEvents()
+    {
         $events = $this->load_events_from_db();
         foreach ($events as $row) {
             $this->events_list[$this->index] = $row;

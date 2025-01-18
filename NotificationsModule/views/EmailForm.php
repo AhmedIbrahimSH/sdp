@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,27 +23,33 @@ error_reporting(E_ALL);
             align-items: center;
             height: 100vh;
         }
+
         .container {
             background: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             width: 100%;
-            max-width: 600px; /* Increased width */
+            max-width: 600px;
+            /* Increased width */
         }
+
         h1 {
             text-align: center;
             color: #0056b3;
             margin-bottom: 20px;
         }
+
         form {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
+
         label {
             font-weight: bold;
         }
+
         input[type="email"],
         input[type="text"],
         textarea {
@@ -52,10 +59,13 @@ error_reporting(E_ALL);
             border-radius: 5px;
             font-size: 14px;
         }
+
         textarea {
             resize: vertical;
-            height: 200px; /* Increased height for better visibility */
+            height: 200px;
+            /* Increased height for better visibility */
         }
+
         button {
             background-color: #0056b3;
             color: #fff;
@@ -66,9 +76,11 @@ error_reporting(E_ALL);
             cursor: pointer;
             transition: background-color 0.3s;
         }
+
         button:hover {
             background-color: #003d80;
         }
+
         .info {
             font-size: 12px;
             color: #666;
@@ -76,10 +88,11 @@ error_reporting(E_ALL);
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Send an Email</h1>
-        <form method="POST" action="/email/sendEmail">
+        <form method="POST" action="/NotificationsModule/email/sendEmail">
             <label for="recipient">Recipient Email:</label>
             <input type="email" id="recipient" name="recipient" placeholder="example@domain.com" required>
 
@@ -88,30 +101,29 @@ error_reporting(E_ALL);
 
             <label for="body">Message:</label>
             <textarea id="body" name="body" placeholder="Write your message here..." required>
-Thank You for Your Generous Donation!
+Resource Allocation Notification
 --------------------------------------
 
-Dear Donor,
+Dear Administrator,
 
-On behalf of the SDP Charity Organization, we would like to express our heartfelt gratitude for your generous donation.
+We like to inform you that an administrator has allocated resources to a beneficiary.
 
-Donation Details:
+Please visit the Tracking Resource Distribution page for more details.
 
-After including applicable VAT at 15%, the total donation amount is:
-
-**Total Amount (After VAT):**
-
-Thank you for being a part of our journey.
+This notification is sent because you are subscribed to resource allocation updates.
 
 Warm regards,  
 SDP Charity Organization  
             </textarea>
 
             <button type="submit">Send Email</button>
+
+
         </form>
         <p class="info">This form is automated to help you send personalized notifications.</p>
     </div>
 </body>
+
 </html>
 
 

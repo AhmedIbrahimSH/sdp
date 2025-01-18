@@ -4,7 +4,8 @@ use models\Database;
 
 require_once 'database_connection.php';
 
-$conn = myDatabase::get_instance();
+$conn = Database::getInstance();
+$conn = $conn->getConnection();
 
 if (!$conn) {
     die("Connection failed");

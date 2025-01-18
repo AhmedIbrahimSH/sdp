@@ -19,8 +19,7 @@ class LoginController
             $_SESSION['user_id'] = $user_id;
 
             if (isset($_SESSION['user'])) {
-                file_put_contents("../../debug.log", $_SESSION['user_id'] , FILE_APPEND);
-
+                file_put_contents("../../debug.log", $_SESSION['user_id'], FILE_APPEND);
             } else {
                 file_put_contents("../../debug.log", "FOKAK", FILE_APPEND);
             }
@@ -29,7 +28,7 @@ class LoginController
                 return;
             }
 
-            if ($this->authenticate($username, $password ) != false) {
+            if ($this->authenticate($username, $password) != false) {
                 $_SESSION['username'] = $username;
                 $this->redirect_user($this->authenticate($username, $password)['Type']);
                 exit;
@@ -40,14 +39,15 @@ class LoginController
         }
     }
 
-    private function redirect_user($type){
+    private function redirect_user($type)
+    {
         $baseUrl = 'sdp/';
-        if($type == "EA"){
-            header('Location:  /sdp/admin_interface_module/view/admin_homepage.html');
-        }else if($type == "BA"){
-            header('Location: /sdp/BeneficiaryModule/index.php');
-        }else if($type == "US"){
-            header('Location: /sdp/user_interface_module/view/user_homepage.html');
+        if ($type == "EA") {
+            header('Location:  /admin_interface_module/view/admin_homepage.html');
+        } else if ($type == "BA") {
+            header('Location: /BeneficiaryModule/index.php');
+        } else if ($type == "US") {
+            header('Location: /user_interface_module/view/user_homepage.html');
         }
     }
 

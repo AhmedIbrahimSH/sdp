@@ -1,12 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
     <link rel="stylesheet" href="signup.css">
 </head>
+
 <body>
     <div class="signup-container">
         <h2>Sign Up</h2>
@@ -14,7 +15,7 @@
             <div class="error"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
 
-        <form action="/sdp/LoginModule/controller/SignUpController.php" method="POST">
+        <form action="/LoginModule/controller/SignUpController.php" method="POST">
 
             <label for="firstname">First Name</label>
             <input type="text" id="firstname" name="firstname" placeholder="First Name" required>
@@ -64,4 +65,5 @@
         </form>
     </div>
 </body>
+
 </html>

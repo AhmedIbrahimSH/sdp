@@ -2,11 +2,12 @@
 
 use models\Database;
 
-require_once '../Model/database_connection.php';
-require_once '../../NotificationsModule/old/subscriber.php';
-require_once '../../NotificationsModule/old/publisher.php';
-require_once '../View/events_history_view.php';
+require_once __DIR__ . '/../Model/database_connection.php';
+require_once __DIR__ . '/../../NotificationsModule/old/subscriber.php';
+require_once __DIR__ . '/../../NotificationsModule/old/publisher.php';
+require_once __DIR__ . '/../View/events_history_view.php';
 header('Content-Type: application/json');
+require_once __DIR__ . '/../EventModule/Model/database_connection.php';
 
 echo 'i am in add event php';
 error_reporting(E_ALL);
@@ -40,7 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $logMessage .= "Type: $type" . PHP_EOL;
     file_put_contents("../../input_data.log", $logMessage, FILE_APPEND);
 
-    $conn = myDatabase::get_instance();
+    $conn = Database::getInstance();
+    $conn = $conn->getConnection();
 
     $message = "[" . date("Y-m-d H:i:s") . "] Notification: User visited donation types page.";
     file_put_contents("../../notifications.log", $message . PHP_EOL, FILE_APPEND);
@@ -64,6 +66,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $first_subscriber = new subscriber("ahmed", "fundraiser");
     $second_subscriber = new subscriber("omar", "workshop");
 
-    $publisher->notify($title, $date , $type);
+    $publisher->notify($title, $date, $type);
 }
-?>

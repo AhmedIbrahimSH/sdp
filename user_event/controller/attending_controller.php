@@ -1,8 +1,10 @@
 <?php
 
-require_once '../../EventModule/Model/database_connection.php';
+require_once __DIR__ . '/../../EventModule/Model/database_connection.php';
 
-$conn = myDatabase::get_instance();
+
+$conn = Database::getInstance();
+$conn = $conn->getConnection();
 
 if (!$conn) {
     die("Connection failed");
@@ -22,13 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Access-Control-Allow-Headers: Content-Type");
 
     require_once '../../EventModule/Model/database_connection.php';
-    $conn = myDatabase::get_instance();
+    $conn = Database::getInstance();
+    $conn = $conn->getConnection();
 
     if (!$conn) {
         die("Connection failed");
     }
 
-    function attendEvent() {
+    function attendEvent()
+    {
         global $conn;
         $inputData = json_decode(file_get_contents('php://input'), true);
 
@@ -48,5 +52,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     attendEvent();
 }
-
-?>

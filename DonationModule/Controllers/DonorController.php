@@ -1,8 +1,10 @@
 <?php
 
 namespace Controllers;
+
 use Views\DonorsListView;
 use Views\DonorViewUpdate;
+use Exception;
 
 require_once 'Models/Donor.php';
 require_once 'Views/DonorsListView.php';
@@ -22,7 +24,6 @@ class DonorController
     {
         $donor = $this->model->getDonor($id);
         require 'Views/donorView.php';
-
     }
 
     public function ShowAll()

@@ -116,7 +116,6 @@ VALUES
 
 -- Beneficiary Module Begin
 
-/*
 -- Create Beneficiary table
 CREATE TABLE IF NOT EXISTS Beneficiary (
     PersonID INT PRIMARY KEY,
@@ -298,7 +297,7 @@ CREATE TABLE IF NOT EXISTS Donation (
  );
 -- Donation Module END
 
-*/
+
 -- Notification Module Begin
 
 CREATE TABLE EmailLogs (
@@ -339,14 +338,14 @@ CREATE TABLE EmailLogs (
      ('5th Avenue', 4),  -- Street, Parent is 'New York' (AddressID 4)
      ('Oxford Street', 5), -- Street, Parent is 'London' (AddressID 5)
      ('Yonge Street', 6); -- Street, Parent is 'Toronto' (AddressID 6)
-/*
+
 -- Insert Beneficiary Admin: Omar Diab
 INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, Phone, AddressID)
 VALUES ('Omar', 'Diab', 'Mosaad', 'Egyptian', 'Male', '01076543210', 2);
 SET @last_PersonID = LAST_INSERT_ID();
 
 INSERT INTO Account (PersonID, Email, PasswordHashed, IsAccountDeleted,Type)
-VALUES (@last_PersonID, 'omarmdiab35@gmail.com', 'hashed_password_admin_001', 0,'B_A');
+VALUES (@last_PersonID, 'omarmdiab35@gmail.com', '1234', 0,'BA');
 
 
 
@@ -395,7 +394,7 @@ VALUES (@last_PersonID, 1000.00, TRUE, TRUE, FALSE);
 -- Insert storage data
 INSERT INTO Charity_Storage (type, Amount, Spendings,AffectedPeople)
 VALUES
-    ('Cash', 15000.00, 0.00,0),
+    ('Cash', 150000.00, 0.00,0),
     ('Food', 5000.00, 0.00,0),
     ('Clothing', 2000.00, 0.00,0),
     ('Drugs', 3000.00, 0.00,0),
@@ -460,4 +459,22 @@ INSERT INTO Account (PersonID, Email, PasswordHashed,  IsAccountDeleted,Type)
 VALUES (@last_PersonID, 'alextaylor@example.com', 'hashed_password_789', 0,'D');
 INSERT INTO Donor (PersonID, IsDonorDeleted)
 VALUES (@last_PersonID, 0);
-*/
+
+-- Insert Malak Sherif
+INSERT INTO Person (FirstName, LastName, MiddleName, Nationality, Gender, Phone, AddressID)
+VALUES ('Malak', 'Sherif', NULL, 'Egyptian', 'Female', '01122334455', 1);
+SET @last_PersonID = LAST_INSERT_ID();
+INSERT INTO Account (PersonID, Email, PasswordHashed, IsAccountDeleted, Type)
+VALUES (@last_PersonID, 'malak.cheriff@gmail.com', '1234', 0, 'D');
+INSERT INTO Donor (PersonID, IsDonorDeleted)
+VALUES (@last_PersonID, 0);
+
+CREATE TABLE user_attendees (
+    event_id INT,
+    user_id INT,
+    PRIMARY KEY (event_id, user_id),
+    FOREIGN KEY (event_id) REFERENCES events(EventID),
+    FOREIGN KEY (user_id) REFERENCES Account(PersonID),
+    INDEX idx_eventid (event_id),  -- Add index here
+    INDEX idx_userid (user_id)     -- Add index here
+);

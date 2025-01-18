@@ -1,4 +1,5 @@
 <?php
+
 namespace Models;
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -8,17 +9,18 @@ use PHPMailer\PHPMailer\Exception;
 // require_once './vendor/phpmailer/phpmailer/src/SMTP.php' ;
 // require_once './vendor/phpmailer/phpmailer/src/Exception.php';
 
-require_once __DIR__ .'/../../vendor/phpmailer/phpmailer/src/PHPMailer.php';
-require_once __DIR__ .'/../../vendor/phpmailer/phpmailer/src/SMTP.php';
-require_once __DIR__ .'/../../vendor/phpmailer/phpmailer/src/Exception.php';
+require_once __DIR__ . '/../../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require_once __DIR__ . '/../../vendor/phpmailer/phpmailer/src/SMTP.php';
+require_once __DIR__ . '/../../vendor/phpmailer/phpmailer/src/Exception.php';
 
-class EmailFacade{
+class EmailFacade
+{
     private $mailer;
 
     public function __construct()
     {
-       // Load email configuration
-       $config = require __DIR__ . '/NotificationsModule/config.php';
+        // Load email configuration
+        $config = require __DIR__ . '/../config.php';
 
         // Initialize PHPMailer
         $this->mailer = new PHPMailer(true);
@@ -33,9 +35,9 @@ class EmailFacade{
     }
     public function sendEmail($recipient, $subject, $body)
     {
-    
+
         try {
-            
+
             $this->mailer->addAddress($recipient);
 
             // Email content
@@ -51,5 +53,4 @@ class EmailFacade{
             return ['status' => 'failure', 'message' =>  $this->mailer->ErrorInfo];
         }
     }
-
 }

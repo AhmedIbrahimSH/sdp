@@ -1,5 +1,8 @@
 <?php
 
+use Controllers\EmailController;
+use Models\EmailModel;
+
 class NeedController
 {
 
@@ -42,9 +45,23 @@ class NeedController
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $needType = $_POST['need_type'];
             $beneficiaryID = $_POST['beneficiary_id'];
-            $this->beneficiary->SupportNeed($needType, $beneficiaryID);
-            header('Location: index.php?action=view_beneficiary&id=' . urlencode($_POST['beneficiary_id']));
-            exit();
+            $status = $this->beneficiary->SupportNeed($needType, $beneficiaryID);
+            if ($status == "success") {
+                // send mail
+
+                require_once __DIR__ . '/../../NotificationsModule/Controllers/EmailController.php';
+                require_once __DIR__ . '/../../NotificationsModule/Models/EmailModel.php';
+
+                $emailModel = new EmailModel($this->db);
+                $emailController = new EmailController($emailModel);
+
+                $emailController->showForm();
+                session_start();
+
+                $_SESSION['beneficiary_id'] = $beneficiaryID;
+            }
+            // header('Location: index.php?action=view_beneficiary&id=' . urlencode($_POST['beneficiary_id']));
+            // exit();
         } else {
             echo "Error: Need type is required";
         }

@@ -117,7 +117,8 @@ class Beneficiary extends Person implements NeedsCollectionInterface
     {
         $needType = explode('needhistory', $table)[0];
         $need_obj = SimpleNeedFactory::createNeed($needType);
-        $need_obj->Support_Need_Template($this, $table, $beneficiaryId);
+        $status = $need_obj->Support_Need_Template($this, $table, $beneficiaryId);
+        return $status;
     }
 
 
